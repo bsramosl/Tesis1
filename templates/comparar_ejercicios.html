@@ -1,0 +1,375 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Inicio
+{% endblock %}
+
+{% block header %}
+
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-5">
+            <!-- Box Comment -->
+            <div class="card card card-widget collapsed-card">
+                <div class="card-header">
+                    <div class="user-block">
+
+                        <span class="username"><a href="#"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">Batch.</font></font></a></span>
+                    </div>
+                    <!-- /.user-block -->
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" title="Marcar como leído">
+                            <i class="fa fa-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <div class="card-footer card-comments">
+                    {% if prediccion %}
+                        {% for bac in batch %}
+                            <div class="card-comment">
+                                <div class="comment-text">
+                                    <span class="username"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;">Titulo: {{ bac.titulo }}</font></font>
+                                    </span>
+                                    <p>
+                                        <font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">
+                                            {{ bac.descripcion }}
+                                        </font></font>
+                                    </p>
+                                    <button type="button" class="btn btn-default btn-sm" onclick="grafica({{bac.t}},{{bac.vf}},{{bac.v0}})"><i
+                                            class="fas fa-share" ></i><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;"> Editar</font></font></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i
+                                            class="far fa-thumbs-up"></i><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;"> Eliminar</font></font></button>
+
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="card-comment">
+
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.card-comment -->
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-7">
+            <!-- Box Comment -->
+            <div class="card card card-widget collapsed-card">
+                <div class="card-header">
+                    <div class="user-block">
+                        <span class="username"><a href="#"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">Jonathan Burke Jr.</font></font></a></span>
+                    </div>
+                    <!-- /.user-block -->
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" title="Marcar como leído">
+                            <i class="fa fa-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+
+                    <div class="attachment-block clearfix">
+                        <h4 class="attachment-heading"><a href="https://www.lipsum.com/"><font
+                                style="vertical-align: inherit;"><font style="vertical-align: inherit;">Generador de
+                            texto Lorem ipsum</font></font></a></h4>
+
+                        <div class="attachment-text"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">
+                            La descripción sobre el archivo adjunto se puede colocar aquí. </font><font
+                                style="vertical-align: inherit;">Lorem Ipsum es simplemente texto ficticio de la
+                            industria de la impresión y la composición tipográfica ... </font></font><a
+                                href="#"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">más</font></font></a>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.card-body -->
+
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <!-- Box Comment -->
+            <div class="card card card-widget collapsed-card">
+                <div class="card-header">
+                    <div class="user-block">
+
+                        <span class="username"><a href="#"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">Batch.</font></font></a></span>
+                    </div>
+                    <!-- /.user-block -->
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" title="Marcar como leído">
+                            <i class="fa fa-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <div class="card-footer card-comments">
+                    {% if prediccion %}
+                        {% for tiempo in prediccion %}
+                            <div class="card-comment">
+                                <div class="comment-text">
+                                    <span class="username"><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;">Titulo: {{ tiempo.titulo }}</font></font>
+                                    </span>
+                                    <p>
+                                        <font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">
+                                            {{ tiempo.descripcion }}
+                                        </font></font>
+                                    </p>
+                                    <button type="button" class="btn btn-default btn-sm"><i
+                                            class="fas fa-share"></i><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;"> Cuota</font></font></button>
+                                    <button type="button" class="btn btn-default btn-sm"><i
+                                            class="far fa-thumbs-up"></i><font style="vertical-align: inherit;"><font
+                                            style="vertical-align: inherit;"> Como</font></font></button>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="card-comment">
+
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.card-comment -->
+                </div>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+        <div class="col-md-7">
+            <!-- Box Comment -->
+            <div class="card card card-widget collapsed-card">
+                <div class="card-header">
+                    <div class="user-block">
+
+                        <span class="username"><a href="#"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">Jonathan Burke Jr.</font></font></a></span>
+                        <span class="description"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">Compartido públicamente - 7:30 p.m. Hoy</font></font></span>
+                    </div>
+                    <!-- /.user-block -->
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" title="Marcar como leído">
+                            <i class="fa fa-circle"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove">
+                            <i class="fa fa-times"></i>
+                        </button>
+                    </div>
+                    <!-- /.card-tools -->
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <!-- post text -->
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Muy lejos, detrás
+                        de la palabra montañas, lejos de los países Vokalia y Consonantia, viven los textos
+                        ciegos. </font><font style="vertical-align: inherit;">Separados, viven en Bookmarksgrove justo
+                        en</font></font></p>
+
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">la costa de la
+                        Semántica, un gran océano de idiomas. </font><font style="vertical-align: inherit;">Un pequeño
+                        río llamado Duden fluye por su lugar y lo abastece de la regelialia necesaria. </font><font
+                            style="vertical-align: inherit;">Es un país paradisíaco, en el que partes tostadas de frases
+                        vuelan a tu boca.</font></font></p>
+
+                    <!-- Attachment -->
+                    <div class="attachment-block clearfix">
+                        <img class="attachment-img" src="../dist/img/photo1.png" alt="Imagen adjunta">
+
+                        <div class="attachment-pushed">
+                            <h4 class="attachment-heading"><a href="https://www.lipsum.com/"><font
+                                    style="vertical-align: inherit;"><font style="vertical-align: inherit;">Generador de
+                                texto Lorem ipsum</font></font></a></h4>
+
+                            <div class="attachment-text"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">
+                                La descripción sobre el archivo adjunto se puede colocar aquí. </font><font
+                                    style="vertical-align: inherit;">Lorem Ipsum es simplemente texto ficticio de la
+                                industria de la impresión y la composición tipográfica ... </font></font><a
+                                    href="#"><font style="vertical-align: inherit;"><font
+                                    style="vertical-align: inherit;">más</font></font></a>
+                            </div>
+                            <!-- /.attachment-text -->
+                        </div>
+                        <!-- /.attachment-pushed -->
+                    </div>
+                    <!-- /.attachment-block -->
+
+                    <!-- Social sharing buttons -->
+                    <button type="button" class="btn btn-default btn-sm"><i class="fas fa-share"></i><font
+                            style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Cuota</font></font>
+                    </button>
+                    <button type="button" class="btn btn-default btn-sm"><i class="far fa-thumbs-up"></i><font
+                            style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Como</font></font>
+                    </button>
+                    <span class="float-right text-muted"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">45 Me gusta - 2 comentarios</font></font></span>
+                </div>
+                <!-- /.card-body -->
+                <div class="card-footer card-comments">
+                    <div class="card-comment">
+                        <!-- User image -->
+                        <img class="img-circle img-sm" src="../dist/img/user3-128x128.jpg" alt="Imagen de usuario">
+
+                        <div class="comment-text">
+                    <span class="username"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">
+                      Maria gonzales
+                      </font></font><span class="text-muted float-right"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">8:03 p. M. Hoy</font></font></span>
+                    </span><!-- /.username --><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">
+                            Es un hecho establecido desde hace mucho tiempo que un lector se distraerá con el contenido
+                            legible de una página cuando mire su diseño.
+                        </font></font></div>
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.card-comment -->
+                    <div class="card-comment">
+                        <!-- User image -->
+                        <img class="img-circle img-sm" src="../dist/img/user5-128x128.jpg" alt="Imagen de usuario">
+
+                        <div class="comment-text">
+                    <span class="username">
+                      Nora Havisham
+                      <span class="text-muted float-right">8:03 PM Today</span>
+                    </span><!-- /.username -->
+                            The point of using Lorem Ipsum is that it hrs a morer-less
+                            normal distribution of letters, as opposed to using
+                            'Content here, content here', making it look like readable English.
+                        </div>
+                        <!-- /.comment-text -->
+                    </div>
+                    <!-- /.card-comment -->
+                </div>
+                <!-- /.card-footer -->
+                <div class="card-footer">
+                    <form action="#" method="post">
+                        <img class="img-fluid img-circle img-sm" src="../dist/img/user4-128x128.jpg"
+                             alt="Texto alternativo">
+                        <!-- .img-push is used to add margin to elements next to floating images -->
+                        <div class="img-push">
+                            <input type="text" class="form-control form-control-sm"
+                                   placeholder="Presione enter para publicar un comentario">
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card-footer -->
+            </div>
+            <!-- /.card -->
+        </div>
+        <!-- /.col -->
+    </div>
+{% endblock %}
+{% block extrajs %}
+    <script src="{% static 'validaciones.js' %}"></script>
+
+    <script>
+
+        function grafica(t,vf,v0) {
+
+            var tiempo = t * 60;
+            var ace = vf - v0 / tiempo;
+            var velocidad = [];
+            var ti = [];
+
+
+            for (var i = 0; i <= tiempo; i++) {
+                ve = (parseFloat(ace) * i) + parseFloat(v0);
+                ti.push(i);
+                velocidad.push(ve);
+            }
+            console.log(velocidad)
+            graf(velocidad, ti);
+        }
+
+        document.getElementById('linea').innerHTML = "<img src='/static/img/batch.jpg'>";
+
+        function graf(datat, ti) {
+            let chart = Highcharts.chart('linea', {
+                title: {
+                    text: 'Reactor Batch'
+                },
+
+                yAxis: {
+                    title: {text: 'Velocidad'}
+                },
+
+                xAxis: {
+                    title: {text: 'Tiempo'},
+                    categorías: ti
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 0
+                    }
+                },
+
+                series: [{
+                    name: 'Velocidad',
+                    data: datat
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+        }
+
+    </script>
+
+
+{% endblock %}

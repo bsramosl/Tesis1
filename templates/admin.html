@@ -1,0 +1,106 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Dashboard
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ nuevo }}</h3>
+                    <p>Nuevos Usuarios</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user-plus"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ usuarios }}<sup style="font-size: 20px"></sup></h3>
+                    <p>Usuarios</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-users"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>{{ activos }}</h3>
+                    <p>Usuarios Activos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>{{ inactivos }}</h3>
+                    <p>Usuarios Inactivos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-user"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ organismo }}</h3>
+                    <p>Organismos</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-bug"></i>
+                </div>
+            </div>
+        </div>
+        <!-- ./col -->
+        <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ tiporeact }}</h3>
+                    <p>Tipo de Reactor</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-certificate"></i>
+                </div>
+            </div>
+        </div>
+    <div class="col-lg-3 col-6">
+            <!-- small card -->
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>{{ reactor }}</h3>
+                    <p>Reactor</p>
+                </div>
+                <div class="icon">
+                    <i class="fa fa-certificate"></i>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+{% endblock %}
+ 
+  

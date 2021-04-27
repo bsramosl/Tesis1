@@ -1,0 +1,19 @@
+crear proyecto django************django-admin startproject
+crear app django************python manage.py startapp 
+instalar crispy************pip install django-crispy-forms
+instalar nummpy************pip install numpy
+instalar symp *************pip install sympy
+instala ipaithon*********** pip install IPython
+pip install mysqlclient
+pip install django-haystack        'haystack',
+
+
+
+
+
+Formulas
+V0=Vf-V
+V=Vf-V0
+Vf=V0+V
+V=F*t
+D = F/Vf

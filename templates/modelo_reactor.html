@@ -1,0 +1,223 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Reactor BATCH
+{% endblock %}
+
+{% block extracss %}
+    <script src="{% static 'Highcharts/highcharts.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/series-label.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/exporting.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/export-data.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/accessibility.js' %}"></script>
+
+
+    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="row">
+    <!-- left column -->
+    <div class="col-md-4">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Reactor Batch</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form>
+                <div class="card-body">
+                    <div class="showback">
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Y(x/s)</div>
+                                <div style="width:50px; float:right;margin-right:100px">Kg/Kg</div>
+                                <div style="margin-left:60px">
+                                    <input id="Y" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Ks</div>
+                                <div style="width:50px; float:right;margin-right:100px">Kg,m-3</div>
+                                <div style="margin-left:60px">
+                                    <input id="Ks" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Umax</div>
+                                <div style="width:50px; float:right;margin-right:100px">H-1</div>
+                                <div style="margin-left:60px">
+                                    <input id="Umax" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">ms</div>
+                                <div style="width:50px; float:right;margin-right:100px">ms</div>
+                                <div style="margin-left:60px">
+                                    <input id="ms" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">F</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3/h</div>
+                                <div style="margin-left:60px">
+                                    <input id="F" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">t</div>
+                                <div style="width:50px; float:right;margin-right:100px">H-1</div>
+                                <div style="margin-left:60px">
+                                    <input id="t" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">V0</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3</div>
+                                <div style="margin-left:60px">
+                                    <input id="V0" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">V</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3</div>
+                                <div style="margin-left:60px">
+                                    <input id="V" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Vf</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3</div>
+                                <div style="margin-left:60px">
+                                    <input id="Vf" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">So</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3</div>
+                                <div style="margin-left:60px">
+                                    <input id="So" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">N</div>
+                                <div style="width:50px; float:right;margin-right:100px">Kg</div>
+                                <div style="margin-left:60px">
+                                    <input id="N" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">X</div>
+                                <div style="width:50px; float:right;margin-right:100px">Kg</div>
+                                <div style="margin-left:60px">
+                                    <input id="X" class="small " size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+
+                        <div class="">
+                            <strong>
+                      <span class="rateLbl text-primary">
+                        <font class="small" style="float:left;margin-left:30px ">Concentracion:  <span id="cont1"
+                                                                                                       style="color: #000000"></span>  Kg/m^3</font>
+                     </span>
+                            </strong>
+                        </div>
+                        <div class="">
+                            <strong>
+                      <span class="rateLbl text-primary ">
+                        <font class="small" style="float:left;margin-left:30px ">Densidad de cultivo:  <span id="cont2"
+                                                                                                             style="color: #000000"></span>  Kg/m^3</font>
+                     </span>
+                            </strong>
+                        </div>
+                        <div class="">
+                            <strong>
+                      <span class="rateLbl text-primary">
+                        <font class="small" style="float:left;margin-left:30px ">Masa de Celulas:  <span id="cont3"
+                                                                                                         style="color: #000000"></span>  Kg/m^3</font>
+                     </span>
+                            </strong>
+                        </div>
+                        <div class="">
+                            <strong>
+                      <span class="rateLbl text-primary">
+                        <font class="small" style="float:left;margin-left:30px ">Concentracion de Celulas:  <span
+                                id="cont4" style="color: #000000"></span>  Kg/m^3</font>
+                     </span>
+                            </strong>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" onclick="abrir_modal_reactor('{% url 'ProsPy:GuardarCaBatch' %}','{{ user.username }}'    );"
+                            class="btn btn-primary float-right">Guardar
+                    </button>
+                </div>
+            </form>
+        </div>
+
+
+
+    </div>
+    <!--/.col (left) -->
+    <!-- right column -->
+    <div class="col-md-8">
+        <!-- Form Element sizes -->
+        <div class="card card-success">
+            <div class="showback">
+                <div id="linea">
+                </div>
+            </div>
+        </div>
+        <div class="showback">
+
+        </div>
+        <!--/.col (right) -->
+    </div>
+
+    <div class="modal fade" id="reactor_modal">
+    </div>
+
+
+{% endblock %}
+{% block extrajs %}
+
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'dist/js/demo.js' %}"></script>
+    <script src="{% static 'procesos.js' %}"></script>
+    <script src="{% static 'ajax.js' %}"></script>
+    <script src="{% static 'modal.js' %}"></script>
+
+    <link href="{% static 'sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'sweetalert2/sweetalert2.min.js' %}"></script>
+{% endblock extrajs %}

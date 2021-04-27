@@ -1,0 +1,180 @@
+{% extends "inicio.html" %}
+{% load static %}
+
+{% block title %}
+    Prediccion Tiempo
+{% endblock %}
+
+{% block extracss %}
+    <script src="{% static 'Highcharts/highcharts.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/series-label.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/exporting.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/export-data.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/accessibility.js' %}"></script>
+
+
+{% endblock %}
+
+{% block content %}
+
+
+    <div class="row">
+    <!-- left column -->
+    <div class="col-md-4">
+        <!-- general form elements -->
+        <div class="card card-primary">
+            <div class="card-header">
+                <h3 class="card-title">Predicción del tiempo de cultivo</h3>
+            </div>
+            <!-- /.card-header -->
+            <!-- form start -->
+            <form>
+                <div class="card-body">
+                    <div class="showback">
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">X</div>
+                                <div style="width:50px; float:right;margin-right:100px">Kg</div>
+                                <div style="margin-left:60px">
+                                    <input id="X" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">V</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3</div>
+                                <div style="margin-left:60px">
+                                    <input id="V" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">So</div>
+                                <div style="width:50px; float:right;margin-right:100px">m3</div>
+                                <div style="margin-left:60px">
+                                    <input id="So" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Umax</div>
+                                <div style="width:50px; float:right;margin-right:100px">H-1</div>
+                                <div style="margin-left:60px">
+                                    <input id="Umax" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Y(x/s)</div>
+                                <div style="width:50px; float:right;margin-right:100px">Kg/Kg</div>
+                                <div style="margin-left:60px">
+                                    <input id="Y" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+
+
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Sf</div>
+                                <div style="width:50px; float:right;margin-right:100px">g/L</div>
+                                <div style="margin-left:60px">
+                                    <input id="Sf" class="small" size="2"
+                                           style="color: #000000"></div>
+                            </div>
+                        </div>
+
+                        <div class="blockslider">
+                            <div>
+                                <div style="width:60px; float:left; text-align:left">Tb</div>
+                                <div style="width:50px; float:right;margin-right:100px">h</div>
+                                <div style="margin-left:60px">
+                                    <input id="Tb" class="small" size="2" style="color: #000000"></div>
+                            </div>
+                        </div>
+
+                        <div class="blockslider">
+                            <strong>
+                      <span class="rateLbl text-primary">
+                        <font class="small" style="float:left;margin-left:30px ">Tiempo face estacionaria:  <span
+                                id="cont1" style="color: #000000"></span>  h</font>
+                     </span>
+                            </strong>
+                        </div>
+                        <div class="blockslider">
+                            <strong>
+                      <span class="rateLbl text-primary ">
+                        <font class="small" style="float:left;margin-left:30px ">Densidad celular final 100% :  <span
+                                id="cont2" style="color: #000000"></span>  </font>
+                     </span>
+                            </strong>
+                        </div>
+
+                        <div class="blockslider">
+                            <strong>
+                      <span class="rateLbl text-primary">
+                        <font class="small" style="float:left;margin-left:30px ">Tiempo face estacionaria consumo:
+                            <span id="cont3"></span>
+                            <span id="cont5" style="color: #000000"></span>  h</font>
+                     </span>
+                            </strong>
+                        </div>
+                        <div class="blockslider">
+                            <strong>
+                      <span class="rateLbl text-primary">
+                        <font class="small" style="float:left;margin-left:30px ">Densidad celular consumo
+                            <span id="cont6"></span>
+                            <span id="cont4" style="color: #000000"></span>  </font>
+                     </span>
+                            </strong>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="button" onclick="abrir_modal_prediccion('{% url 'ProsPy:GuardarCaPrediccion' %}','{{ user.username }}');"
+                            class="btn btn-primary float-right">Guardar
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+
+    </div>
+    <!--/.col (left) -->
+    <!-- right column -->
+    <div class="col-md-8">
+        <!-- Form Element sizes -->
+        <div class="card card-success">
+            <div class="showback">
+                <div id="predicctiempo">
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+     <div class="modal fade" id="reactor_modal">
+    </div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+
+    <script src="{% static 'ajax.js' %}"></script>
+    <script src="{% static 'predicciontiempo.js' %}"></script>
+    <script src="{% static 'modal.js' %}"></script>
+
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'dist/js/demo.js' %}"></script>
+
+    <link href="{% static 'sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'sweetalert2/sweetalert2.min.js' %}"></script>
+{% endblock extrajs %}

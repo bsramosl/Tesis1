@@ -1,0 +1,35 @@
+
+<div class="modal-dialog ">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Tipo Reactor</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="form_reactor" method="POST" action="{% url 'ProsPy:GuardarTipo' %}">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div id="error_registro">
+                    {{ form.as_p }}
+
+                </div>
+            </div>
+            <div class="modal-footer justify-content-between ">
+                <button type="button" class="btn btn-default" onclick="cerrar_modal_guardar();">Cancelar</button>
+                <button id="boton_creacion" type="button" class="btn btn-primary" onclick="registrartiporeactor();">Aceptar</button>
+            </div>
+        </form>
+    </div>
+    <!-- /.modal-content -->
+</div>
+
+<style type="text/css">
+    label {
+        width: 110px;
+        float: left;
+        text-align: left
+    }
+
+</style>
+

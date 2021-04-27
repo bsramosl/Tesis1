@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}  <!--cargar pagina statica-->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+
+</head>
+<body>
+
+
+<form class="form-login" action="" method="post">
+    {% csrf_token %}
+
+{% include 'message.html' %}
+
+    <h5>Iniciar Sesión</h5>
+    {{ form.username }}
+    {{ form.password }}
+    <div class="form-footer">
+        <input class="buttons" type="submit" name="Cancelar" value="Cancelar">
+        <input class="buttons" type="submit" name="Ingresar" value="Ingresar">
+        <p><a href="#">Olvidaste tu contraseña</a><a href="{% url 'ProsPy: CrearUsuario' %}" style="color:#ff0000;">Registro</a>
+        </p>
+    </div>
+
+</form>
+</body>
+</html>  
+

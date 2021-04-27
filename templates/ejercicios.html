@@ -1,0 +1,199 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Ejercicios
+{% endblock %}
+
+{% block header %}
+    {% endblock %}
+{% block extracss %}
+
+    <link rel="stylesheet" href="{% static 'estilo.css' %}">
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Ejercicios</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <div class="row">
+
+                        {% if prediccion %}
+                            {% for tiempo in prediccion %}
+                                <div class="col-md-4">
+                                    <!-- Widget: user widget style 1 -->
+                                    <div class="card card-widget widget-user shadow">
+                                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                                        <div class="widget-user-header bg-info">
+                                            <h3 class="widget-user-username"><font
+                                                    style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Titulo: {{ tiempo.titulo }}</font></font>
+                                            </h3>
+                                            <h5 class="widget-user-desc"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Tipo
+                                                Reactor: {{ tiempo.reactor.tiporeactor.tiporeactor }}</font></font>
+                                            </h5>
+                                        </div>
+                                        <div class="widget-user-image">
+                                            <img class="img-circle elevation-2" src="{{ tiempo.reactor.foto1.url }}"
+                                                 alt="Avatar de usuario">
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">Reactor</font></font>
+                                                        </h5>
+                                                        <span class="description-text"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">{{ tiempo.reactor }}</font></font></span>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">Organismo</font></font>
+                                                        </h5>
+                                                        <span class="description-text"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">{{ tiempo.organismo.nombrecientifico }}</font></font></span>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">Prediccion</font></font>
+                                                        </h5>
+                                                         <a type="button" class="btn btn-primary btn-xs"
+                                                               onclick="abrir_modal_editar('{% url 'ProsPy:ActualizarPrediccion' tiempo.id %}')">
+                                                            <i class="fa fa-pencil"></i></a>
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                                onclick="abrir_modal_eliminar('{% url 'ProsPy:EliminarPrediccion' tiempo.id %}')">
+                                                            <i class="fa fa-trash-o "></i></button>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+                                    </div>
+                                    <!-- /.widget-user -->
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+
+                        {% if batch %}
+                            {% for bact in batch %}
+                                <div class="col-md-4">
+                                    <!-- Widget: user widget style 1 -->
+                                    <div class="card card-widget widget-user shadow">
+                                        <!-- Add the bg color to the header using any of the bg-* classes -->
+                                        <div class="widget-user-header bg-info">
+                                            <h3 class="widget-user-username"><font
+                                                    style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Titulo: {{ bact.titulo }}</font></font>
+                                            </h3>
+                                            <h5 class="widget-user-desc"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Tipo
+                                                Reactor: {{ bact.reactor.tiporeactor.tiporeactor }}</font></font>
+                                            </h5>
+                                        </div>
+                                        <div class="widget-user-image">
+                                            <img class="img-circle elevation-2" src="{{ bact.reactor.foto1.url }}"
+                                                 alt="Avatar de usuario">
+                                        </div>
+                                        <div class="card-footer">
+                                            <div class="row">
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">Reactor</font></font>
+                                                        </h5>
+                                                        <span class="description-text"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">{{ bact.reactor }}</font></font></span>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                                <div class="col-sm-4 border-right">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">Organismo</font></font>
+                                                        </h5>
+                                                        <span class="description-text"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">{{ bact.organismo.nombrecientifico }}</font></font></span>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                                <div class="col-sm-4">
+                                                    <div class="description-block">
+                                                        <h5 class="description-header"><font
+                                                                style="vertical-align: inherit;"><font
+                                                                style="vertical-align: inherit;">Batch</font></font>
+                                                        </h5>
+                                                          <a type="button" class="btn btn-primary btn-xs"
+                                                               onclick="abrir_modal_editar('{% url 'ProsPy:ActualizarCaBatch' bact.id %}')">
+                                                            <i class="fa fa-pencil"></i></a>
+                                                        <button type="button" class="btn btn-danger btn-xs"
+                                                                onclick="abrir_modal_eliminar('{% url 'ProsPy:EliminarCaBatch' bact.id %}')">
+                                                            <i class="fa fa-trash-o "></i></button>
+                                                    </div>
+                                                    <!-- /.description-block -->
+                                                </div>
+                                                <!-- /.col -->
+                                            </div>
+                                            <!-- /.row -->
+                                        </div>
+                                    </div>
+                                    <!-- /.widget-user -->
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+
+    <div class="modal fade" id="editar_modal">
+    </div>
+    <div class="modal fade" id="eliminar_modal">
+
+{% endblock %}
+{% block extrajs %}
+
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'dist/js/demo.js' %}"></script>
+
+    <script src="{% static 'ajax.js' %}"></script>
+    <script src="{% static 'modal.js' %}"></script>
+
+    <link href="{% static 'sweetalert2-theme-bootstrap-4/bootstrap-4.min.css' %}" rel="stylesheet"/>
+    <script src="{% static 'sweetalert2/sweetalert2.min.js' %}"></script>
+
+{% endblock %}

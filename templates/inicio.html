@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+    Inicio
+{% endblock %}
+
+{% block header %}
+    <a href="{% url 'ProsPy:Inicio' %}" class="logo"
+    ><b>Pros<span>PY</span></b></a>
+{% endblock %}
+{% block content %}
+    <div class="row mt">
+        <div class="col-lg-12 form-panel">
+            <form class="" method="POST" action="">
+                <div class="col-lg-4">
+                    <select name="OS" class="form-control">
+                        <option value="1">Windows Vista</option>
+                        <option value="2">Windows 7</option>
+                        <option value="3">Windows XP</option>
+                        <option value="10">Fedora</option>
+                        <option value="11">Debian</option>
+                        <option value="12">Suse</option>
+                    </select>
+                </div>
+                <div class="col-lg-6">
+                    <input name="color" list="listas" class="form-control form-group"/>
+                    <datalist id="listas">
+                        <option value="azul"></option>
+                        <option value="rojo"></option>
+                        <option value="amarillo"></option>
+                        <option value="negro"></option>
+                        <option value="verde"></option>
+                    </datalist>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+{% block extrajs %}
+
+{% endblock %}

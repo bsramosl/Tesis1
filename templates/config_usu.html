@@ -1,0 +1,62 @@
+{% extends "inicio.html" %}
+{% load static %}
+{% block title %}
+    Ajustes
+{% endblock %}
+
+{% block Titulo %}
+
+    {% if user.is_authenticated %}
+        {{ user.email }}
+    {% endif %}
+{% endblock %}
+{% block content %}
+
+    <div class="row">
+        <!-- left column -->
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Cuenta</h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- form start -->
+
+                <form method="POST">
+
+                    {% csrf_token %}
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Contraseña actual</label>
+                            {{ form.old_password }}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">NUeva Contraseña</label>
+                            {{ form.new_password1 }}
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputPassword1">Confirmar Nueva Contraseña</label>
+                            {{ form.new_password2 }}
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Cambiar Contraseña</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.card -->
+        </div>
+        <!--/.col (left) -->
+        <!-- right column -->
+    </div>
+{% endblock %}
+
+
+
+
+
+
+     

@@ -1,0 +1,86 @@
+
+{% load static %}
+{% block content %}
+
+<b>Pros<span>PY</span></b></a>
+    <div class="row mt">
+      <div class="col-md-12">
+        <div class=" col-md-8"><h4><i class="fa fa-angle-right"></i> {{ title }} </h4> </div>
+        <div class="col-xs-6 col-md-3"  style=" padding-top: 10px;"  >
+          <form class="form-horizontal tasi-form" method="get">
+            <div class="form-group  ">
+              <label class="col-sm-2 control-label col-lg-2">Buscar</label>
+              <div class="col-lg-10">
+              <input class="form-control" id="buscar" type="text" onkeyup="doSearch()"/></div>
+              </div>
+            </form>
+            </div>
+
+
+        <div class="content-panel">
+          <table id="table" class="table table-bordered table-striped table-condensed" >
+            <thead>
+              <tr>
+
+                <td><i class="fa fa-bullhorn"></i> id</td>
+                <td>Usuario</td>
+                <td>Nombre</td>
+                <td>Apellido</td>
+                <td>Email</td>
+                <td>Administrador</td>
+                <td>UltimoAcceso</td>
+                <th><i class=" fa fa-edit"></i> Status</th>
+            </thead>
+            <tbody >
+              <tr>
+                {% if usuarios %}
+                {% for usuario in usuarios %}
+                <td>{{usuario.id}}</td>
+                <td>{{usuario.username}}</td>
+                <td>{{usuario.first_name}}</td>
+                <td>{{usuario.last_name}}</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.is_superuser}}</td>
+                <td>{{usuario.last_login}}</td>
+                <td><span class="label label-warning label-mini">Due</span></td>
+                <td>
+                  <button class="btn btn-success btn-xs"><i class="fa fa-check"></i></button>
+                  <a href="/edit/{{ usuario.id }}" class="btn btn-primary btn-xs"><i class="fa fa-pencil"></i></a>
+                  <a href="/delete/{{ usuario.id }}" class="btn btn-danger btn-xs" onClick="return confirm(
+                    '¿Seguro que quieres borrar a {{usuario.Nombre}}?');"><i class="fa fa-trash-o "></i></a>
+                </td>
+              </tr>
+              {% endfor %}
+              {% else %}
+              <h1>No hay datos</h1>
+              {% endif %}
+            </tbody>
+          </table>
+        </div>
+        <!-- /content-panel -->
+      </div>
+      <!-- /col-md-12 -->
+    </div>
+    <!-- /row -->
+<script>
+ document.getElementById("buscar").onkeyup = function() {
+      var buscar_= this.value.toLowerCase() ;
+      document.querySelectorAll('.table tbody tr').forEach(function(e){
+        var encontro_ =false;
+        e.querySelectorAll('td').forEach(function(e){
+          if (e.innerHTML.toLowerCase().indexOf(buscar_)>=0){
+            encontro_=true;
+          }
+        });
+        if (encontro_){
+          e.style.display = '';
+        }else{
+          e.style.display = 'none';
+        }
+      });
+}
+</script>
+  {% endblock %}
+  
+  
+  
