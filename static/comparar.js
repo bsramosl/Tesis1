@@ -1,5 +1,20 @@
+document.getElementById('card').style.display = 'none';
+
+
+function desactivar(id) {
+    document.getElementById(id).disabled = true;
+    document.getElementById(id+'a').disabled = false;
+
+}
+function activar(id) {
+    document.getElementById(id).disabled = false;
+    document.getElementById(id+'a').disabled = true;
+}
+
+
 function grafica(t, vf, v0) {
-    console.log(v0)
+    document.getElementById('card').style.display = 'block';
+
     var tiempo = t * 60;
     var ace = vf - v0 / tiempo;
     var velocidad = [];
@@ -9,7 +24,6 @@ function grafica(t, vf, v0) {
         ti.push(i);
         velocidad.push(ve);
     }
-    console.log(velocidad)
     graf(velocidad, ti);
 
 }
@@ -62,14 +76,16 @@ function graf(datat, ti) {
 }
 
 
-function graficatiempo(tb, x, v, umax,so,sf,x,y) {
+function graficatiempo(id, tb, x, v, umax, so, sf, x, y) {
+    document.getElementById(id).disabled = true;
+
     X0 = x / v
     dsf = X0 * Math.exp(umax * tb)
 
-    porsentcons = (so - sf* 100) / so
+    porsentcons = (so - sf * 100) / so
     consumo = (so * 70) / 100
     tbtiempo = 1 / umax
-    X0 = ( x / v)
+    X0 = (x / v)
     tbtiempo1 = parseFloat(y / X0)
     tbtiempo2 = parseFloat(1 + tbtiempo1 * (so - (so - consumo)))
     tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
@@ -112,6 +128,7 @@ function grafti(datat, ti) {
             }
         },
         series: [{
+            type: 'spline',
             name: 'Densidad',
             data: [ti, datat]
         }],
