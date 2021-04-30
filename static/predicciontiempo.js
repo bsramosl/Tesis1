@@ -91,8 +91,7 @@ function grafica() {
 
 }
 
-document.getElementById('predicctiempo').innerHTML = "<img src='/static/img/batch.jpg'>";
-
+document.getElementById('predicctiempo').innerHTML = "<img src='/media/img/batch.jpg'>";
 function graf(datat, ti) {
     let chart = Highcharts.chart('predicctiempo', {
         title: {

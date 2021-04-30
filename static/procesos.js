@@ -147,7 +147,7 @@ function grafica() {
     }
 }
 
-document.getElementById('linea').innerHTML = "<img src='/static/img/batch.jpg'>";
+document.getElementById('linea').innerHTML = "<img src='/media/img/batch.jpg'>";
 
 function graf(datat, ti) {
     let chart = Highcharts.chart('linea', {

@@ -3,26 +3,44 @@ document.getElementById('card').style.display = 'none';
 
 function desactivar(id) {
     document.getElementById(id).disabled = true;
-    document.getElementById(id+'a').disabled = false;
-
+    document.getElementById(id + 'a').disabled = false;
 }
+
 function activar(id) {
     document.getElementById(id).disabled = false;
-    document.getElementById(id+'a').disabled = true;
+    document.getElementById(id + 'a').disabled = true;
 }
-
-
+volumen = [];
+    volumen2 = [];
+    volumen3 = [];
+    volumen4 = [];
 function grafica(t, vf, v0) {
-    document.getElementById('card').style.display = 'block';
 
+
+
+    val =t+','+vf+','+v0;
+
+
+
+    if (volumen.includes(val)) {
+         console.log(entro)
+
+        sentencia1
+    } else {
+         volumen.push(t, vf, v0)
+        console.log(volumen)
+
+    }
+
+    document.getElementById('card').style.display = 'block';
     var tiempo = t * 60;
-    var ace = vf - v0 / tiempo;
+    var ace = (vf - v0) / tiempo;
     var velocidad = [];
     var ti = [];
     for (var i = 0; i <= tiempo; i++) {
         ve = (parseFloat(ace) * i) + parseFloat(v0);
-        ti.push(i);
-        velocidad.push(ve);
+        velocidad.push(ve)
+        ti.push(i)
     }
     graf(velocidad, ti);
 
@@ -35,7 +53,7 @@ function graf(datat, ti) {
         },
 
         yAxis: {
-            title: {text: 'Velocidad'}
+            title: {text: 'Volumen'}
         },
 
         xAxis: {
@@ -53,9 +71,13 @@ function graf(datat, ti) {
         },
 
         series: [{
-            name: 'Velocidad',
+            name: 'Volumen',
+            data: datat
+        }, {
+            name: 'Volumen',
             data: datat
         }],
+
 
         responsive: {
             rules: [{
