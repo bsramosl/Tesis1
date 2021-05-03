@@ -1,7 +1,7 @@
 document.getElementById('card').style.display = 'none';
 
-volumen = [];
-aux = [];
+volumen1 = [];
+bandera = 0;
 con = 0;
 
 function desactivar(id) {
@@ -18,41 +18,49 @@ function activar(id) {
     }
 }
 
-function proceso(t, vf, v0, id) {
-
+function proceso(t, vf, v0, id,titulo) {
     if (con < 4) {
-        aux = [t, vf, v0, id]
-        for (var i = 0; i < con; i++) {
-            if (volumen[i].includes(aux)) {
-                console.log('existe')
-                console.log(volumen)
-
-            } else {
-                console.log(t, vf, v0, id)
-                volumen.push(aux)
-                console.log(volumen)
+        aux = [t, vf, v0, id,titulo]
+        if (volumen1.length === 0) {
+            volumen1.push(aux)
+            bandera = 1;
+        } else {
+            for (var i = 0; i < volumen1.length; i++) {
+                if (volumen1[i][3] === aux[3]) {
+                    bandera = 1;
+                    volumen1.splice(i, 1);
+                    break;
+                } else {
+                    bandera = 0;
+                }
             }
-
         }
+        if (bandera === 0) {
+            volumen1.push(aux)
+            con = con + 1
+        }
+    }
 
-
+    datovolumen = [];
+    datotiempo = [];
+    for (var j = 0; j < volumen1.length; j++) {
         document.getElementById('card').style.display = 'block';
         desactivar(id);
-        var tiempo = t * 60;
-        var ace = (vf - v0) / tiempo;
+        var tiempo = volumen1[j][0] * 60;
+        var ace = (volumen1[j][1] - volumen1[j][2]) / tiempo;
         var velocidad = [];
         var ti = [];
         for (var i = 0; i <= tiempo; i++) {
-            ve = (parseFloat(ace) * i) + parseFloat(v0);
+            ve = (parseFloat(ace) * i) + parseFloat(volumen1[j][2]);
             velocidad.push(ve)
             ti.push(i)
         }
-        graf(velocidad, ti);
-        con += 1
-
-    } else {
+        datovolumen.push(velocidad)
+        datotiempo.push(ti)
+        graf(datovolumen, datotiempo);
 
     }
+
 }
 
 
@@ -82,11 +90,18 @@ function graf(datat, ti) {
 
         series: [{
             name: 'Volumen',
-            data: datat
+            data: datat[0]
         }, {
             name: 'Volumen',
-            data: datat
+            data: datat[1]
+        }, {
+            name: 'Volumen',
+            data: datat[2]
+        }, {
+            name: 'Volumen',
+            data: datat[3]
         }],
+
 
 
         responsive: {
