@@ -18,9 +18,9 @@ function activar(id) {
     }
 }
 
-function proceso(t, vf, v0, id,titulo) {
+function proceso(t, vf, v0, id) {
     if (con < 4) {
-        aux = [t, vf, v0, id,titulo]
+        aux = [t, vf, v0, id]
         if (volumen1.length === 0) {
             volumen1.push(aux)
             bandera = 1;
