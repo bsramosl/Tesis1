@@ -26,6 +26,10 @@
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Reactor Batch</h3>
+                <button type="button" class=" btn btn-xs btn-success formula" style=" float:right; ">
+                    <a href="#"> </a>
+                    Formulas
+                </button>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -254,7 +258,7 @@
                 toast: true,
                 position: 'bottom ',
                 showConfirmButton: false,
-                timer: 3000
+                timer: 5000
             });
 
             function onOpen() {
@@ -343,6 +347,15 @@
                 Toast.fire({
                     icon: 'info',
                     title: 'Concentracion de celulas',
+                    onOpen
+                })
+            });
+            $('.formula').click(function () {
+                Toast.fire({
+                    imageUrl: '/media/img/batchformula.jpeg',
+                    imageWidth: 300,
+                    imageHeight: 500,
+                    imageAlt: 'Custom image',
                     onOpen
                 })
             });

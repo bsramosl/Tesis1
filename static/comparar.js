@@ -1,5 +1,8 @@
 document.getElementById('card').style.display = 'none';
 
+volumen = [];
+aux = [];
+con = 0;
 
 function desactivar(id) {
     document.getElementById(id).disabled = true;
@@ -9,42 +12,49 @@ function desactivar(id) {
 function activar(id) {
     document.getElementById(id).disabled = false;
     document.getElementById(id + 'a').disabled = true;
+    con -= 1
+    if (con == 0) {
+        document.getElementById('card').style.display = 'none';
+    }
 }
-volumen = [];
-    volumen2 = [];
-    volumen3 = [];
-    volumen4 = [];
-function grafica(t, vf, v0) {
+
+function proceso(t, vf, v0, id) {
+
+    if (con < 4) {
+        aux = [t, vf, v0, id]
+        for (var i = 0; i < con; i++) {
+            if (volumen[i].includes(aux)) {
+                console.log('existe')
+                console.log(volumen)
+
+            } else {
+                console.log(t, vf, v0, id)
+                volumen.push(aux)
+                console.log(volumen)
+            }
+
+        }
 
 
+        document.getElementById('card').style.display = 'block';
+        desactivar(id);
+        var tiempo = t * 60;
+        var ace = (vf - v0) / tiempo;
+        var velocidad = [];
+        var ti = [];
+        for (var i = 0; i <= tiempo; i++) {
+            ve = (parseFloat(ace) * i) + parseFloat(v0);
+            velocidad.push(ve)
+            ti.push(i)
+        }
+        graf(velocidad, ti);
+        con += 1
 
-    val =t+','+vf+','+v0;
-
-
-
-    if (volumen.includes(val)) {
-         console.log(entro)
-
-        sentencia1
     } else {
-         volumen.push(t, vf, v0)
-        console.log(volumen)
 
     }
-
-    document.getElementById('card').style.display = 'block';
-    var tiempo = t * 60;
-    var ace = (vf - v0) / tiempo;
-    var velocidad = [];
-    var ti = [];
-    for (var i = 0; i <= tiempo; i++) {
-        ve = (parseFloat(ace) * i) + parseFloat(v0);
-        velocidad.push(ve)
-        ti.push(i)
-    }
-    graf(velocidad, ti);
-
 }
+
 
 function graf(datat, ti) {
     let chart = Highcharts.chart('batch', {

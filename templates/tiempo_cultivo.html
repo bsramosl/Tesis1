@@ -25,6 +25,10 @@
         <div class="card card-primary">
             <div class="card-header">
                 <h3 class="card-title">Predicción del tiempo de cultivo</h3>
+                <button type="button" class=" btn btn-xs btn-success formula" style=" float:right; ">
+                    <a href="#"> </a>
+                    Formulas
+                </button>
             </div>
             <!-- /.card-header -->
             <!-- form start -->
@@ -199,7 +203,7 @@
                 toast: true,
                 position: 'bottom ',
                 showConfirmButton: false,
-                timer: 3000
+                timer: 5000
             });
 
             function onOpen() {
@@ -253,6 +257,15 @@
                 Toast.fire({
                     icon: 'info',
                     title: 'Tiempo para alcanzar la face estacionaria',
+                    onOpen
+                })
+            });
+              $('.formula').click(function () {
+                Toast.fire({
+                    imageUrl: '/media/img/tiempoformula.jpeg',
+                    imageWidth: 400,
+                    imageHeight: 300,
+                    imageAlt: 'Custom image',
                     onOpen
                 })
             });
