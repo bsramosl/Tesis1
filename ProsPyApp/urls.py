@@ -61,6 +61,7 @@ urlpatterns = [
     path('ActualizarPrediccion/<int:pk>', login_required(views.ActualizarPrediccion.as_view()), name='ActualizarPrediccion'),
     path('EliminarPrediccion/<int:pk>', login_required(views.EliminarPrediccion.as_view()), name='EliminarPrediccion'),
 
-    path('Comparar/', login_required(views.Comparar.as_view()), name='Comparar'),
+    path('CompararBatch/', login_required(views.CompararBatch.as_view()), name='CompararBatch'),
+    path('CompararTiempo/', login_required(views.CompararTiempo.as_view()), name='CompararTiempo'),
 
 ]
