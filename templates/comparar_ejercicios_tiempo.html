@@ -40,15 +40,16 @@
                                             </font></font>
                                         </p>
                                         <button type="button" class="btn btn-default btn-sm" id="{{ tiempo.id }}"
-                                                onclick="graficatiempo({{ tiempo.id }},{{ tiempo.tb }},{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.umax }},{{ tiempo.so }},{{ tiempo.sf }},{{ tiempo.x }},{{ tiempo.y }})">
-                                            <i
-                                                    class="fas fa-share"></i><font
-                                                style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;"> Editar</font></font></button>
-                                        <button type="button" class="btn btn-default btn-sm"><i
-                                                class="far fa-thumbs-up"></i><font
-                                                style="vertical-align: inherit;"><font
-                                                style="vertical-align: inherit;"> Eliminar</font></font></button>
+                                                onclick="procesotiempo({{ tiempo.id }},{{ tiempo.tb }},{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.umax }},{{ tiempo.so }},{{ tiempo.sf }},{{ tiempo.x }},{{ tiempo.y }})">
+                                            <font
+                                                    style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;"> Comparar</font></font></button>
+                                        <button type="button" class="btn btn-default btn-sm" disabled="true"
+                                                id="{{ tiempo.id }}a"
+                                                onclick="activarti({{ tiempo.id }});">
+                                            <font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">
+                                                Cancelar</font></font></button>
                                     </div>
                                 </div>
                             {% endfor %}

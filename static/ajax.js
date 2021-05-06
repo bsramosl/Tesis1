@@ -27,10 +27,10 @@ function listarUsuario() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td>' + response[i]["fields"]['username'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['first_name'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['last_name'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['email'] + '</td>>';
+                fila += '<td style="max-width:108px;" >' + response[i]["fields"]['username'] + '</td>>';
+                fila += '<td style="max-width:108px;" >' + response[i]["fields"]['first_name'] + '</td>>';
+                fila += '<td style="max-width:108px;" >' + response[i]["fields"]['last_name'] + '</td>>';
+                fila += '<td style="max-width:182px;" >' + response[i]["fields"]['email'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['is_superuser'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['last_login'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
@@ -46,7 +46,6 @@ function listarUsuario() {
                 "ordering": true,
                 "info": true,
                 "whiteSpace": 'normal',
-
             }).buttons().container().appendTo('#tablausuario_wrapper .col-md-6:eq(0)');
         }, error: function (error) {
             console.log(error);
@@ -121,9 +120,9 @@ function listarTipo() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td>' + response[i]["fields"]['descripcion'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['tiporeactor'] + '</td>>';
+                fila += '<td style="max-width:250px;" >' + response[i]["fields"]['descripcion'] + '</td>>';
+                fila += '<td style="max-width:280px;" >' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
+                fila += '<td style="max-width:150px;" >' + response[i]["fields"]['tiporeactor'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarTipo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarTipo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
                 fila += '</tr>';
                 $('#tablatipo tbody').append(fila);
@@ -210,8 +209,8 @@ function listarOrganismo() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td>' + response[i]["fields"]['nombrecientifico'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['genero'] + '</td>>';
+                fila += '<td style="max-width:280px;" >' + response[i]["fields"]['nombrecientifico'] + '</td>>';
+                fila += '<td style="max-width:280px;" >' + response[i]["fields"]['genero'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablaorganismo tbody').append(fila);
@@ -298,21 +297,21 @@ function listarReactor() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td>' + response[i]["fields"]['marca'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['modelo'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['foto1'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['foto2'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['foto3'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['foto4'] + '</td>>';
+                fila += '<td style="max-width:84px;" >' + response[i]["fields"]['marca'] + '</td>>';
+                fila += '<td style="max-width:94px;" >' + response[i]["fields"]['modelo'] + '</td>>';
+                fila += '<td style="max-width:149px;" >' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
+                fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto1'] + '</td>>';
+                fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto2'] + '</td>>';
+                fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto3'] + '</td>>';
+                fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto4'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['estado'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['tiporeactor'] + '</td>>';
+                fila += '<td style="max-width:130px;">' + response[i]["fields"]['tiporeactor'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablareactor tbody').append(fila);
             }
             $('#tablareactor').DataTable({
-                "responsive": false,
+                "responsive": true,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print"],
@@ -402,25 +401,25 @@ function listarBatch() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td>' + response[i]["fields"]['titulo'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['descripcion'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['y'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['ks'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['umax'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['ms'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['f'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['t'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['v0'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['v'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['organismo'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['reactor'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';
+                fila += '<td style="max-width:120px " >' + response[i]["fields"]['titulo'] + '</td>>';
+                fila += '<td style="max-width:120px " >' + response[i]["fields"]['descripcion'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['y'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['ks'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['umax'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['ms'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['f'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['t'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['v0'] + '</td>>';
+                fila += '<td style="max-width:40px;">' + response[i]["fields"]['v'] + '</td>>';
+                fila += '<td style="max-width:106px;">' + response[i]["fields"]['organismo'] + '</td>>';
+                fila += '<td style="max-width:82px;">' + response[i]["fields"]['reactor'] + '</td>>';
+                fila += '<td style="max-width:82px;">' + response[i]["fields"]['usuario'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarCaCaBatch/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarCaCaBatch/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablabatch tbody').append(fila);
             }
             $('#tablabatch').DataTable({
-                "responsive": true,
+                "responsive": false,
                 "lengthChange": false,
                 "autoWidth": false,
                 "buttons": ["copy", "csv", "excel", "pdf", "print"],
@@ -502,15 +501,15 @@ function listarPrediccion() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td>' + response[i]["fields"]['titulo'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['descripcion'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['x'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['v'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['so'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['umax'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['y'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['sf'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['tb'] + '</td>>';
+                fila += '<td style="max-width:120px;">' + response[i]["fields"]['titulo'] + '</td>>';
+                fila += '<td style="max-width:120px;">' + response[i]["fields"]['descripcion'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['x'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['v'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['so'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['umax'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['y'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['sf'] + '</td>>';
+                fila += '<td style="max-width:64px;">' + response[i]["fields"]['tb'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['organismo'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['reactor'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';

@@ -29,7 +29,6 @@ function borrar(id) {
 }
 
 function proceso(t, vf, v0, id) {
-
     if (con < 4) {
         var aux = [t, vf, v0, id]
         if (volumen1.length === 0) {
@@ -43,8 +42,6 @@ function proceso(t, vf, v0, id) {
         }
         grafica()
     }
-
-
 }
 
 function grafica() {
@@ -66,6 +63,70 @@ function grafica() {
         datotiempo.push(ti)
         graf(datovolumen, datotiempo, tit);
     }
+}
+
+function activarti(id) {
+    document.getElementById(id).disabled = false;
+    document.getElementById(id + 'a').disabled = true;
+    con -= 1
+    borrarti(id)
+    if (con == 0) {
+        document.getElementById('card').style.display = 'none';
+    }
+}
+
+function borrarti(id) {
+    for (var i = 0; i < volumen1.length; i++) {
+        if (volumen1[i][0] === id) {
+            volumen1.splice(i, 1);
+            break;
+        }
+    }
+    graficatiempo()
+}
+
+
+function procesotiempo(id, tb, x, v, umax, so, sf, x, y) {
+    if (con < 4) {
+        var aux = [id, tb, x, v, umax, so, sf, x, y]
+        if (volumen1.length === 0) {
+            volumen1.push(aux)
+            con += 1
+            desactivar(id)
+        } else {
+            volumen1.push(aux)
+            con = con + 1
+            desactivar(id)
+        }
+        graficatiempo()
+    }
+}
+
+function graficatiempo() {
+    datovolumen = [];
+    datotiempo = [];
+    for (var j = 0; j < volumen1.length; j++) {
+        var tiempo = [];
+        var densidad = [];
+        document.getElementById('card').style.display = 'block';
+        X0 = (volumen1[j][2] / volumen1[j][3]);
+        dsf = X0 * Math.exp(volumen1[j][4] * volumen1[j][1]);
+        porsentcons = (volumen1[j][5] - volumen1[j][6] * 100) / volumen1[j][5];
+        consumo = (volumen1[j][5] * 70) / 100
+        tbtiempo = 1 / volumen1[j][4];
+        tbtiempo1 = parseFloat(volumen1[j][8] / X0)
+        tbtiempo2 = parseFloat(1 + tbtiempo1 * (volumen1[j][5] - (volumen1[j][5] - consumo)))
+        tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
+        dsft = X0 * Math.exp(volumen1[j][4] * tbtiempo4)
+        tiempo.push(volumen1[j][1]);
+        tiempo.push(dsf);
+        densidad.push(tbtiempo4);
+        densidad.push(dsft);
+        datovolumen.push(densidad)
+        datotiempo.push(tiempo)
+    }
+    grafti(datovolumen, datotiempo);
+    console.log(datovolumen)
 }
 
 function graf(datat, ti, titulo) {
@@ -123,31 +184,6 @@ function graf(datat, ti, titulo) {
     });
 }
 
-
-function graficatiempo(id, tb, x, v, umax, so, sf, x, y) {
-    document.getElementById(id).disabled = true;
-    X0 = x / v
-    dsf = X0 * Math.exp(umax * tb)
-    porsentcons = (so - sf * 100) / so
-    consumo = (so * 70) / 100
-    tbtiempo = 1 / umax
-    X0 = (x / v)
-    tbtiempo1 = parseFloat(y / X0)
-    tbtiempo2 = parseFloat(1 + tbtiempo1 * (so - (so - consumo)))
-    tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
-    dsft = X0 * Math.exp(umax * tbtiempo4)
-    var tiempo = [];
-    var densidad = [];
-    tiempo.push(tb);
-    tiempo.push(dsf);
-    densidad.push(tbtiempo4);
-    densidad.push(dsft);
-    if (tiempo.length != 0) {
-        grafti(densidad, tiempo);
-    }
-    document.getElementById('card').style.display = 'block';
-}
-
 function grafti(datat, ti) {
     let chart = Highcharts.chart('predicctiempo', {
         title: {
@@ -171,9 +207,17 @@ function grafti(datat, ti) {
             }
         },
         series: [{
-            type: 'spline',
             name: 'Densidad',
-            data: [ti, datat]
+            data: [ti[0], datat[0]]
+        }, {
+            name: 'Densidad',
+            data: [ti[1], datat[1]]
+        }, {
+            name: 'Densidad',
+            data: [ti[2], datat[2]]
+        }, {
+            name: 'Densidad',
+            data: [ti[3], datat[3]]
         }],
 
         responsive: {

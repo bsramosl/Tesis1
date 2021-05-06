@@ -6,10 +6,6 @@
     Listado de Usuarios
 
 {% endblock %}
-<!-- DataTables -->
-<link rel="stylesheet" href="{% static 'datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datatables-responsive/css/responsive.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datatables-buttons/css/buttons.bootstrap4.min.css' %}">
 
 {% block extracss %}
 
@@ -26,8 +22,9 @@
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div id="tablausuario_wrapper" class="dataTables_wrapper dt-bootstrap4 ">
-                        <table id="tablausuario" class="table table-bordered table-striped  dataTable dtr-inline" cellspacing="0"
-cellpadding="3"     width="100%">
+                        <table id="tablausuario" class="table table-bordered table-striped  dataTable dtr-inline"
+                               cellspacing="0"
+                               cellpadding="3" width="100%">
                             <thead>
                             <tr>
                                 <th><i class="fa fa-bullhorn"></i>#</th>
@@ -49,7 +46,13 @@ cellpadding="3"     width="100%">
             </div>
         </div>
     </div>
-
+    <style>
+        td {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
 
     <div class="modal fade" id="editar_modal">
 

@@ -1,6 +1,7 @@
 from datetime import date
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -11,13 +12,47 @@ from .forms import *
 from django.views.generic.edit import FormView
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.contrib.auth import login, logout, update_session_auth_hash
 from .models import *
 
 
 class Inicio(TemplateView):
     template_name = 'inicio.html'
+
+    @method_decorator(csrf_exempt)
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_reactor':
+                data = []
+                for i in Reactor.objects.all():
+                    data.append({'id': i.id, 'marca': i.marca, 'modelo': i.modelo})
+            else:
+                if action == 'search_organismos':
+                    data = []
+                    for i in Organismo.objects.all():
+                        data.append({'id': i.id, 'nombre': i.nombrecientifico, 'genero': i.genero})
+                else:
+                    if action == 'search_batch':
+                        data = []
+                        for i in CaBatch.objects.all():
+                            data.append({'id': i.id, 'titulo': i.titulo})
+                    else:
+                        data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        return context
 
 
 class ModeloReact(TemplateView):
@@ -29,13 +64,11 @@ class TiempoCultivo(TemplateView):
 
 
 class Admin(TemplateView):
-    model = User
     template_name = 'admin.html'
 
     def get_context_data(self, **kwargs):
         activo = User.objects.filter(is_active=True).count()
         inactivo = User.objects.filter(is_active=False).count()
-        nuevo = User.objects.filter(date_joined__gt=date.today()).count()
         organismo = Organismo.objects.count()
         tiporeact = TipoReactor.objects.count()
         reactor = Reactor.objects.count()
@@ -43,11 +76,9 @@ class Admin(TemplateView):
         context['activos'] = activo
         context['inactivos'] = inactivo
         context['usuarios'] = activo + inactivo
-        context['nuevo'] = nuevo
         context['organismo'] = organismo
         context['tiporeact'] = tiporeact
         context['reactor'] = reactor
-
         return context
 
 
@@ -86,6 +117,7 @@ class LogoutUsuario(RedirectView):
 class LUsuarioLista(TemplateView):
     template_name = 'Usuario_Admin.html'
 
+
 class UsuarioLista(ListView):
     model = User
     context_object_name = 'usuarios'
@@ -98,6 +130,7 @@ class UsuarioLista(ListView):
             return HttpResponse(serialize('json', self.get_queryset()), 'aplication/json')
         else:
             return redirect('ProsPy:LUsuarioLista')
+
 
 class CrearUsuario(CreateView):
     model = User
@@ -120,6 +153,7 @@ class CrearUsuario(CreateView):
         messages.success(self.request, 'Se ha registrado con exito')
         return response
 
+
 def CambiarContraseña(request):
     if request.method == 'POST':
         form = ContraseñaForm(request.user, request.POST)
@@ -133,6 +167,7 @@ def CambiarContraseña(request):
     else:
         form = ContraseñaForm(request.user)
     return render(request, "config_usu.html", {'form': form})
+
 
 class EditarUsuario(UpdateView):
     model = User
@@ -158,6 +193,7 @@ class EditarUsuario(UpdateView):
         else:
             return redirect('ProsPy:LUsuarioLista')
 
+
 class EliminarUsuario(DeleteView):
     model = User
     template_name = 'eliminar_modal.html'
@@ -176,9 +212,9 @@ class EliminarUsuario(DeleteView):
             return redirect('ProsPy:LUsuarioLista')
 
 
-
 class LUTipoReactor(TemplateView):
     template_name = 'tabla_tiporeactor.html'
+
 
 class TipoReactorlista(ListView):
     model = TipoReactor
@@ -189,6 +225,7 @@ class TipoReactorlista(ListView):
             return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
         else:
             return redirect('ProsPy:LUTipoReactor')
+
 
 class GuardarTipo(CreateView):
     model = TipoReactor
@@ -214,6 +251,7 @@ class GuardarTipo(CreateView):
         else:
             return redirect('ProsPy:LUTipoReactor')
 
+
 class EditarTipo(UpdateView):
     model = TipoReactor
     form_class = TipoReactorForm
@@ -238,6 +276,7 @@ class EditarTipo(UpdateView):
         else:
             return redirect('ProsPy:LUTipoReactor')
 
+
 class EliminarTipo(DeleteView):
     model = TipoReactor
     template_name = 'eliminar_tipo_modal.html'
@@ -255,9 +294,9 @@ class EliminarTipo(DeleteView):
             return redirect('ProsPy:LUTipoReactor')
 
 
-
 class LUOrganismo(TemplateView):
     template_name = 'tabla_organismo.html'
+
 
 class Organismolista(ListView):
     model = Organismo
@@ -268,6 +307,7 @@ class Organismolista(ListView):
             return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
         else:
             return redirect('ProsPy:LUOrganismo')
+
 
 class GuardarOrganismo(CreateView):
     model = Organismo
@@ -293,6 +333,7 @@ class GuardarOrganismo(CreateView):
         else:
             return redirect('ProsPy:LUOrganismo')
 
+
 class EditarOrganismo(UpdateView):
     model = Organismo
     form_class = OrganismoForm
@@ -317,14 +358,14 @@ class EditarOrganismo(UpdateView):
         else:
             return redirect('ProsPy:LUOrganismo')
 
+
 class EliminarOrganismo(DeleteView):
     model = Organismo
     template_name = 'eliminar_organismo_modal.html'
 
-
     def delete(self, request, pk):
         if request.is_ajax():
-            dat = Organismo.objects.get(id = pk)
+            dat = Organismo.objects.get(id=pk)
             dat.delete()
             mensaje = f'{self.model.__name__} Eliminado correctamente'
             error = 'No hay error'
@@ -335,9 +376,9 @@ class EliminarOrganismo(DeleteView):
             return redirect('ProsPy:LUOrganismo')
 
 
-
 class LUReactor(TemplateView):
     template_name = 'tabla_reactor.html'
+
 
 class Reactorlista(ListView):
     model = Reactor
@@ -349,6 +390,7 @@ class Reactorlista(ListView):
         else:
             return redirect('ProsPy:LUReactor')
 
+
 class GuardarReactor(CreateView):
     model = Reactor
     form_class = ReactorForm
@@ -356,7 +398,7 @@ class GuardarReactor(CreateView):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            form = self.form_class(request.POST,request.FILES)
+            form = self.form_class(request.POST, request.FILES)
             if form.is_valid():
                 form.save()
                 mensaje = f'{self.model.__name__} guardado correctamente'
@@ -373,6 +415,7 @@ class GuardarReactor(CreateView):
         else:
             return redirect('ProsPy:LUOrganismo')
 
+
 class EditarReactor(UpdateView):
     model = Reactor
     form_class = ReactorForm
@@ -380,7 +423,7 @@ class EditarReactor(UpdateView):
 
     def post(self, request, *args, **kwargs):
         if request.is_ajax():
-            form = self.form_class(request.POST,request.FILES,instance=self.get_object())
+            form = self.form_class(request.POST, request.FILES, instance=self.get_object())
             if form.is_valid():
                 form.save()
                 mensaje = f'{self.model.__name__} actualizado correctamente'
@@ -397,13 +440,14 @@ class EditarReactor(UpdateView):
         else:
             return redirect('ProsPy:LUReactor')
 
+
 class EliminarReactor(DeleteView):
     model = Reactor
     template_name = 'eliminar_reactor_modal.html'
 
     def delete(self, request, pk):
         if request.is_ajax():
-            dat = Reactor.objects.get(id = pk)
+            dat = Reactor.objects.get(id=pk)
             dat.delete()
             mensaje = f'{self.model.__name__} Eliminado correctamente'
             error = 'No hay error'
@@ -414,9 +458,9 @@ class EliminarReactor(DeleteView):
             return redirect('ProsPy:LUReactor')
 
 
-
 class LUCaBatch(TemplateView):
     template_name = 'tabla_careactor.html'
+
 
 class CaBatchlista(ListView):
     model = CaBatch
@@ -427,6 +471,7 @@ class CaBatchlista(ListView):
             return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
         else:
             return redirect('ProsPy:LUCaBatch')
+
 
 class GuardarCaBatch(CreateView):
     model = CaBatch
@@ -452,6 +497,7 @@ class GuardarCaBatch(CreateView):
         else:
             return redirect('PosPy:ModeloReact')
 
+
 class EditarCaCaBatch(UpdateView):
     model = CaBatch
     form_class = CaBatchForm
@@ -476,6 +522,7 @@ class EditarCaCaBatch(UpdateView):
         else:
             return redirect('ProsPy:LUCaBatch')
 
+
 class EliminarCaCaBatch(DeleteView):
     model = CaBatch
     template_name = 'eliminar_cabatch_modal.html'
@@ -493,9 +540,9 @@ class EliminarCaCaBatch(DeleteView):
             return redirect('ProsPy:LUCaBatch')
 
 
-
 class LUCaPrediccion(TemplateView):
     template_name = 'tabla_caprediccion.html'
+
 
 class CaPrediccionlista(ListView):
     model = CaPrediccion
@@ -506,6 +553,7 @@ class CaPrediccionlista(ListView):
             return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
         else:
             return redirect('ProsPy:LUCaPrediccion')
+
 
 class GuardarCaPrediccion(CreateView):
     model = CaPrediccion
@@ -531,6 +579,7 @@ class GuardarCaPrediccion(CreateView):
         else:
             return redirect('ProsPy:TiempoCultivo')
 
+
 class EditarCaPrediccion(UpdateView):
     model = CaPrediccion
     form_class = CaPrediccionForm
@@ -555,6 +604,7 @@ class EditarCaPrediccion(UpdateView):
         else:
             return redirect('ProsPy:LUCaPrediccion')
 
+
 class EliminarCaPrediccion(DeleteView):
     model = CaPrediccion
     template_name = 'eliminar_caprediccion_modal.html'
@@ -578,10 +628,12 @@ class ActualizarCaBatch(UpdateView):
     template_name = 'editar_cabatch_modal.html'
     success_url = reverse_lazy('ProsPy:EjerciciosLista')
 
+
 class EliminarCaBatch(DeleteView):
     model = CaBatch
     template_name = 'eliminar_cabatch_modal.html'
     success_url = reverse_lazy('ProsPy:EjerciciosLista')
+
 
 class ActualizarPrediccion(UpdateView):
     model = CaPrediccion
@@ -589,32 +641,34 @@ class ActualizarPrediccion(UpdateView):
     template_name = 'editar_caprediccion_modal.html'
     success_url = reverse_lazy('ProsPy:EjerciciosLista')
 
+
 class EliminarPrediccion(DeleteView):
     model = CaPrediccion
     template_name = 'eliminar_caprediccion_modal.html'
     success_url = reverse_lazy('ProsPy:EjerciciosLista')
 
 
-
 class EjerciciosLista(TemplateView):
     template_name = 'ejercicios.html'
 
     def get_context_data(self, *args, **kwargs):
-        prediccion = CaPrediccion.objects.filter(usuario = self.request.user)
-        batch = CaBatch.objects.filter(usuario = self.request.user)
+        prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
+        batch = CaBatch.objects.filter(usuario=self.request.user)
         return {'prediccion': prediccion, 'batch': batch}
 
 
 class CompararBatch(TemplateView):
     template_name = 'comparar_ejercicios_batch.html'
+
     def get_context_data(self, *args, **kwargs):
-        prediccion = CaPrediccion.objects.filter(usuario = self.request.user)
-        batch = CaBatch.objects.filter(usuario = self.request.user)
+        prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
+        batch = CaBatch.objects.filter(usuario=self.request.user)
         return {'prediccion': prediccion, 'batch': batch}
+
 
 class CompararTiempo(TemplateView):
     template_name = 'comparar_ejercicios_tiempo.html'
-    def get_context_data(self, *args, **kwargs):
-        prediccion = CaPrediccion.objects.filter(usuario = self.request.user)
-        return {'prediccion': prediccion}
 
+    def get_context_data(self, *args, **kwargs):
+        prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
+        return {'prediccion': prediccion}

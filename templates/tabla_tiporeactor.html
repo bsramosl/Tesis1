@@ -6,10 +6,6 @@
     Listado de Reactores
 
 {% endblock %}
-<!-- DataTables -->
-<link rel="stylesheet" href="{% static 'datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datatables-responsive/css/responsive.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datatables-buttons/css/buttons.bootstrap4.min.css' %}">
 
 {% block extracss %}
 
@@ -34,7 +30,9 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-8"></div>
                                 <div class="col-xs-6 col-md-4">
-                                    <button type="submit" class="btn btn-block btn-outline-info" onclick="abrir_modal_guardar('{% url 'ProsPy:GuardarTipo' %}');">Registrar</button>
+                                    <button type="submit" class="btn btn-block btn-outline-info"
+                                            onclick="abrir_modal_guardar('{% url 'ProsPy:GuardarTipo' %}');">Registrar
+                                    </button>
                                 </div>
                             </div>
                             <tr>
@@ -54,6 +52,13 @@
             </div>
         </div>
     </div>
+    <style>
+        td {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
 
 
     <div class="modal fade" id="registro_modal">

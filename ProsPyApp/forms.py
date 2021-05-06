@@ -2,7 +2,7 @@ from builtins import property
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm, UserChangeForm
 from django.contrib.auth.models import User
-from django.forms import ModelForm
+from django.forms import ModelForm, ModelChoiceField, Form, Select
 from .models import *
 
 
@@ -70,19 +70,23 @@ class UsuForm(ModelForm):
 
 
 class TipoReactorForm(forms.ModelForm):
-    descripcion = forms.CharField(label='Descripcion:',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
-    especificaciontecnica = forms.CharField(label='Especificacion:',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
-    tiporeactor = forms.CharField(label='Tipo:',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    descripcion = forms.CharField(label='Descripcion:',
+                                  widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    especificaciontecnica = forms.CharField(label='Especificacion:', widget=forms.TextInput(
+        attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    tiporeactor = forms.CharField(label='Tipo:',
+                                  widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
 
     class Meta:
         model = TipoReactor
         fields = '__all__'
 
 
-
 class OrganismoForm(forms.ModelForm):
-    nombrecientifico = forms.CharField(label='Nombre Cient:',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
-    genero = forms.CharField(label='Genero:',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    nombrecientifico = forms.CharField(label='Nombre Cient:', widget=forms.TextInput(
+        attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    genero = forms.CharField(label='Genero:',
+                             widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
 
     class Meta:
         model = Organismo
@@ -90,14 +94,16 @@ class OrganismoForm(forms.ModelForm):
 
 
 class ReactorForm(forms.ModelForm):
-
     class Meta:
         model = Reactor
         fields = '__all__'
 
+
 class CaBatchForm(forms.ModelForm):
-    titulo = forms.CharField(label='Titulo',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
-    descripcion = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-sma form-sma-titu', "rows": 5, "cols": 20}))
+    titulo = forms.CharField(label='Titulo',
+                             widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    descripcion = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-sma form-sma-titu', "rows": 5, "cols": 20}))
     y = forms.FloatField(label='Y', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     ks = forms.FloatField(label='Ks', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     umax = forms.FloatField(label='Umax', widget=forms.TextInput(attrs={'class': 'form-sma'}))
@@ -110,9 +116,12 @@ class CaBatchForm(forms.ModelForm):
     so = forms.FloatField(label='So', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     n = forms.FloatField(label='N', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     x = forms.FloatField(label='X', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    reactor = forms.ModelChoiceField(queryset=Reactor.objects.all(),widget=forms.Select(attrs={'class':'form-sma form-select'}))
-    organismo = forms.ModelChoiceField(queryset=Organismo.objects.all(),widget=forms.Select(attrs={'class':'form-sma form-select'}))
-    usuario = forms.ModelChoiceField(queryset=User.objects.all(),widget=forms.Select(attrs={ 'class':'form-sma form-select'}))
+    reactor = forms.ModelChoiceField(queryset=Reactor.objects.all(),
+                                     widget=forms.Select(attrs={'class': 'form-sma form-select'}))
+    organismo = forms.ModelChoiceField(queryset=Organismo.objects.all(),
+                                       widget=forms.Select(attrs={'class': 'form-sma form-select'}))
+    usuario = forms.ModelChoiceField(queryset=User.objects.all(),
+                                     widget=forms.Select(attrs={'class': 'form-sma form-select'}))
 
     class Meta:
         model = CaBatch
@@ -120,8 +129,10 @@ class CaBatchForm(forms.ModelForm):
 
 
 class CaPrediccionForm(forms.ModelForm):
-    titulo = forms.CharField(label='Titulo',widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
-    descripcion = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-sma form-sma-titu', "rows": 5, "cols": 20}))
+    titulo = forms.CharField(label='Titulo',
+                             widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    descripcion = forms.CharField(
+        widget=forms.Textarea(attrs={'class': 'form-sma form-sma-titu', "rows": 5, "cols": 20}))
     x = forms.FloatField(label='X', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     v = forms.FloatField(label='V', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     so = forms.FloatField(label='So', widget=forms.TextInput(attrs={'class': 'form-sma'}))
@@ -129,10 +140,18 @@ class CaPrediccionForm(forms.ModelForm):
     y = forms.FloatField(label='Y', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     sf = forms.FloatField(label='Sf', widget=forms.TextInput(attrs={'class': 'form-sma'}))
     tb = forms.FloatField(label='Tb', widget=forms.TextInput(attrs={'class': 'form-sma'}))
-    reactor = forms.ModelChoiceField(queryset=Reactor.objects.all(),widget=forms.Select(attrs={'class':'form-sma form-select'}))
-    organismo = forms.ModelChoiceField(queryset=Organismo.objects.all(),widget=forms.Select(attrs={'class':'form-sma form-select'}))
-    usuario = forms.ModelChoiceField(queryset=User.objects.all(),widget=forms.Select(attrs={ 'class':'form-sma form-select'}))
+    reactor = forms.ModelChoiceField(queryset=Reactor.objects.all(),
+                                     widget=forms.Select(attrs={'class': 'form-sma form-select'}))
+    organismo = forms.ModelChoiceField(queryset=Organismo.objects.all(),
+                                       widget=forms.Select(attrs={'class': 'form-sma form-select'}))
+    usuario = forms.ModelChoiceField(queryset=User.objects.all(),
+                                     widget=forms.Select(attrs={'class': 'form-sma form-select'}))
 
     class Meta:
         model = CaPrediccion
         fields = '__all__'
+
+
+class SelectOrganismo(Form):
+    organismo = ModelChoiceField(queryset=Organismo.objects.all(), widget=Select(attrs={'class': 'form-control'}))
+

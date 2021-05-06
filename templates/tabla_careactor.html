@@ -6,10 +6,6 @@
     Listado de Reactores
 
 {% endblock %}
-<!-- DataTables -->
-<link rel="stylesheet" href="{% static 'datatables-bs4/css/dataTables.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datatables-responsive/css/responsive.bootstrap4.min.css' %}">
-<link rel="stylesheet" href="{% static 'datatables-buttons/css/buttons.bootstrap4.min.css' %}">
 
 {% block extracss %}
 
@@ -56,6 +52,13 @@
             </div>
         </div>
     </div>
+    <style>
+        td {
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    </style>
 
     <div class="modal fade" id="editar_modal">
     </div>
