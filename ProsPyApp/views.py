@@ -32,7 +32,7 @@ class Inicio(TemplateView):
             if action == 'search_reactor':
                 data = []
                 for i in Reactor.objects.all():
-                    data.append({'id': i.id, 'marca': i.marca, 'modelo': i.modelo})
+                    data.append({'id': i.id,'modelo': i.modelo})
             else:
                 if action == 'search_organismos':
                     data = []
@@ -44,16 +44,18 @@ class Inicio(TemplateView):
                         for i in CaBatch.objects.all():
                             data.append({'id': i.id, 'titulo': i.titulo})
                     else:
-                        data['error'] = 'Ha ocurrido un error'
+                        if action == 'buscar':
+                            data = []
+                            for i in Organismo.objects.filter(nombrecientifico=request.POST['nombre']):
+                                data.append({'id': i.id, 'nombre': i.nombrecientifico, 'genero': i.genero})
+                            for i in Reactor.objects.filter(modelo=request.POST['nombre']):
+                                data.append({'id': i.id, 'modelo': i.modelo,'marca': i.marca,'especificacion': i.especificaciontecnica,
+                                             'foto1': i.foto1,'foto2': i.foto2,'foto3': i.foto3,'foto4': i.foto4})
+                        else:
+                            data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        return context
-
 
 class ModeloReact(TemplateView):
     template_name = 'modelo_reactor.html'
