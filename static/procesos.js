@@ -109,7 +109,7 @@ function concentracion() {
 function datox() {
 
     if ($('#N').val() != 0 && $('#V').val() != 0) {
-        X = $('#N').val() / $('#V').val()
+        X = ($('#N').val() / $('#V').val()).toFixed(3)
         document.getElementById('X').value = X
     }
     masa()
@@ -123,7 +123,7 @@ function concentracioncelulas() {
         x1 = parseFloat(D * $('#So').val());
         x2 = parseFloat(D / $('#Y').val());
         x3 = parseFloat(x2) + parseFloat($('#ms').val());
-        x0 = x1 / x3;
+        x0 = (x1 / x3).toFixed(3);
         document.getElementById('X').value = x0
         document.getElementById('cont4').innerHTML = '  ' + x0.toFixed(3)
     }
