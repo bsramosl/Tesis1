@@ -7,6 +7,8 @@ app_name = 'ProsPy'
 urlpatterns = [
 
     path('Inicio/', login_required(views.Inicio.as_view()), name='Inicio'),
+    path('busqueda/', login_required(views.busqueda), name='busqueda'),
+
     path('Login/', views.Login.as_view(), name='Login'),
     path('Salir/', login_required(views.LogoutUsuario.as_view()), name='Salir'),
 
@@ -58,7 +60,8 @@ urlpatterns = [
     path('ActualizarCaBatch/<int:pk>', login_required(views.ActualizarCaBatch.as_view()), name='ActualizarCaBatch'),
     path('EliminarCaBatch/<int:pk>', login_required(views.EliminarCaBatch.as_view()), name='EliminarCaBatch'),
 
-    path('ActualizarPrediccion/<int:pk>', login_required(views.ActualizarPrediccion.as_view()), name='ActualizarPrediccion'),
+    path('ActualizarPrediccion/<int:pk>', login_required(views.ActualizarPrediccion.as_view()),
+         name='ActualizarPrediccion'),
     path('EliminarPrediccion/<int:pk>', login_required(views.EliminarPrediccion.as_view()), name='EliminarPrediccion'),
 
     path('CompararBatch/', login_required(views.CompararBatch.as_view()), name='CompararBatch'),

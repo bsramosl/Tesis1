@@ -13,9 +13,9 @@
     <div class="row">
 
         <div class="col-md-4">
-            <select name="tablas" class="form-control">
-                <option value="---" selected>--------</option>
-                <option value="Organismo">Organismo</option>
+            <select name="tablas" id="tablas" class="form-control">
+
+                <option value="Organismo" selected>Organismo</option>
                 <option value="Reactor">Reactor</option>
                 <option value="Ejercicios Batch">Ejercicios Batch</option>
             </select>
@@ -26,7 +26,7 @@
                 <input id="busqueda" list="listas" placeholder="Escriba o haga clic aquí"/>
                 <div class="input-group-append">
 
-                    <button type="submit" onclick="buscar();" class="btn btn-block btn-outline-primary">Buscar</button>
+                    <button type="submit" id="buscar" class="btn btn-block btn-outline-primary">Buscar</button>
                 </div>
             </div>
 
@@ -35,7 +35,13 @@
             </datalist>
         </div>
     </div>
-     <div class="row">
+
+    <div class="card card-solid" id="busca" style="display: none;">
+        <div class="card-body pb-0">
+            <div class="row" id="res">
+
+            </div>
+        </div>
 
     </div>
 
@@ -138,33 +144,136 @@
             });
         });
 
-        function buscar() {
+
+        document.getElementById("buscar").onclick = function (e) {
+            document.getElementById('busca').style.display = 'none';
             var consulta = $("#busqueda").val();
-            var datos = ' ';
+            consulta = $("#busqueda").val();
             $.ajax({
-                url: window.location.pathname,
-                type: 'post',
+                url: "/ProsPy/busqueda/",
+                type: 'get',
                 data: {
                     'action': 'buscar',
                     'nombre': consulta,
                 },
                 dataType: 'json',
                 success: function (data) {
-                      console.log(data)
-                    $.each(data, function (key, value) {
-                        //buscar organismo
-                       console.log(value)
+                    document.getElementById('busca').style.display = 'block';
+                    let res = document.querySelector('#res')
+                    res.innerHTML = '';
+                    console.log(data);
+                    for (let item of data) {
+                        if ($('#tablas').val() === 'Organismo') {
+                            res.innerHTML += `
 
-                    });
+<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+              <div class="card bg-light d-flex flex-fill">
+                <div class="card-header text-muted border-bottom-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                  Organismo
+                </font></font></div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${item.nombrecientifico}</font></font></b></h2>
+                      <p class="text-muted text-sm"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Genero:</font></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ${item.genero}</font></font></p>
 
+                    </div>
 
-                },
-                error: function (error) {
+                  </div>
+                </div>
+              </div>
+            </div>
+                            `
+                        } else {
+                            if ($('#tablas').val() === 'Reactor') {
+                                res.innerHTML += `<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+              <div class="card bg-light d-flex flex-fill">
+                <div class="card-header text-muted border-bottom-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                  Reactor
+                </font></font></div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${item.modelo}</font></font></b></h2>
+                      <p class="text-muted text-sm"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Especificacion: </font></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ${item.especificaciontecnica}</font></font></p>
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fa fa-lg fa-building"></i></span><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Marca: ${item.marca}</font></font></li>
+                      </ul>
+                    </div>
+                    <div class="col-5 text-center">
+                      <img src="/media/${item.foto1}" alt="avatar de usuario" class="img-circle img-fluid" style="max-width: 114px; max-height: 114px">
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-right">
+                    <a href="#" class="btn btn-sm bg-teal">
+                      <i class="fas fa-comments"></i>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-primary">
+                      <i class="fas fa-user"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Ver perfil
+                    </font></font></a>
+                  </div>
+                </div>
+              </div>
+            </div>`
+                            } else {
+                                if ($('#tablas').val() === 'Ejercicios Batch') {
+                                    res.innerHTML += `<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+              <div class="card bg-light d-flex flex-fill">
+                <div class="card-header text-muted border-bottom-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                  Ejercicio Batch
+                </font></font></div>
+                <div class="card-body pt-0">
+                  <div class="row">
+                    <div class="col-7">
+                      <h2 class="lead"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">${item.titulo}</font></font></b></h2>
+                      <p class="text-muted text-sm"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Descripcion: </font></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ${item.descripcion}</font></font></p>
+
+                    </div>
+                    <div class="col-5  ">
+                      <ul class="ml-4 mb-0 fa-ul text-muted">
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Y(x/s):${item.y} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Ks:${item.ks} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Umax: ${item.umax} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Ms: ${item.ms} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> F: ${item.f} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> T: ${item.t} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> V0: ${item.v0} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> V: ${item.v} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Vf: ${item.vf} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> So: ${item.so} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> N: ${item.n} </li>
+                        <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> X: ${item.x} </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="card-footer">
+                  <div class="text-right">
+                    <a href="#" class="btn btn-sm bg-teal">
+                      <i class="fas fa-comments"></i>
+                    </a>
+                    <a href="#" class="btn btn-sm btn-primary">
+                      <i class="fas fa-user"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Ver perfil
+                    </font></font></a>
+                  </div>
+                </div>
+              </div>
+            </div>`
+                                }
+
+                            }
+                        }
+
+                    }
+                }, error: function (error) {
 
                 }
-            });
 
+            });
         }
+
 
     </script>
 

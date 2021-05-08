@@ -1,5 +1,5 @@
 from datetime import date
-
+import json
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.serializers import serialize
@@ -21,7 +21,6 @@ class Inicio(TemplateView):
     template_name = 'inicio.html'
 
     @method_decorator(csrf_exempt)
-    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
@@ -32,7 +31,7 @@ class Inicio(TemplateView):
             if action == 'search_reactor':
                 data = []
                 for i in Reactor.objects.all():
-                    data.append({'id': i.id,'modelo': i.modelo})
+                    data.append({'id': i.id, 'modelo': i.modelo})
             else:
                 if action == 'search_organismos':
                     data = []
@@ -44,18 +43,32 @@ class Inicio(TemplateView):
                         for i in CaBatch.objects.all():
                             data.append({'id': i.id, 'titulo': i.titulo})
                     else:
-                        if action == 'buscar':
-                            data = []
-                            for i in Organismo.objects.filter(nombrecientifico=request.POST['nombre']):
-                                data.append({'id': i.id, 'nombre': i.nombrecientifico, 'genero': i.genero})
-                            for i in Reactor.objects.filter(modelo=request.POST['nombre']):
-                                data.append({'id': i.id, 'modelo': i.modelo,'marca': i.marca,'especificacion': i.especificaciontecnica,
-                                             'foto1': i.foto1,'foto2': i.foto2,'foto3': i.foto3,'foto4': i.foto4})
-                        else:
-                            data['error'] = 'Ha ocurrido un error'
+                        data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
+
+
+def busqueda(request):
+    if request.is_ajax():
+        queryset = request.GET.get('nombre')
+        if Organismo.objects.filter(nombrecientifico__icontains=queryset):
+            data = Organismo.objects.filter(nombrecientifico__icontains=queryset).values(
+                'nombrecientifico', 'genero')
+        else:
+            if Reactor.objects.filter(modelo__icontains=request.GET['nombre']):
+                data = Reactor.objects.filter(modelo__icontains=request.GET['nombre']).values(
+                    'modelo', 'marca','especificaciontecnica','foto1')
+            else:
+                if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
+                    data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
+                        'titulo', 'descripcion','y','ks','umax','ms','f','t','v0','v','vf','so','n','x')
+
+
+        return HttpResponse(json.dumps(list(data)), content_type='application/json')
+    else:
+        return HttpResponse("Solo Ajax");
+
 
 class ModeloReact(TemplateView):
     template_name = 'modelo_reactor.html'
