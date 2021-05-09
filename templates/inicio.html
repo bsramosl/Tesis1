@@ -149,21 +149,20 @@
             document.getElementById('busca').style.display = 'none';
             var consulta = $("#busqueda").val();
             consulta = $("#busqueda").val();
-            $.ajax({
-                url: "/ProsPy/busqueda/",
-                type: 'get',
-                data: {
-                    'action': 'buscar',
-                    'nombre': consulta,
-                },
-                dataType: 'json',
-                success: function (data) {
-                    document.getElementById('busca').style.display = 'block';
-                    let res = document.querySelector('#res')
-                    res.innerHTML = '';
-                    console.log(data);
-                    for (let item of data) {
-                        if ($('#tablas').val() === 'Organismo') {
+            if ($('#tablas').val() === 'Organismo') {
+                $.ajax({
+                    url: "/ProsPy/busqueda/",
+                    type: 'get',
+                    data: {
+                        'action': 'organismo',
+                        'nombre': consulta,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        document.getElementById('busca').style.display = 'block';
+                        let res = document.querySelector('#res')
+                        res.innerHTML = '';
+                        for (let item of data) {
                             res.innerHTML += `
 
 <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
@@ -184,9 +183,29 @@
               </div>
             </div>
                             `
-                        } else {
-                            if ($('#tablas').val() === 'Reactor') {
-                                res.innerHTML += `<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+
+                        }
+                    }, error: function (error) {
+                           console.log(error);
+                    }
+                });
+            }
+            if ($('#tablas').val() === 'Reactor') {
+                $.ajax({
+                    url: "/ProsPy/busqueda/",
+                    type: 'get',
+                    data: {
+                        'action': 'reactor',
+                        'nombre': consulta,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        document.getElementById('busca').style.display = 'block';
+                        let res = document.querySelector('#res')
+                        res.innerHTML = '';
+                        console.log(data);
+                        for (let item of data) {
+                            res.innerHTML += `<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
               <div class="card bg-light d-flex flex-fill">
                 <div class="card-header text-muted border-bottom-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                   Reactor
@@ -217,9 +236,31 @@
                 </div>
               </div>
             </div>`
-                            } else {
-                                if ($('#tablas').val() === 'Ejercicios Batch') {
-                                    res.innerHTML += `<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
+
+                        }
+                    }, error: function (error) {
+
+                    }
+
+                });
+
+            }
+            if ($('#tablas').val() === 'Ejercicios Batch') {
+                $.ajax({
+                    url: "/ProsPy/busqueda/",
+                    type: 'get',
+                    data: {
+                        'action': 'batch',
+                        'nombre': consulta,
+                    },
+                    dataType: 'json',
+                    success: function (data) {
+                        document.getElementById('busca').style.display = 'block';
+                        let res = document.querySelector('#res')
+                        res.innerHTML = '';
+                        console.log(data);
+                        for (let item of data) {
+                            res.innerHTML += `<div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch flex-column">
               <div class="card bg-light d-flex flex-fill">
                 <div class="card-header text-muted border-bottom-0"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
                   Ejercicio Batch
@@ -261,17 +302,14 @@
                 </div>
               </div>
             </div>`
-                                }
 
-                            }
                         }
+                    }, error: function (error) {
 
                     }
-                }, error: function (error) {
+                });
 
-                }
-
-            });
+            }
         }
 
 

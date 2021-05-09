@@ -52,18 +52,22 @@ class Inicio(TemplateView):
 def busqueda(request):
     if request.is_ajax():
         queryset = request.GET.get('nombre')
-        if Organismo.objects.filter(nombrecientifico__icontains=queryset):
-            data = Organismo.objects.filter(nombrecientifico__icontains=queryset).values(
-                'nombrecientifico', 'genero')
+        actio = request.GET.get('action')
+        if actio == 'organismo':
+            if queryset != 0:
+                if Organismo.objects.filter(nombrecientifico__icontains=queryset):
+                    data = Organismo.objects.filter(nombrecientifico__icontains=queryset).values(
+                        'nombrecientifico', 'genero')
         else:
-            if Reactor.objects.filter(modelo__icontains=request.GET['nombre']):
-                data = Reactor.objects.filter(modelo__icontains=request.GET['nombre']).values(
-                    'modelo', 'marca','especificaciontecnica','foto1')
+            if actio == 'reactor':
+                if Reactor.objects.filter(modelo__icontains=request.GET['nombre']):
+                    data = Reactor.objects.filter(modelo__icontains=request.GET['nombre']).values(
+                        'modelo', 'marca', 'especificaciontecnica', 'foto1')
             else:
-                if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
-                    data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
-                        'titulo', 'descripcion','y','ks','umax','ms','f','t','v0','v','vf','so','n','x')
-
+                if actio == 'batch':
+                    if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
+                        data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
+                            'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so', 'n', 'x')
 
         return HttpResponse(json.dumps(list(data)), content_type='application/json')
     else:
