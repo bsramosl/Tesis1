@@ -54,9 +54,11 @@ function abrir_modal_eliminar(url) {
     });
 }
 
-function abrir_modal_editar(url) {
+function abrir_modal_editar(url, usuario) {
     $('#editar_modal').load(url, function () {
         $(this).modal('show');
+        $("#id_usuario option:contains(" + usuario + ")").prop('selected', 'selected');
+        $('#id_usuario option:not(:selected)').prop('disabled', true);
     });
 }
 
@@ -78,7 +80,6 @@ function abrir_modal_reactor(url, usuario) {
         $('#id_x').val($('#X').val()).prop('readonly', true);
         $("#id_usuario option:contains(" + usuario + ")").prop('selected', 'selected');
         $('#id_usuario option:not(:selected)').prop('disabled', true);
-        console.log(usuario)
     });
 }
 
@@ -94,7 +95,6 @@ function abrir_modal_prediccion(url, usuario) {
         $('#id_tb').val($('#Tb').val()).prop('readonly', true);
         $("#id_usuario option:contains(" + usuario + ")").prop('selected', 'selected');
         $('#id_usuario option:not(:selected)').prop('disabled', true);
-        console.log(usuario)
     });
 }
 

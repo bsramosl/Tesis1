@@ -28,9 +28,9 @@ function borrar(id) {
     grafica()
 }
 
-function proceso(t, vf, v0, id) {
+function proceso(t, vf, v0, id, titulo) {
     if (con < 4) {
-        var aux = [t, vf, v0, id]
+        var aux = [t, vf, v0, id, titulo]
         if (volumen1.length === 0) {
             volumen1.push(aux)
             con += 1
@@ -59,6 +59,7 @@ function grafica() {
             velocidad.push(ve)
             ti.push(i)
         }
+        tit.push(volumen1[j][4])
         datovolumen.push(velocidad)
         datotiempo.push(ti)
         graf(datovolumen, datotiempo, tit);
@@ -86,9 +87,9 @@ function borrarti(id) {
 }
 
 
-function procesotiempo(id, tb, x, v, umax, so, sf, x, y) {
+function procesotiempo(id, tb, x, v, umax, so, sf, x, y,titulo) {
     if (con < 4) {
-        var aux = [id, tb, x, v, umax, so, sf, x, y]
+        var aux = [id, tb, x, v, umax, so, sf, x, y,titulo]
         if (volumen1.length === 0) {
             volumen1.push(aux)
             con += 1
@@ -105,6 +106,7 @@ function procesotiempo(id, tb, x, v, umax, so, sf, x, y) {
 function graficatiempo() {
     datovolumen = [];
     datotiempo = [];
+    tit=[];
     for (var j = 0; j < volumen1.length; j++) {
         var tiempo = [];
         var densidad = [];
@@ -122,11 +124,11 @@ function graficatiempo() {
         tiempo.push(dsf);
         densidad.push(tbtiempo4);
         densidad.push(dsft);
+        tit.push(volumen1[j][9])
         datovolumen.push(densidad)
         datotiempo.push(tiempo)
     }
-    grafti(datovolumen, datotiempo);
-    console.log(datovolumen)
+    grafti(datovolumen, datotiempo,tit);
 }
 
 function graf(datat, ti, titulo) {
@@ -184,7 +186,7 @@ function graf(datat, ti, titulo) {
     });
 }
 
-function grafti(datat, ti) {
+function grafti(datat, ti,titulo) {
     let chart = Highcharts.chart('predicctiempo', {
         title: {
             text: 'Reactor Batch'
@@ -207,16 +209,16 @@ function grafti(datat, ti) {
             }
         },
         series: [{
-            name: 'Densidad',
+            name: titulo[0],
             data: [ti[0], datat[0]]
         }, {
-            name: 'Densidad',
+            name: titulo[1],
             data: [ti[1], datat[1]]
         }, {
-            name: 'Densidad',
+            name: titulo[2],
             data: [ti[2], datat[2]]
         }, {
-            name: 'Densidad',
+            name: titulo[3],
             data: [ti[3], datat[3]]
         }],
 
