@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ProsPyApp',
+    'RecuperarContraseña',
     'crispy_forms',
 
 ]
@@ -126,7 +127,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = 'steeven10f@gmail.com'
 EMAIL_HOST_PASSWORD = '30Abril98'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBakend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 # Default primary key field type
