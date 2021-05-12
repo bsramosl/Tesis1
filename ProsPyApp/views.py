@@ -43,7 +43,12 @@ class Inicio(TemplateView):
                         for i in CaBatch.objects.all():
                             data.append({'id': i.id, 'titulo': i.titulo})
                     else:
-                        data['error'] = 'Ha ocurrido un error'
+                        if action == 'search_tiempo':
+                            data = []
+                            for i in CaPrediccion.objects.all():
+                                data.append({'id': i.id, 'titulo': i.titulo})
+                        else:
+                            data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
@@ -68,6 +73,11 @@ def busqueda(request):
                     if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
                         data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
                             'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so', 'n', 'x')
+                else:
+                    if actio == 'tiempo':
+                        if CaPrediccion.objects.filter(titulo__icontains=request.GET['nombre']):
+                            data = CaPrediccion.objects.filter(titulo__icontains=request.GET['nombre']).values(
+                                'titulo', 'descripcion', 'x', 'v', 'so', 'umax', 'y', 'sf', 'tb')
 
         return HttpResponse(json.dumps(list(data)), content_type='application/json')
     else:

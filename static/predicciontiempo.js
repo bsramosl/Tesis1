@@ -64,9 +64,9 @@ function densidadcelularparcial() {
 
         dsf = X0 * Math.exp($('#Umax').val() * tbtiempo4)
         document.getElementById('cont4').innerHTML = ' ' + dsf.toFixed(2)
-        document.getElementById('cont3').innerHTML = ' ' + porsentcons + ' % :'
+        document.getElementById('cont3').innerHTML = ' ' + porsentcons.toFixed(2) + ' % :'
         document.getElementById('cont5').innerHTML = ' ' + tbtiempo4
-        document.getElementById('cont6').innerHTML = ' ' + porsentcons + ' % :'
+        document.getElementById('cont6').innerHTML = ' ' + porsentcons.toFixed(2) + ' % :'
 
 
     }

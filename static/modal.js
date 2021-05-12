@@ -80,6 +80,8 @@ function abrir_modal_reactor(url, usuario) {
         $('#id_x').val($('#X').val()).prop('readonly', true);
         $("#id_usuario option:contains(" + usuario + ")").prop('selected', 'selected');
         $('#id_usuario option:not(:selected)').prop('disabled', true);
+        document.getElementById('id_usuario').style.display = "none";
+
     });
 }
 
@@ -95,6 +97,7 @@ function abrir_modal_prediccion(url, usuario) {
         $('#id_tb').val($('#Tb').val()).prop('readonly', true);
         $("#id_usuario option:contains(" + usuario + ")").prop('selected', 'selected');
         $('#id_usuario option:not(:selected)').prop('disabled', true);
+         document.getElementById('id_usuario').style.display = "none";
     });
 }
 
@@ -112,4 +115,3 @@ function abrir_modal_guardar(url) {
         $(this).modal('show');
     });
 }
-

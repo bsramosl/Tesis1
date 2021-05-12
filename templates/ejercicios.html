@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block header %}
-    {% endblock %}
+{% endblock %}
 {% block extracss %}
 
     <link rel="stylesheet" href="{% static 'estilo.css' %}">
@@ -62,7 +62,9 @@
                                                         </h5>
                                                         <span class="description-text"><font
                                                                 style="vertical-align: inherit;"><font
-                                                                style="vertical-align: inherit;">{{ tiempo.organismo.nombrecientifico }}</font></font></span>
+                                                                style="vertical-align: inherit;">
+                                                            <div class="a"> {{ tiempo.organismo.nombrecientifico }}</div>
+                                                           </font></font></span>
                                                     </div>
                                                     <!-- /.description-block -->
                                                 </div>
@@ -73,8 +75,8 @@
                                                                 style="vertical-align: inherit;"><font
                                                                 style="vertical-align: inherit;">Prediccion</font></font>
                                                         </h5>
-                                                         <a type="button" class="btn btn-primary btn-xs"
-                                                               onclick="abrir_modal_editar('{% url 'ProsPy:ActualizarPrediccion' tiempo.id %}')">
+                                                        <a type="button" class="btn btn-primary btn-xs"
+                                                           onclick="abrir_modal_editar('{% url 'ProsPy:ActualizarPrediccion' tiempo.id %}')">
                                                             <i class="fa fa-pencil"></i></a>
                                                         <button type="button" class="btn btn-danger btn-xs"
                                                                 onclick="abrir_modal_eliminar('{% url 'ProsPy:EliminarPrediccion' tiempo.id %}')">
@@ -131,7 +133,8 @@
                                                         </h5>
                                                         <span class="description-text"><font
                                                                 style="vertical-align: inherit;"><font
-                                                                style="vertical-align: inherit;">{{ bact.organismo.nombrecientifico }}</font></font></span>
+                                                                style="vertical-align: inherit;">
+                                                            <div class="a">{{ bact.organismo.nombrecientifico }}</div></font></font></span>
                                                     </div>
                                                     <!-- /.description-block -->
                                                 </div>
@@ -142,8 +145,8 @@
                                                                 style="vertical-align: inherit;"><font
                                                                 style="vertical-align: inherit;">Batch</font></font>
                                                         </h5>
-                                                          <a type="button" class="btn btn-primary btn-xs"
-                                                               onclick="abrir_modal_editar('{% url 'ProsPy:ActualizarCaBatch' bact.id %}')">
+                                                        <a type="button" class="btn btn-primary btn-xs"
+                                                           onclick="abrir_modal_editar('{% url 'ProsPy:ActualizarCaBatch' bact.id %}')">
                                                             <i class="fa fa-pencil"></i></a>
                                                         <button type="button" class="btn btn-danger btn-xs"
                                                                 onclick="abrir_modal_eliminar('{% url 'ProsPy:EliminarCaBatch' bact.id %}')">
@@ -169,6 +172,21 @@
         </div>
         <!-- /.row -->
     </div>
+
+    <style>
+        div.a {
+            white-space: nowrap;
+            width: 85px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+
+        }
+
+        div.a:hover {
+            overflow: visible;
+        }
+
+    </style>
 
     <div class="modal fade" id="editar_modal">
     </div>
