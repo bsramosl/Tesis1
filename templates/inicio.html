@@ -5,6 +5,12 @@
     Inicio
 {% endblock %}
 
+{% block extracss %}
+    <script src="{% static 'Highcharts/highcharts.js' %}"></script>
+
+
+{% endblock %}
+
 {% block header %}
     <a href="{% url 'ProsPy:Inicio' %}" class="logo"
     ><b>Pros<span>PY</span></b></a>
@@ -45,9 +51,6 @@
         </div>
 
     </div>
-    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-default"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
-                  Iniciar modalidad predeterminada
-                </font></font></button>
 
     <style>
         input {
@@ -81,22 +84,25 @@
 
     <div class="modal fade" id="modal-default" aria-hidden="true" style="display: none;">
         <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Modal predeterminado</font></font></h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Cerca">
-                <span aria-hidden="true"><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">×</font></font></span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Un buen cuerpo ...</font></font></p>
-            </div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title"><font style="vertical-align: inherit;"><font
+                            style="vertical-align: inherit;">Modal predeterminado</font></font></h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerca">
+                        <span aria-hidden="true"><font style="vertical-align: inherit;"><font
+                                style="vertical-align: inherit;">×</font></font></span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modal_grafica">
+                    <p><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Un buen cuerpo
+                        ...</font></font></p>
+                </div>
 
-          </div>
-          <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-content -->
         </div>
         <!-- /.modal-dialog -->
-      </div>
+    </div>
 
 {% endblock %}
 {% block extrajs %}
@@ -186,7 +192,6 @@
                 }
             });
         });
-
 
         document.getElementById("buscar").onclick = function (e) {
             document.getElementById('busca').style.display = 'none';
@@ -323,9 +328,11 @@
                 </div>
                 <div class="card-footer">
                   <div class="text-right">
-                    <a href="#" class="btn btn-sm btn-primary">
-                      <i class="fa fa-user"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">  Ver grafica
-                    </font></font></a>
+ <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default" onclick="graficabatchinicio(${item.t},${item.vf},${item.v0},'${item.titulo}')"
+><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+       <i class="fa fa-bar-chart-o"></i> Ver grafica
+    </font></font></button>
+
                   </div>
                 </div>
               </div>
@@ -373,40 +380,152 @@
                         <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Y: ${item.y} </li>
                         <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Sf: ${item.sf} </li>
                         <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Tb: ${item.tb} </li>
-
                       </ul>
                     </div>
                   </div>
                 </div>
                 <div class="card-footer">
                   <div class="text-right">
-                    <a href="#" class="btn btn-sm btn-primary">
-                      <i class="fa fa-user"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Ver perfil
-                    </font></font></a>
+ <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal-default" onclick=" iniciograficatiempo(${item.tb},${item.x},${item.v},${item.umax},${item.so},${item.sf},${item.y},'${item.titulo}')"
+><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+       <i class="fa fa-bar-chart-o"></i> Ver grafica
+    </font></font></button>
+
                   </div>
                 </div>
               </div>
             </div>`
-
                         }
                     }, error: function (error) {
 
                     }
                 });
-
             }
+        }
+
+        function graficabatchinicio(t, vf, v0, titulo) {
+            var tiempo = t * 60;
+            var ace = (vf - v0) / tiempo;
+            var velocidad = [];
+            var ti = [];
+            for (var i = 0; i <= tiempo; i++) {
+                ve = (parseFloat(ace) * i) + parseFloat(v0);
+                velocidad.push(ve)
+                ti.push(i)
+            }
+            graf(velocidad, ti, titulo)
+        }
+
+        function graf(datat, ti, titulo) {
+            let chart = Highcharts.chart('modal_grafica', {
+                title: {
+                    text: titulo
+                },
+
+                yAxis: {
+                    title: {text: 'Volumen'}
+                },
+
+                xAxis: {
+                    title: {text: 'Tiempo min'},
+                    categorías: ti
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 0
+                    }
+                },
+                series: [{
+                    name: 'Volumen',
+                    data: datat
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+        }
+
+        function iniciograficatiempo(tb, x, v, umax, so, sf, y,titulo) {
+            var tiempo = [];
+            var densidad = [];
+            X0 = (x / v);
+            dsf = X0 * Math.exp(umax * tb);
+            porsentcons = (so - sf * 100) / so;
+            consumo = (so * 70) / 100
+            tbtiempo = 1 / umax;
+            tbtiempo1 = parseFloat(y / X0)
+            tbtiempo2 = parseFloat(1 + tbtiempo1 * (so - (so - consumo)))
+            tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
+            dsft = X0 * Math.exp(umax * tbtiempo4)
+            tiempo.push(tb);
+            tiempo.push(dsf);
+            densidad.push(tbtiempo4);
+            densidad.push(dsft);
+            grafti(densidad, tiempo,titulo);
+        }
+
+        function grafti(datat, ti, titulo) {
+            let chart = Highcharts.chart('modal_grafica', {
+                title: {
+                    text: titulo
+                },
+
+                yAxis: {
+                    title: {text: 'Densidad'}
+                },
+
+                xAxis: {
+                    title: {text: 'Tiempo'}
+                },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 0
+                    }
+                },
+                series: [{
+                    name: 'Densidad',
+                    data: [ti, datat]
+                }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
         }
 
 
     </script>
-
-
-    <!-- Bootstrap 4 -->
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <!-- DataTables  & Plugins -->
-
-
-
-
-
 {% endblock %}

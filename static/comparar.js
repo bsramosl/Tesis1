@@ -28,6 +28,23 @@ function borrar(id) {
     grafica()
 }
 
+
+function graficabatchinicio(t, vf, v0){
+        document.getElementById('card').style.display = 'block';
+        var tiempo = t * 60;
+        var ace = (vf - v0) / tiempo;
+        var velocidad = [];
+        var ti = [];
+        for (var i = 0; i <= tiempo; i++) {
+            ve = (parseFloat(ace) * i) + parseFloat(volumen1[j][2]);
+            velocidad.push(ve)
+            ti.push(i)
+        }
+        graf(velocidad, ti)
+}
+
+
+
 function proceso(t, vf, v0, id, titulo) {
     if (con < 4) {
         var aux = [t, vf, v0, id, titulo]
@@ -85,7 +102,6 @@ function borrarti(id) {
     }
     graficatiempo()
 }
-
 
 function procesotiempo(id, tb, x, v, umax, so, sf, x, y,titulo) {
     if (con < 4) {
