@@ -76,6 +76,19 @@
     </div>
 
 
+    <script>
+        var Tiempo = [];
+
+        {% if fecha %}
+            {% for dat in fecha %}
+                console.log('{{ dat.last_login|date:'Y-m-d'}}')
+
+
+
+            {% endfor %}
+        {% endif %}
+
+    </script>
 
 
 

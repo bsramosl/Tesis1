@@ -1,3 +1,4 @@
+import datetime
 from datetime import date
 import json
 from django.contrib import messages
@@ -6,6 +7,7 @@ from django.core.serializers import serialize
 from django.http import HttpResponseRedirect, request, HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
+from django.utils import timezone
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, RedirectView
 from django.contrib.auth.models import User
 from .forms import *
@@ -108,8 +110,14 @@ class Admin(TemplateView):
         context['organismo'] = organismo
         context['tiporeact'] = tiporeact
         context['reactor'] = reactor
+        context['fecha'] = User.objects.all()
         return context
 
+    def get_queryset(self):
+        # original qs
+        qs = super().get_queryset()
+        # filter by a variable captured from url, for example
+        return qs.filter(name__startswith=self.kwargs['name'])
 
 class Login(FormView):
     template_name = 'login.html'
