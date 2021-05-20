@@ -110,7 +110,7 @@ class Admin(TemplateView):
         context['organismo'] = organismo
         context['tiporeact'] = tiporeact
         context['reactor'] = reactor
-        context['fecha'] = User.objects.all()
+        context['fecha'] = User.objects.filter(last_login__isnull=False)
         return context
 
     def get_queryset(self):

@@ -5,6 +5,16 @@
     Dashboard
 {% endblock %}
 
+{% block extracss %}
+    <script src="{% static 'Highcharts/highcharts.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/series-label.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/exporting.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/export-data.js' %}"></script>
+    <script src="{% static 'Highcharts/modules/accessibility.js' %}"></script>
+
+
+{% endblock %}
+
 {% block content %}
     <div class="row">
 
@@ -73,20 +83,66 @@
                         class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
+
+        <div class="col-md-9 card">
+                <div id="grafica"></div>
+        </div>
     </div>
 
 
     <script>
-        var Tiempo = [];
 
+        var aux = [];
         {% if fecha %}
             {% for dat in fecha %}
-                console.log('{{ dat.last_login|date:'Y-m-d'}}')
-
-
-
+                aux.push('{{ dat.last_login|date:'Y-m-d'}}')
             {% endfor %}
         {% endif %}
+
+        var Tiempo = [];
+        var dato = [];
+        var k = {};
+        //push into hashtable
+        for (i in aux) {
+            k[aux[i]] = (k[aux[i]] || 0) + 1;
+        }
+        for (var j in k) {
+            Tiempo.push(j)
+            dato.push(k[j])
+            console.log(j + " comes -> " + k[j] + " times");
+        }
+        console.log(Tiempo)
+        console.log(dato)
+
+        Highcharts.chart('grafica', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Visitas Por Mes'
+            },
+            xAxis: {
+                categories: Tiempo,
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Visitas'
+                }
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Visitas',
+                data: dato
+            }],
+
+        });
 
     </script>
 
