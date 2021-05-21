@@ -85,7 +85,7 @@
         </div>
 
         <div class="col-md-9 card">
-                <div id="grafica"></div>
+            <div id="grafica"></div>
         </div>
     </div>
 
@@ -95,7 +95,9 @@
         var aux = [];
         {% if fecha %}
             {% for dat in fecha %}
-                aux.push('{{ dat.last_login|date:'Y-m-d'}}')
+                if ({{ tiempo }} === {{ dat.last_login|date:'m'}}) {
+                    aux.push('{{ dat.last_login|date:'Y-m-d'}}')
+                }
             {% endfor %}
         {% endif %}
 
@@ -109,10 +111,7 @@
         for (var j in k) {
             Tiempo.push(j)
             dato.push(k[j])
-            console.log(j + " comes -> " + k[j] + " times");
         }
-        console.log(Tiempo)
-        console.log(dato)
 
         Highcharts.chart('grafica', {
             chart: {

@@ -91,6 +91,7 @@ class CaPrediccion(models.Model):
     organismo = models.ForeignKey(Organismo, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
     class Meta:
         verbose_name = 'caprediccion'
         verbose_name_plural = 'caprediccions'
@@ -98,5 +99,15 @@ class CaPrediccion(models.Model):
 
     def __str__(self):
         return self.titulo
+
+
+class Referencia(models.Model):
+    doi=models.CharField(max_length=45, blank=False, null=False)
+
+    class Meta:
+        verbose_name = 'referencia'
+
+    def __str__(self):
+        return self.doi
 
 

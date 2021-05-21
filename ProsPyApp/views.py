@@ -111,6 +111,7 @@ class Admin(TemplateView):
         context['tiporeact'] = tiporeact
         context['reactor'] = reactor
         context['fecha'] = User.objects.filter(last_login__isnull=False)
+        context['tiempo']= datetime.datetime.now().strftime("%m")
         return context
 
     def get_queryset(self):
