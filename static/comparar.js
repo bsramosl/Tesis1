@@ -170,7 +170,6 @@ function graf(datat, ti, titulo) {
                 pointStart: 0
             }
         },
-
         series: [{
             name: titulo[0],
             data: datat[0]

@@ -6,7 +6,11 @@
 {% endblock %}
 
 {% block extracss %}
+    <link rel="stylesheet" href="{% static 'lightbox2-dev/css/lightbox.min.css' %}">
     <script src="{% static 'Highcharts/highcharts.js' %}"></script>
+
+
+
 {% endblock %}
 
 {% block header %}
@@ -16,7 +20,7 @@
 {% block content %}
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-md-3">
             <select name="tablas" id="tablas" class="form-control">
 
                 <option value="Organismo" selected>Organismo</option>
@@ -101,6 +105,10 @@
 
 {% endblock %}
 {% block extrajs %}
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'lightbox2-dev/js/lightbox-plus-jquery.min.js' %}"></script>
+    <script src="{% static 'lightbox2-dev/js/lightbox.min.js' %}"></script>
+
     <script>
 
         $(function () {
@@ -261,7 +269,8 @@
                       </ul>
                     </div>
                     <div class="col-5 text-center">
-                      <img src="/media/${item.foto1}" alt="avatar de usuario" class="img-circle img-fluid" style="max-width: 114px; max-height: 114px">
+                     <a  href="/media/${item.foto1}" data-lightbox="${item.foto1}"><img class="img-circle img-fluid" src="/media/${item.foto1}" alt="image-1" style="max-width: 114px; max-height: 114px; width:100%;height: 100%"/></a>
+
                     </div>
                   </div>
                 </div>
@@ -456,7 +465,7 @@
             });
         }
 
-        function iniciograficatiempo(tb, x, v, umax, so, sf, y,titulo) {
+        function iniciograficatiempo(tb, x, v, umax, so, sf, y, titulo) {
             var tiempo = [];
             var densidad = [];
             X0 = (x / v);
@@ -472,7 +481,7 @@
             tiempo.push(dsf);
             densidad.push(tbtiempo4);
             densidad.push(dsft);
-            grafti(densidad, tiempo,titulo);
+            grafti(densidad, tiempo, titulo);
         }
 
         function grafti(datat, ti, titulo) {
@@ -522,5 +531,5 @@
 
 
     </script>
-    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
 {% endblock %}
