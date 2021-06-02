@@ -74,7 +74,7 @@ def busqueda(request):
                 if actio == 'batch':
                     if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
                         data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
-                            'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so', 'n', 'x')
+                            'id', 'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so', 'n', 'x')
                 else:
                     if actio == 'tiempo':
                         if CaPrediccion.objects.filter(titulo__icontains=request.GET['nombre']):

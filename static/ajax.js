@@ -209,8 +209,10 @@ function listarOrganismo() {
             for (let i = 0; i < response.length; i++) {
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
-                fila += '<td style="max-width:280px;" >' + response[i]["fields"]['nombrecientifico'] + '</td>>';
-                fila += '<td style="max-width:280px;" >' + response[i]["fields"]['genero'] + '</td>>';
+                fila += '<td style="max-width:250px; " >' + response[i]["fields"]['nombrecientifico'] + '</td>>';
+                fila += '<td style="width: 100px" >' + response[i]["fields"]['genero'] + '</td>>';
+                fila += '<td style="width:81px;" >' + response[i]["fields"]['ph'] + '</td>>';
+                fila += '<td style="width:81px;" >' + response[i]["fields"]['aw'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablaorganismo tbody').append(fila);
@@ -300,7 +302,8 @@ function listarReactor() {
                 fila += '<td style="max-width:84px;" >' + response[i]["fields"]['marca'] + '</td>>';
                 fila += '<td style="max-width:94px;" >' + response[i]["fields"]['modelo'] + '</td>>';
                 fila += '<td style="max-width:149px;" >' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
-                fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto1'] + '</td>>';
+
+                fila += '<td style="max-width:71px;"><a href="/media/'+response[i]["fields"]['foto1']+'" data-lightbox="image"> </> <img src="/media/'+response[i]["fields"]['foto1']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
                 fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto2'] + '</td>>';
                 fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto3'] + '</td>>';
                 fila += '<td style="max-width:71px;" >' + response[i]["fields"]['foto4'] + '</td>>';

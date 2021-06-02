@@ -10,7 +10,6 @@
     <script src="{% static 'Highcharts/highcharts.js' %}"></script>
 
 
-
 {% endblock %}
 
 {% block header %}
@@ -312,7 +311,7 @@
                       <p class="text-muted text-sm"><b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Descripcion: </font></font></b><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> ${item.descripcion}</font></font></p>
 
                     </div>
-                    <div class="col-5  ">
+                    <div class="col-5 ">
                       <ul class="ml-4 mb-0 fa-ul text-muted">
                         <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Y(x/s):${item.y} </li>
                         <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> Ks:${item.ks} </li>
@@ -328,7 +327,10 @@
                         <li class="small"><span class="fa-li"><i class="fa fa-dot-circle-o"></i></span> X: ${item.x} </li>
                       </ul>
                     </div>
+                     <div class="col-6" id="${item.id}">
+                     </div>
                   </div>
+
                 </div>
                 <div class="card-footer">
                   <div class="text-right">
@@ -341,6 +343,7 @@
                 </div>
               </div>
             </div>`
+                            graficabatchinicio(item.t,item.vf,item.v0,item.titulo,item.id)
 
                         }
                     }, error: function (error) {
@@ -407,7 +410,7 @@
             }
         }
 
-        function graficabatchinicio(t, vf, v0, titulo) {
+        function graficabatchinicio(t, vf, v0, titulo,id) {
             var tiempo = t * 60;
             var ace = (vf - v0) / tiempo;
             var velocidad = [];
@@ -417,10 +420,11 @@
                 velocidad.push(ve)
                 ti.push(i)
             }
-            graf(velocidad, ti, titulo)
+            graf(velocidad, ti, titulo,id)
         }
 
-        function graf(datat, ti, titulo) {
+
+        function graf(datat, ti, titulo,id) {
             let chart = Highcharts.chart('modal_grafica', {
                 title: {
                     text: titulo

@@ -18,6 +18,8 @@ class TipoReactor(models.Model):
 
 class Organismo(models.Model):
     nombrecientifico = models.CharField(max_length=50, blank=False, null=False)
+    ph = models.FloatField(max_length=10, blank=False, null=False)
+    aw = models.FloatField(max_length=10, blank=False, null=False)
     genero = models.CharField(max_length=50, blank=False, null=False)
 
     class Meta:
@@ -101,13 +103,5 @@ class CaPrediccion(models.Model):
         return self.titulo
 
 
-class Referencia(models.Model):
-    doi=models.CharField(max_length=45, blank=False, null=False)
-
-    class Meta:
-        verbose_name = 'referencia'
-
-    def __str__(self):
-        return self.doi
 
 
