@@ -64,7 +64,7 @@ def busqueda(request):
             if queryset != 0:
                 if Organismo.objects.filter(nombrecientifico__icontains=queryset):
                     data = Organismo.objects.filter(nombrecientifico__icontains=queryset).values(
-                        'nombrecientifico', 'genero')
+                        'nombrecientifico', 'genero', 'ph', 'aw')
         else:
             if actio == 'reactor':
                 if Reactor.objects.filter(modelo__icontains=request.GET['nombre']):
