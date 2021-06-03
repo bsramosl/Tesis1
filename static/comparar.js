@@ -29,20 +29,19 @@ function borrar(id) {
 }
 
 
-function graficabatchinicio(t, vf, v0){
-        document.getElementById('card').style.display = 'block';
-        var tiempo = t * 60;
-        var ace = (vf - v0) / tiempo;
-        var velocidad = [];
-        var ti = [];
-        for (var i = 0; i <= tiempo; i++) {
-            ve = (parseFloat(ace) * i) + parseFloat(volumen1[j][2]);
-            velocidad.push(ve)
-            ti.push(i)
-        }
-        graf(velocidad, ti)
+function graficabatchinicio(t, vf, v0) {
+    document.getElementById('card').style.display = 'block';
+    var tiempo = t * 60;
+    var ace = (vf - v0) / tiempo;
+    var velocidad = [];
+    var ti = [];
+    for (var i = 0; i <= tiempo; i++) {
+        ve = (parseFloat(ace) * i) + parseFloat(volumen1[j][2]);
+        velocidad.push(ve)
+        ti.push(i)
+    }
+    graf(velocidad, ti)
 }
-
 
 
 function proceso(t, vf, v0, id, titulo) {
@@ -103,9 +102,9 @@ function borrarti(id) {
     graficatiempo()
 }
 
-function procesotiempo(id, tb, x, v, umax, so, sf, x, y,titulo) {
+function procesotiempo(id, tb, x, v, umax, so, sf, x, y, titulo) {
     if (con < 4) {
-        var aux = [id, tb, x, v, umax, so, sf, x, y,titulo]
+        var aux = [id, tb, x, v, umax, so, sf, x, y, titulo]
         if (volumen1.length === 0) {
             volumen1.push(aux)
             con += 1
@@ -122,7 +121,7 @@ function procesotiempo(id, tb, x, v, umax, so, sf, x, y,titulo) {
 function graficatiempo() {
     datovolumen = [];
     datotiempo = [];
-    tit=[];
+    tit = [];
     for (var j = 0; j < volumen1.length; j++) {
         var tiempo = [];
         var densidad = [];
@@ -144,7 +143,7 @@ function graficatiempo() {
         datovolumen.push(densidad)
         datotiempo.push(tiempo)
     }
-    grafti(datovolumen, datotiempo,tit);
+    grafti(datovolumen, datotiempo, tit);
 }
 
 function graf(datat, ti, titulo) {
@@ -201,7 +200,7 @@ function graf(datat, ti, titulo) {
     });
 }
 
-function grafti(datat, ti,titulo) {
+function grafti(datat, ti, titulo) {
     let chart = Highcharts.chart('predicctiempo', {
         title: {
             text: 'Reactor Batch'
@@ -253,4 +252,26 @@ function grafti(datat, ti,titulo) {
         }
     });
 
+}
+
+correlacion()
+
+function correlacion() {
+    var x = []
+    var y = []
+    var x2 = []
+    var y2 = []
+
+    var aux = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+    if (x2.length === 0) {
+        x.push(aux)
+        for (var i = 0; i < aux.length; i++)
+            x2.push(aux[i] * aux[i])
+    } else {
+        if (y2.length === 0) {
+            y.push(aux)
+            for (var i = 0; i < aux.length; i++)
+                y2.push(aux[i] * aux[i])
+        }
+    }
 }
