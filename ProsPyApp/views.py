@@ -699,14 +699,12 @@ class CompararBatch(TemplateView):
     template_name = 'comparar_ejercicios_batch.html'
 
     def get_context_data(self, *args, **kwargs):
-        prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
         batch = CaBatch.objects.filter(usuario=self.request.user)
-        return {'prediccion': prediccion, 'batch': batch}
+        return { 'batch': batch}
 
 
 class CompararTiempo(TemplateView):
     template_name = 'comparar_ejercicios_tiempo.html'
-
     def get_context_data(self, *args, **kwargs):
         prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
         return {'prediccion': prediccion}

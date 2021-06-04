@@ -1,5 +1,5 @@
 document.getElementById('card').style.display = 'none';
-var volumen1 = [];
+var correlacion = [];
 titu = [];
 con = 0;
 
@@ -19,43 +19,28 @@ function activar(id) {
 }
 
 function borrar(id) {
-    for (var i = 0; i < volumen1.length; i++) {
-        if (volumen1[i][3] === id) {
-            volumen1.splice(i, 1);
+    for (var i = 0; i < correlacion.length; i++) {
+        if (correlacion[i][3] === id) {
+            correlacion.splice(i, 1);
             break;
         }
     }
     grafica()
 }
 
-
-function graficabatchinicio(t, vf, v0) {
-    document.getElementById('card').style.display = 'block';
-    var tiempo = t * 60;
-    var ace = (vf - v0) / tiempo;
-    var velocidad = [];
-    var ti = [];
-    for (var i = 0; i <= tiempo; i++) {
-        ve = (parseFloat(ace) * i) + parseFloat(volumen1[j][2]);
-        velocidad.push(ve)
-        ti.push(i)
-    }
-    graf(velocidad, ti)
-}
-
-
-function proceso(t, vf, v0, id, titulo) {
-    if (con < 4) {
-        var aux = [t, vf, v0, id, titulo]
-        if (volumen1.length === 0) {
-            volumen1.push(aux)
+function proceso(y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo) {
+    if (con < 2) {
+        var aux = [y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo]
+        if (correlacion.length === 0) {
+            correlacion.push(aux)
             con += 1
             desactivar(id)
         } else {
-            volumen1.push(aux)
+            correlacion.push(aux)
             con = con + 1
             desactivar(id)
         }
+        corre(correlacion)
         grafica()
     }
 }
@@ -64,18 +49,18 @@ function grafica() {
     datovolumen = [];
     datotiempo = [];
     tit = [];
-    for (var j = 0; j < volumen1.length; j++) {
+    for (var j = 0; j < correlacion.length; j++) {
         document.getElementById('card').style.display = 'block';
-        var tiempo = volumen1[j][0] * 60;
-        var ace = (volumen1[j][1] - volumen1[j][2]) / tiempo;
+        var tiempo = correlacion[j][5] * 60;
+        var ace = (correlacion[j][8] - correlacion[j][6]) / tiempo;
         var velocidad = [];
         var ti = [];
         for (var i = 0; i <= tiempo; i++) {
-            ve = (parseFloat(ace) * i) + parseFloat(volumen1[j][2]);
+            ve = (parseFloat(ace) * i) + parseFloat(correlacion[j][6]);
             velocidad.push(ve)
             ti.push(i)
         }
-        tit.push(volumen1[j][4])
+        tit.push(correlacion[j][13])
         datovolumen.push(velocidad)
         datotiempo.push(ti)
         graf(datovolumen, datotiempo, tit);
@@ -93,9 +78,9 @@ function activarti(id) {
 }
 
 function borrarti(id) {
-    for (var i = 0; i < volumen1.length; i++) {
-        if (volumen1[i][0] === id) {
-            volumen1.splice(i, 1);
+    for (var i = 0; i < correlacion.length; i++) {
+        if (correlacion[i][0] === id) {
+            correlacion.splice(i, 1);
             break;
         }
     }
@@ -105,12 +90,12 @@ function borrarti(id) {
 function procesotiempo(id, tb, x, v, umax, so, sf, x, y, titulo) {
     if (con < 4) {
         var aux = [id, tb, x, v, umax, so, sf, x, y, titulo]
-        if (volumen1.length === 0) {
-            volumen1.push(aux)
+        if (correlacion.length === 0) {
+            correlacion.push(aux)
             con += 1
             desactivar(id)
         } else {
-            volumen1.push(aux)
+            correlacion.push(aux)
             con = con + 1
             desactivar(id)
         }
@@ -122,24 +107,24 @@ function graficatiempo() {
     datovolumen = [];
     datotiempo = [];
     tit = [];
-    for (var j = 0; j < volumen1.length; j++) {
+    for (var j = 0; j < correlacion.length; j++) {
         var tiempo = [];
         var densidad = [];
         document.getElementById('card').style.display = 'block';
-        X0 = (volumen1[j][2] / volumen1[j][3]);
-        dsf = X0 * Math.exp(volumen1[j][4] * volumen1[j][1]);
-        porsentcons = (volumen1[j][5] - volumen1[j][6] * 100) / volumen1[j][5];
-        consumo = (volumen1[j][5] * 70) / 100
-        tbtiempo = 1 / volumen1[j][4];
-        tbtiempo1 = parseFloat(volumen1[j][8] / X0)
-        tbtiempo2 = parseFloat(1 + tbtiempo1 * (volumen1[j][5] - (volumen1[j][5] - consumo)))
+        X0 = (correlacion[j][2] / correlacion[j][3]);
+        dsf = X0 * Math.exp(correlacion[j][4] * correlacion[j][1]);
+        porsentcons = (correlacion[j][5] - correlacion[j][6] * 100) / correlacion[j][5];
+        consumo = (correlacion[j][5] * 70) / 100
+        tbtiempo = 1 / correlacion[j][4];
+        tbtiempo1 = parseFloat(correlacion[j][8] / X0)
+        tbtiempo2 = parseFloat(1 + tbtiempo1 * (correlacion[j][5] - (correlacion[j][5] - consumo)))
         tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
-        dsft = X0 * Math.exp(volumen1[j][4] * tbtiempo4)
-        tiempo.push(volumen1[j][1]);
+        dsft = X0 * Math.exp(correlacion[j][4] * tbtiempo4)
+        tiempo.push(correlacion[j][1]);
         tiempo.push(dsf);
         densidad.push(tbtiempo4);
         densidad.push(dsft);
-        tit.push(volumen1[j][9])
+        tit.push(correlacion[j][9])
         datovolumen.push(densidad)
         datotiempo.push(tiempo)
     }
@@ -157,7 +142,7 @@ function graf(datat, ti, titulo) {
         },
 
         xAxis: {
-            title: {text: 'Tiempo'},
+            title: {text: 'Tiempo(min)'},
             categorías: ti
         },
 
@@ -254,24 +239,44 @@ function grafti(datat, ti, titulo) {
 
 }
 
-correlacion()
-
-function correlacion() {
-    var x = []
-    var y = []
+function corre(correlacion) {
     var x2 = []
     var y2 = []
-
-    var aux = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
-    if (x2.length === 0) {
-        x.push(aux)
-        for (var i = 0; i < aux.length; i++)
-            x2.push(aux[i] * aux[i])
-    } else {
-        if (y2.length === 0) {
-            y.push(aux)
-            for (var i = 0; i < aux.length; i++)
-                y2.push(aux[i] * aux[i])
+    var xy = []
+    var sumax = 0
+    var sumay = 0
+    var sumax2 = 0
+    var sumay2 = 0
+    var sumaxy = 0
+    if (correlacion.length === 2) {
+        for (var i = 0; i < correlacion.length; i++) {
+            if (x2.length === 0) {
+                for (var j = 0; j < 12; j++) {
+                    x2.push(correlacion[0][j] * correlacion[0][j])
+                    sumax+=correlacion[0][j]
+                    sumax2+= (correlacion[0][j] * correlacion[0][j])
+                }
+            }
+            if (y2.length === 0) {
+                for (var j = 0; j < 12; j++) {
+                    y2.push(correlacion[1][j] * correlacion[1][j])
+                    sumay+=correlacion[1][j]
+                    sumay2+=(correlacion[1][j] * correlacion[1][j])
+                }
+            }
         }
+        for (var i = 0; i < 12; i++) {
+            xy.push(correlacion[0][i] * correlacion[1][i])
+            sumaxy+=(correlacion[0][i] * correlacion[1][i])
+        }
+        //coeficiente de correlacion
+        var  r=0,r1=0,r2=0
+        r=((x2.length*(sumaxy))-((sumax)*(sumay)))
+        r1 = Math.sqrt(((x2.length*sumax2)-(Math.pow(sumax,2)))*((x2.length*sumay2)-(Math.pow(sumay,2))))
+        r2 = r/r1
+        console.log(r2)
+
     }
+
+
 }
