@@ -20,8 +20,9 @@ function activar(id) {
 
 function borrar(id) {
     for (var i = 0; i < correlacion.length; i++) {
-        if (correlacion[i][3] === id) {
+        if (correlacion[i][12] === id) {
             correlacion.splice(i, 1);
+            document.getElementById('dispercion').style.display = 'none';
             break;
         }
     }
@@ -160,12 +161,6 @@ function graf(datat, ti, titulo) {
         }, {
             name: titulo[1],
             data: datat[1]
-        }, {
-            name: titulo[2],
-            data: datat[2]
-        }, {
-            name: titulo[3],
-            data: datat[3]
         }],
 
         responsive: {
@@ -240,6 +235,8 @@ function grafti(datat, ti, titulo) {
 }
 
 function corre(correlacion) {
+    var x = []
+    var y = []
     var x2 = []
     var y2 = []
     var xy = []
@@ -249,34 +246,95 @@ function corre(correlacion) {
     var sumay2 = 0
     var sumaxy = 0
     if (correlacion.length === 2) {
+        document.getElementById('dispercion').style.display = 'block';
         for (var i = 0; i < correlacion.length; i++) {
             if (x2.length === 0) {
                 for (var j = 0; j < 12; j++) {
                     x2.push(correlacion[0][j] * correlacion[0][j])
-                    sumax+=correlacion[0][j]
-                    sumax2+= (correlacion[0][j] * correlacion[0][j])
+                    sumax += correlacion[0][j]
+                    sumax2 += (correlacion[0][j] * correlacion[0][j])
                 }
             }
             if (y2.length === 0) {
                 for (var j = 0; j < 12; j++) {
                     y2.push(correlacion[1][j] * correlacion[1][j])
-                    sumay+=correlacion[1][j]
-                    sumay2+=(correlacion[1][j] * correlacion[1][j])
+                    sumay += correlacion[1][j]
+                    sumay2 += (correlacion[1][j] * correlacion[1][j])
                 }
             }
         }
         for (var i = 0; i < 12; i++) {
             xy.push(correlacion[0][i] * correlacion[1][i])
-            sumaxy+=(correlacion[0][i] * correlacion[1][i])
+            sumaxy += (correlacion[0][i] * correlacion[1][i])
+            x.push(correlacion[0][i])
+            y.push(correlacion[1][i])
         }
         //coeficiente de correlacion
-        var  r=0,r1=0,r2=0
-        r=((x2.length*(sumaxy))-((sumax)*(sumay)))
-        r1 = Math.sqrt(((x2.length*sumax2)-(Math.pow(sumax,2)))*((x2.length*sumay2)-(Math.pow(sumay,2))))
-        r2 = r/r1
-        console.log(r2)
+        var r, r_1, r_2, r2 = 0
+        r = ((x2.length * (sumaxy)) - ((sumax) * (sumay)))
+        r_1 = Math.sqrt(((x2.length * sumax2) - (Math.pow(sumax, 2))) * ((x2.length * sumay2) - (Math.pow(sumay, 2))))
+        r_2 = r / r_1
+        //coeficuente de determinacion
+        r2 = Math.pow(r_2, 2)
+        r2 = (r2 * 100).toFixed(3)
+        //regresion lineal
+        var b = ((x.length*sumaxy)-((sumax)*(sumay)))/((x.length*sumax2)-(Math.pow(sumax,2)))
+        var a =((sumay)/(x.length))-b*(sumax/x.length)
+
+        console.log(Math.max.apply(null, x))
+
+        graficadispercion(x, y)
+
 
     }
+}
 
+function graficadispercion(x, y) {
+    Highcharts.chart('dispercion', {
 
+        title: {
+            text: 'Height Versus Weight of 507 Individuals by Gender'
+        },
+        xAxis: {
+            title: {
+                enabled: true,
+                text: ' '
+            },
+            startOnTick: true,
+            endOnTick: true,
+            showLastLabel: true
+        },
+        yAxis: {
+            title: {
+                text: ' '
+            }
+        },
+
+        plotOptions: {
+            scatter: {
+                marker: {
+                    radius: 5,
+                    states: {
+                        hover: {
+                            enabled: true,
+                            lineColor: 'rgb(100,100,100)'
+                        }
+                    }
+                },
+            }
+        },
+        series: [{
+            type: 'line',
+            name: 'Regression Line',
+            data: [[0, 1.11], [5, 4.51]],
+            marker: {
+                enabled: false
+            }
+        }, {
+            type: 'scatter',
+            name: 'Male',
+            data: [[x[0], y[0]], [x[1], y[1]], [x[2], y[2]], [x[3], y[3]], [x[4], y[4]], [x[5], y[5]], [x[6], y[6]], [x[7], y[7]],
+                [x[8], y[8]], [x[9], y[9]], [x[10], y[10]], [x[11], y[11]],]
+        }]
+    });
 }
