@@ -40,7 +40,7 @@
                                             </font></font>
                                         </p>
                                         <button type="button" class="btn btn-default btn-sm" id="{{ tiempo.id }}"
-                                                onclick="procesotiempo({{ tiempo.id }},{{ tiempo.tb }},{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.umax }},{{ tiempo.so }},{{ tiempo.sf }},{{ tiempo.x }},{{ tiempo.y }},'{{ tiempo.titulo }}')">
+                                                onclick="procesotiempo({{ tiempo.tb }},{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.umax }},{{ tiempo.so }},{{ tiempo.sf }}, {{ tiempo.y }},{{ tiempo.id }},'{{ tiempo.titulo }}')">
                                             <font
                                                     style="vertical-align: inherit;"><font
                                                     style="vertical-align: inherit;"> Comparar</font></font></button>
@@ -74,6 +74,8 @@
                 <div class="card-body" id="predicctiempo">
                 </div>
                 <!-- /.card-body -->
+                <div class="card-body" id="dispercion">
+                </div>
             </div>
             <!-- /.card -->
         </div>

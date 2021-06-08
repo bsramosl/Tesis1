@@ -80,17 +80,19 @@ function activarti(id) {
 
 function borrarti(id) {
     for (var i = 0; i < correlacion.length; i++) {
-        if (correlacion[i][0] === id) {
+        if (correlacion[i][7] === id) {
+            console.log()
             correlacion.splice(i, 1);
+            document.getElementById('dispercion').style.display = 'none';
             break;
         }
     }
     graficatiempo()
 }
 
-function procesotiempo(id, tb, x, v, umax, so, sf, x, y, titulo) {
-    if (con < 4) {
-        var aux = [id, tb, x, v, umax, so, sf, x, y, titulo]
+function procesotiempo(tb, x, v, umax, so, sf, y, id, titulo) {
+    if (con < 2) {
+        var aux = [tb, x, v, umax, so, sf, y, id, titulo]
         if (correlacion.length === 0) {
             correlacion.push(aux)
             con += 1
@@ -112,23 +114,24 @@ function graficatiempo() {
         var tiempo = [];
         var densidad = [];
         document.getElementById('card').style.display = 'block';
-        X0 = (correlacion[j][2] / correlacion[j][3]);
-        dsf = X0 * Math.exp(correlacion[j][4] * correlacion[j][1]);
-        porsentcons = (correlacion[j][5] - correlacion[j][6] * 100) / correlacion[j][5];
-        consumo = (correlacion[j][5] * 70) / 100
-        tbtiempo = 1 / correlacion[j][4];
-        tbtiempo1 = parseFloat(correlacion[j][8] / X0)
-        tbtiempo2 = parseFloat(1 + tbtiempo1 * (correlacion[j][5] - (correlacion[j][5] - consumo)))
+        X0 = (correlacion[j][1] / correlacion[j][2]);
+        dsf = X0 * Math.exp(correlacion[j][3] * correlacion[j][0]);
+        porsentcons = (correlacion[j][4] - correlacion[j][5] * 100) / correlacion[j][4];
+        consumo = (correlacion[j][4] * 70) / 100
+        tbtiempo = 1 / correlacion[j][3];
+        tbtiempo1 = parseFloat(correlacion[j][6] / X0)
+        tbtiempo2 = parseFloat(1 + tbtiempo1 * (correlacion[j][4] - (correlacion[j][4] - consumo)))
         tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
-        dsft = X0 * Math.exp(correlacion[j][4] * tbtiempo4)
-        tiempo.push(correlacion[j][1]);
+        dsft = X0 * Math.exp(correlacion[j][3] * tbtiempo4)
+        tiempo.push(correlacion[j][0]);
         tiempo.push(dsf);
         densidad.push(tbtiempo4);
         densidad.push(dsft);
-        tit.push(correlacion[j][9])
+        tit.push(correlacion[j][8])
         datovolumen.push(densidad)
         datotiempo.push(tiempo)
     }
+    correlaciontiempo(correlacion)
     grafti(datovolumen, datotiempo, tit);
 }
 
@@ -208,12 +211,6 @@ function grafti(datat, ti, titulo) {
         }, {
             name: titulo[1],
             data: [ti[1], datat[1]]
-        }, {
-            name: titulo[2],
-            data: [ti[2], datat[2]]
-        }, {
-            name: titulo[3],
-            data: [ti[3], datat[3]]
         }],
 
         responsive: {
@@ -245,6 +242,7 @@ function corre(correlacion) {
     var sumax2 = 0
     var sumay2 = 0
     var sumaxy = 0
+    var regrecionlineal = []
     if (correlacion.length === 2) {
         document.getElementById('dispercion').style.display = 'block';
         for (var i = 0; i < correlacion.length; i++) {
@@ -278,22 +276,78 @@ function corre(correlacion) {
         r2 = Math.pow(r_2, 2)
         r2 = (r2 * 100).toFixed(3)
         //regresion lineal
-        var b = ((x.length*sumaxy)-((sumax)*(sumay)))/((x.length*sumax2)-(Math.pow(sumax,2)))
-        var a =((sumay)/(x.length))-b*(sumax/x.length)
-
-        console.log(Math.max.apply(null, x))
-
-        graficadispercion(x, y)
-
-
+        var b = ((x.length * sumaxy) - ((sumax) * (sumay))) / ((x.length * sumax2) - (Math.pow(sumax, 2)))
+        var a = ((sumay) / (x.length)) - b * (sumax / x.length)
+        var mayor = Math.max.apply(null, x)
+        for (i = 0; i < mayor; i++) {
+            regrecionlineal.push(a + (b * i))
+        }
+        graficadispercion(x, y, regrecionlineal)
     }
 }
 
-function graficadispercion(x, y) {
+function correlaciontiempo(correlacion) {
+    var x = []
+    var y = []
+    var x2 = []
+    var y2 = []
+    var xy = []
+    var sumax = 0
+    var sumay = 0
+    var sumax2 = 0
+    var sumay2 = 0
+    var sumaxy = 0
+    var regrecionlineal = []
+    if (correlacion.length === 2) {
+        document.getElementById('dispercion').style.display = 'block';
+        for (var i = 0; i < correlacion.length; i++) {
+            if (x2.length === 0) {
+                for (var j = 0; j < 7; j++) {
+                    x2.push(correlacion[0][j] * correlacion[0][j])
+                    sumax += correlacion[0][j]
+                    sumax2 += (correlacion[0][j] * correlacion[0][j])
+                }
+            }
+            if (y2.length === 0) {
+                for (var j = 0; j < 7; j++) {
+                    y2.push(correlacion[1][j] * correlacion[1][j])
+                    sumay += correlacion[1][j]
+                    sumay2 += (correlacion[1][j] * correlacion[1][j])
+                }
+            }
+        }
+        for (var i = 0; i < 7; i++) {
+            xy.push(correlacion[0][i] * correlacion[1][i])
+            sumaxy += (correlacion[0][i] * correlacion[1][i])
+            x.push(correlacion[0][i])
+            y.push(correlacion[1][i])
+        }
+        //coeficiente de correlacion
+        var r, r_1, r_2, r2 = 0
+        r = ((x2.length * (sumaxy)) - ((sumax) * (sumay)))
+        r_1 = Math.sqrt(((x2.length * sumax2) - (Math.pow(sumax, 2))) * ((x2.length * sumay2) - (Math.pow(sumay, 2))))
+        r_2 = r / r_1
+        //coeficuente de determinacion
+        r2 = Math.pow(r_2, 2)
+        r2 = (r2 * 100).toFixed(3)
+        //regresion lineal
+        var b = ((x.length * sumaxy) - ((sumax) * (sumay))) / ((x.length * sumax2) - (Math.pow(sumax, 2)))
+        var a = ((sumay) / (x.length)) - b * (sumax / x.length)
+        var mayor = Math.max.apply(null, x)
+        for (i = 0; i < mayor; i++) {
+            regrecionlineal.push(a + (b * i))
+        }
+        graficadispercion(x, y, regrecionlineal)
+    }
+
+
+}
+
+function graficadispercion(x, y, re) {
     Highcharts.chart('dispercion', {
 
         title: {
-            text: 'Height Versus Weight of 507 Individuals by Gender'
+            text: 'Correlacion de Pearson'
         },
         xAxis: {
             title: {
@@ -325,14 +379,14 @@ function graficadispercion(x, y) {
         },
         series: [{
             type: 'line',
-            name: 'Regression Line',
-            data: [[0, 1.11], [5, 4.51]],
+            name: 'Regresión Lineal',
+            data: re,
             marker: {
                 enabled: false
             }
         }, {
             type: 'scatter',
-            name: 'Male',
+            name: 'Diagrama de Dispersion',
             data: [[x[0], y[0]], [x[1], y[1]], [x[2], y[2]], [x[3], y[3]], [x[4], y[4]], [x[5], y[5]], [x[6], y[6]], [x[7], y[7]],
                 [x[8], y[8]], [x[9], y[9]], [x[10], y[10]], [x[11], y[11]],]
         }]
