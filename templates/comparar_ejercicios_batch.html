@@ -51,7 +51,7 @@
                                         <button type="button" class="btn btn-default btn-sm" id="{{ bac.id }}"
                                                 onclick="proceso({{ bac.y }},{{ bac.ks }},{{ bac.umax }},{{ bac.ms }},{{ bac.f }},
                                                         {{ bac.t }},{{ bac.v0 }},{{ bac.v }},{{ bac.vf }},{{ bac.so }},{{ bac.n }},
-                                                        {{ bac.x }},{{ bac.id }},'{{ bac.titulo }}');">
+                                                        {{ bac.x }},{{ bac.id }},'{{ bac.titulo }}','{{ bac.organismo }}');">
                                             <font style="vertical-align: inherit;"><font
                                                     style="vertical-align: inherit;"> Comparar</font></font>
                                         </button>
@@ -77,7 +77,7 @@
         <div class="col-md-7">
             <!-- Box Comment -->
             <div class="card card card-widget " id="card">
-                 <div class="card-header">
+                <div class="card-header">
                     <!-- /.user-block -->
 
                     <!-- /.card-tools -->
@@ -96,4 +96,15 @@
 {% endblock %}
 {% block extrajs %}
     <script src="{% static 'comparar.js' %}"></script>
+
+    <script>
+        {% if batch %}
+            {% for bac in batch %}
+                organismo({{ bac.id }}, '{{ bac.organismo }}')
+            {% endfor %}
+        {% endif %}
+
+    </script>
+
+
 {% endblock %}

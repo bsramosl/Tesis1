@@ -297,6 +297,7 @@ function listarReactor() {
             }
             $('#tablareactor tbody').html("");
             for (let i = 0; i < response.length; i++) {
+                console.log(response)
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
                 fila += '<td style="max-width:84px;" >' + response[i]["fields"]['marca'] + '</td>>';

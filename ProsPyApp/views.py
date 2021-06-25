@@ -74,7 +74,8 @@ def busqueda(request):
                 if actio == 'batch':
                     if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
                         data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
-                            'id', 'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so', 'n', 'x')
+                            'id', 'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so',
+                            'n', 'x')
                 else:
                     if actio == 'tiempo':
                         if CaPrediccion.objects.filter(titulo__icontains=request.GET['nombre']):
@@ -111,7 +112,7 @@ class Admin(TemplateView):
         context['tiporeact'] = tiporeact
         context['reactor'] = reactor
         context['fecha'] = User.objects.filter(last_login__isnull=False)
-        context['tiempo']= datetime.datetime.now().strftime("%m")
+        context['tiempo'] = datetime.datetime.now().strftime("%m")
         return context
 
     def get_queryset(self):
@@ -119,6 +120,7 @@ class Admin(TemplateView):
         qs = super().get_queryset()
         # filter by a variable captured from url, for example
         return qs.filter(name__startswith=self.kwargs['name'])
+
 
 class Login(FormView):
     template_name = 'login.html'
@@ -699,12 +701,32 @@ class CompararBatch(TemplateView):
     template_name = 'comparar_ejercicios_batch.html'
 
     def get_context_data(self, *args, **kwargs):
-        batch = CaBatch.objects.filter(usuario=self.request.user)
-        return { 'batch': batch}
+        context = super().get_context_data(**kwargs)
+        context['batch'] = CaBatch.objects.filter(usuario=self.request.user)
+        return context
+
+    @method_decorator(csrf_exempt)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_reactor':
+                data = []
+                for i in Reactor.objects.all():
+                    data.append({'id': i.id, 'modelo': i.modelo})
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
 
 
 class CompararTiempo(TemplateView):
     template_name = 'comparar_ejercicios_tiempo.html'
+
     def get_context_data(self, *args, **kwargs):
         prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
         return {'prediccion': prediccion}

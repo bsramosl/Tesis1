@@ -1,6 +1,7 @@
 document.getElementById('card').style.display = 'none';
 var correlacion = [];
 titu = [];
+idorganismo = [];
 con = 0;
 
 function desactivar(id) {
@@ -15,6 +16,9 @@ function activar(id) {
     borrar(id)
     if (con == 0) {
         document.getElementById('card').style.display = 'none';
+        for (var i = 0; i < idorganismo.length; i++) {
+            document.getElementById(idorganismo[i][0]).disabled = false;
+        }
     }
 }
 
@@ -29,13 +33,28 @@ function borrar(id) {
     grafica()
 }
 
-function proceso(y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo) {
+function organismo(id, organismo) {
+    idorganismo.push([id, organismo])
+}
+
+function desactivarteclas() {
+    for (var i = 0; i < idorganismo.length; i++) {
+        if (correlacion[0][14] != idorganismo[i][1]) {
+            document.getElementById(idorganismo[i][0]).disabled = true;
+            document.getElementById(idorganismo[i][0] + 'a').disabled = true;
+        }
+    }
+
+}
+
+function proceso(y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo, organismo) {
     if (con < 2) {
-        var aux = [y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo]
+        var aux = [y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo, organismo]
         if (correlacion.length === 0) {
             correlacion.push(aux)
             con += 1
             desactivar(id)
+            desactivarteclas()
         } else {
             correlacion.push(aux)
             con = con + 1
