@@ -730,3 +730,11 @@ class CompararTiempo(TemplateView):
     def get_context_data(self, *args, **kwargs):
         prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
         return {'prediccion': prediccion}
+
+import pandas as pd
+A =[1,2,1,2,5]
+B =[1,3,2,5,4]
+C =[7,8,9,6,3]
+all_scores =A+B+C
+company_names=(['A']*len(A))+(['B']*len(C))+(['C']*len(C))
+data=pd.DataFrame({'company':company_names,'score':all_scores})
