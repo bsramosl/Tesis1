@@ -51,6 +51,7 @@ function proceso(y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo, organis
     if (con < 2) {
         var aux = [y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo, organismo]
         if (correlacion.length === 0) {
+            document.getElementById('dispercion').style.display = 'none';
             correlacion.push(aux)
             con += 1
             desactivar(id)
@@ -150,159 +151,49 @@ function graficatiempo() {
         datovolumen.push(densidad)
         datotiempo.push(tiempo)
     }
-    correlaciontiempo(correlacion)
     grafti(datovolumen, datotiempo, tit);
 }
 
-function graf(datat, ti, titulo) {
-    let chart = Highcharts.chart('batch', {
-        title: {
-            text: 'Reactor Batch'
-        },
-
-        yAxis: {
-            title: {text: 'Volumen'}
-        },
-
-        xAxis: {
-            title: {text: 'Tiempo(min)'},
-            categorías: ti
-        },
-
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 0
-            }
-        },
-        series: [{
-            name: titulo[0],
-            data: datat[0]
-        }, {
-            name: titulo[1],
-            data: datat[1]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
-    });
-}
-
-function grafti(datat, ti, titulo) {
-    let chart = Highcharts.chart('predicctiempo', {
-        title: {
-            text: 'Reactor Batch'
-        },
-
-        yAxis: {
-            title: {text: 'Densidad'}
-        },
-
-        xAxis: {
-            title: {text: 'Tiempo'}
-        },
-
-        plotOptions: {
-            series: {
-                label: {
-                    connectorAllowed: false
-                },
-                pointStart: 0
-            }
-        },
-        series: [{
-            name: titulo[0],
-            data: [ti[0], datat[0]]
-        }, {
-            name: titulo[1],
-            data: [ti[1], datat[1]]
-        }],
-
-        responsive: {
-            rules: [{
-                condition: {
-                    maxWidth: 500
-                },
-                chartOptions: {
-                    legend: {
-                        layout: 'horizontal',
-                        align: 'center',
-                        verticalAlign: 'bottom'
-                    }
-                }
-            }]
-        }
-    });
-
-}
 
 function corre(correlacion) {
-    var x = []
-    var y = []
-    var x2 = []
-    var y2 = []
-    var xy = []
-    var sumax = 0
-    var sumay = 0
-    var sumax2 = 0
-    var sumay2 = 0
-    var sumaxy = 0
-    var regrecionlineal = []
+
     if (correlacion.length === 2) {
+        var media1 = 0
+        var media2 = 0
+        var varianza1 = 0
+        var varianza2 = 0
         document.getElementById('dispercion').style.display = 'block';
-        for (var i = 0; i < correlacion.length; i++) {
-            if (x2.length === 0) {
-                for (var j = 0; j < 12; j++) {
-                    x2.push(correlacion[0][j] * correlacion[0][j])
-                    sumax += correlacion[0][j]
-                    sumax2 += (correlacion[0][j] * correlacion[0][j])
-                }
-            }
-            if (y2.length === 0) {
-                for (var j = 0; j < 12; j++) {
-                    y2.push(correlacion[1][j] * correlacion[1][j])
-                    sumay += correlacion[1][j]
-                    sumay2 += (correlacion[1][j] * correlacion[1][j])
-                }
-            }
+
+        $('#tablacolumnas tbody').html("");
+        for (let i = 0; i < 12; i++) {
+            media1 += correlacion[0][i];
+            media2 += correlacion[1][i];
         }
-        for (var i = 0; i < 12; i++) {
-            xy.push(correlacion[0][i] * correlacion[1][i])
-            sumaxy += (correlacion[0][i] * correlacion[1][i])
-            x.push(correlacion[0][i])
-            y.push(correlacion[1][i])
+        for (let i = 0; i < 12; i++) {
+            varianza1 += Math.pow((correlacion[0][i] - (media1 / 12)), 2);
+            varianza2 += Math.pow((correlacion[1][i] - (media2 / 12)), 2);
         }
-        //coeficiente de correlacion
-        var r, r_1, r_2, r2 = 0
-        r = ((x2.length * (sumaxy)) - ((sumax) * (sumay)))
-        r_1 = Math.sqrt(((x2.length * sumax2) - (Math.pow(sumax, 2))) * ((x2.length * sumay2) - (Math.pow(sumay, 2))))
-        r_2 = r / r_1
-        //coeficuente de determinacion
-        r2 = Math.pow(r_2, 2)
-        r2 = (r2 * 100).toFixed(3)
-        //regresion lineal
-        var b = ((x.length * sumaxy) - ((sumax) * (sumay))) / ((x.length * sumax2) - (Math.pow(sumax, 2)))
-        var a = ((sumay) / (x.length)) - b * (sumax / x.length)
-        var mayor = Math.max.apply(null, x)
-        for (i = 0; i < mayor; i++) {
-            regrecionlineal.push(a + (b * i))
-        }
-        graficadispercion(x, y, regrecionlineal)
+
+        let fila = '<tr>';
+        fila += '<td>' + correlacion[0][13] + '</td>>';
+        fila += '<td  >' + 12 + '</td>>';
+        fila += '<td  >' + media1.toFixed(2) + '</td>>';
+        fila += '<td  >' + (media1 / 12).toFixed(2) + '</td>>';
+        fila += '<td  >' + (varianza1 / 12).toFixed(2) + '</td>>';
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+        fila = '<tr>';
+        fila += '<td>' + correlacion[1][13] + '</td>>';
+        fila += '<td  >' + 12 + '</td>>';
+        fila += '<td  >' + media2.toFixed(2) + '</td>>';
+        fila += '<td  >' + (media2 / 12).toFixed(2) + '</td>>';
+        fila += '<td  >' + (varianza2 / 12).toFixed(2) + '</td>>';
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+
+
     }
+
 }
 
 function correlaciontiempo(correlacion) {
@@ -410,4 +301,101 @@ function graficadispercion(x, y, re) {
                 [x[8], y[8]], [x[9], y[9]], [x[10], y[10]], [x[11], y[11]],]
         }]
     });
+}
+
+
+function graf(datat, ti, titulo) {
+    let chart = Highcharts.chart('batch', {
+        title: {
+            text: 'Reactor Batch'
+        },
+
+        yAxis: {
+            title: {text: 'Volumen'}
+        },
+
+        xAxis: {
+            title: {text: 'Tiempo(min)'},
+            categorías: ti
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 0
+            }
+        },
+        series: [{
+            name: titulo[0],
+            data: datat[0]
+        }, {
+            name: titulo[1],
+            data: datat[1]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+}
+
+function grafti(datat, ti, titulo) {
+    let chart = Highcharts.chart('predicctiempo', {
+        title: {
+            text: 'Reactor Batch'
+        },
+
+        yAxis: {
+            title: {text: 'Densidad'}
+        },
+
+        xAxis: {
+            title: {text: 'Tiempo'}
+        },
+
+        plotOptions: {
+            series: {
+                label: {
+                    connectorAllowed: false
+                },
+                pointStart: 0
+            }
+        },
+        series: [{
+            name: titulo[0],
+            data: [ti[0], datat[0]]
+        }, {
+            name: titulo[1],
+            data: [ti[1], datat[1]]
+        }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+                    }
+                }
+            }]
+        }
+    });
+
 }

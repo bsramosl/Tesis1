@@ -116,3 +116,10 @@ function abrir_modal_guardar(url) {
         $(this).modal('show');
     });
 }
+
+
+function abrir_modal_anova(url) {
+    $('#registro_modal').load(url, function () {
+        $(this).modal('show');
+    });
+}
