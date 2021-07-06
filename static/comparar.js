@@ -192,7 +192,7 @@ function corre(correlacion) {
         $("#tablacolumnas").append(fila);
 
 
-    }
+    }4
 
 }
 
