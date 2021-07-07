@@ -44,7 +44,15 @@ function desactivarteclas() {
             document.getElementById(idorganismo[i][0] + 'a').disabled = true;
         }
     }
+}
 
+function desactivarteclastiempo() {
+    for (var i = 0; i < idorganismo.length; i++) {
+        if (correlacion[0][9] != idorganismo[i][1]) {
+            document.getElementById(idorganismo[i][0]).disabled = true;
+            document.getElementById(idorganismo[i][0] + 'a').disabled = true;
+        }
+    }
 }
 
 function proceso(y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo, organismo) {
@@ -63,6 +71,23 @@ function proceso(y, ks, umax, ms, f, t, v0, v, vf, so, n, x, id, titulo, organis
         }
         corre(correlacion)
         grafica()
+    }
+}
+
+function procesotiempo(tb, x, v, umax, so, sf, y, id, titulo, organismo) {
+    if (con < 2) {
+        var aux = [tb, x, v, umax, so, sf, y, id, titulo, organismo]
+        if (correlacion.length === 0) {
+            correlacion.push(aux)
+            con += 1
+            desactivar(id)
+            desactivarteclastiempo()
+        } else {
+            correlacion.push(aux)
+            con = con + 1
+            desactivar(id)
+        }
+        graficatiempo()
     }
 }
 
@@ -95,6 +120,9 @@ function activarti(id) {
     borrarti(id)
     if (con == 0) {
         document.getElementById('card').style.display = 'none';
+        for (var i = 0; i < idorganismo.length; i++) {
+            document.getElementById(idorganismo[i][0]).disabled = false;
+        }
     }
 }
 
@@ -108,22 +136,6 @@ function borrarti(id) {
         }
     }
     graficatiempo()
-}
-
-function procesotiempo(tb, x, v, umax, so, sf, y, id, titulo) {
-    if (con < 2) {
-        var aux = [tb, x, v, umax, so, sf, y, id, titulo]
-        if (correlacion.length === 0) {
-            correlacion.push(aux)
-            con += 1
-            desactivar(id)
-        } else {
-            correlacion.push(aux)
-            con = con + 1
-            desactivar(id)
-        }
-        graficatiempo()
-    }
 }
 
 function graficatiempo() {
@@ -158,22 +170,34 @@ function graficatiempo() {
 function corre(correlacion) {
 
     if (correlacion.length === 2) {
+        var dispersion = []
         var media1 = 0
         var media2 = 0
+        var media12 = 0
+        var media22 = 0
         var varianza1 = 0
         var varianza2 = 0
         document.getElementById('dispercion').style.display = 'block';
-
         $('#tablacolumnas tbody').html("");
         for (let i = 0; i < 12; i++) {
             media1 += correlacion[0][i];
             media2 += correlacion[1][i];
+            media12 += Math.pow(correlacion[0][i], 2);
+            media22 += Math.pow(correlacion[1][i], 2);
         }
+        dispersion.push((["media1", media1]))
+        dispersion.push(["media2", media2])
+        dispersion.push(["mediatotal", (media1 + media2) / 2])
+        dispersion.push(["tratamiento", (media1 + media2)])
+        dispersion.push(["factorcorreccion", (Math.pow(media1 + media2, 2) / 24)])
+        dispersion.push(["sct", (media12 + media22) - dispersion[4][1]])
+        dispersion.push(["sctr", ((Math.pow(media1, 2) / 12) + (Math.pow(media2, 2) / 12) - dispersion[4][1])])
+        dispersion.push(["sce", (dispersion[5][1] - dispersion[6][1])])
+
         for (let i = 0; i < 12; i++) {
             varianza1 += Math.pow((correlacion[0][i] - (media1 / 12)), 2);
             varianza2 += Math.pow((correlacion[1][i] - (media2 / 12)), 2);
         }
-
         let fila = '<tr>';
         fila += '<td>' + correlacion[0][13] + '</td>>';
         fila += '<td  >' + 12 + '</td>>';
@@ -188,11 +212,44 @@ function corre(correlacion) {
         fila += '<td  >' + media2.toFixed(2) + '</td>>';
         fila += '<td  >' + (media2 / 12).toFixed(2) + '</td>>';
         fila += '<td  >' + (varianza2 / 12).toFixed(2) + '</td>>';
+
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+        fila = '<tr>';
+        fila += '<td class="blank" ></td>>';
+        fila += '<td class="blank" ></td>>';
+        fila += '<td class="blank" ></td>>';
+        fila += '<td class="blank" ></td>>';
+        fila += '<td class="blank" ></td>>';
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+        fila = '<tr>';
+        fila += '<th>' + 'Fuente de Variacion' + '</th>>';
+        fila += '<th>' + 'Grados de Libertad' + '</th>>';
+        fila += '<th>' + 'Suma de cuadrados' + '</th>>';
+        fila += '<th>' + 'Cuadrados medios' + '</th>>';
+        fila += '<th>' + 'Razon F' + '</th>>';
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+        fila = '<tr>';
+        fila += '<th>' + 'Tratamiento' + '</th>>';
+        fila += '<td>' + 1 + '</td>>';
+        fila += '<td>' + dispersion[6][1].toFixed(2) + '</td>>';
+        fila += '<td>' + (dispersion[6][1]/1).toFixed(2) + '</td>>';
+        fila += '<td>' + ((dispersion[6][1]/1)/(dispersion[7][1]/10)).toFixed(2) + '</td>>';
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+        fila = '<tr>';
+        fila += '<th>' + 'Error' + '</th>>';
+        fila += '<td>' + 10 + '</td>>';
+        fila += '<td>' + dispersion[7][1].toFixed(2) + '</td>>';
+        fila += '<td>' + (dispersion[7][1]/10).toFixed(2) + '</td>>';
+        fila += '<td class="blank"></td>>';
         fila += '</tr>';
         $("#tablacolumnas").append(fila);
 
 
-    }4
+    }
 
 }
 

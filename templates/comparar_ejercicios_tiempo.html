@@ -40,7 +40,7 @@
                                             </font></font>
                                         </p>
                                         <button type="button" class="btn btn-default btn-sm" id="{{ tiempo.id }}"
-                                                onclick="procesotiempo({{ tiempo.tb }},{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.umax }},{{ tiempo.so }},{{ tiempo.sf }}, {{ tiempo.y }},{{ tiempo.id }},'{{ tiempo.titulo }}')">
+                                                onclick="procesotiempo({{ tiempo.tb }},{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.umax }},{{ tiempo.so }},{{ tiempo.sf }}, {{ tiempo.y }},{{ tiempo.id }},'{{ tiempo.titulo }}','{{ tiempo.organismo }}')">
                                             <font
                                                     style="vertical-align: inherit;"><font
                                                     style="vertical-align: inherit;"> Comparar</font></font></button>
@@ -85,5 +85,14 @@
 {% endblock %}
 {% block extrajs %}
     <script src="{% static 'comparar.js' %}"></script>
+    <script>
+        {% if prediccion %}
+            {% for tiempo in prediccion %}
+                organismo({{ tiempo.id }}, '{{ tiempo.organismo }}')
+            {% endfor %}
+        {% endif %}
+
+    </script>
+
 
 {% endblock %}
