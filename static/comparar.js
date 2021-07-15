@@ -170,6 +170,8 @@ function graficatiempo() {
 function corre(correlacion) {
 
     if (correlacion.length === 2) {
+        const $elemento = document.querySelector("#tablacolumnas");
+        $elemento.innerHTML = "";
         var dispersion = []
         var media1 = 0
         var media2 = 0
@@ -177,9 +179,19 @@ function corre(correlacion) {
         var media22 = 0
         var varianza1 = 0
         var varianza2 = 0
+        var valorescriticos = [[161.45, 18.51, 10.13, 7.71, 6.61, 5.99, 5.59, 5.32, 5.12, 4.96, 4.84],
+            [199.50, 19.00, 9.55, 6.94, 5.79, 5.14, 4.74, 4.46, 4.26, 4.10, 3.98],
+            [215.71, 19.16, 9.28, 6.59, 5.41, 4.76, 4.35, 4.07, 3.86, 3.71, 3.59],
+            [224.58, 19.25, 9.12, 6.39, 5.19, 4.53, 4.12, 3.48, 3.63, 3.48, 3.36],
+            [230.16, 19.30, 9.01, 6.26, 5.05, 4.39, 3.97, 3.69, 3.48, 3.33, 3.20],
+            [233.99, 19.33, 8.94, 6.16, 4.95, 4.28, 3.87, 3.58, 3.37, 3.22, 3.09],
+            [236.77, 19.35, 8.89, 6.09, 4.88, 4.21, 3.79, 3.50, 3.29, 3.14, 3.01],
+            [238.88, 19.37, 8.85, 6.04, 4.82, 4.15, 3.73, 3.44, 3.23, 3.07, 2.95],
+            [240.54, 19.38, 8.81, 6.00, 4.77, 4.10, 3.68, 3.39, 3.18, 3.02, 2.90],
+            [241.88, 19.40, 8.79, 5.96, 4.74, 4.06, 3.64, 3.35, 3.14, 2.98, 2.85]]
         document.getElementById('dispercion').style.display = 'block';
         $('#tablacolumnas tbody').html("");
-        for (let i = 0; i < 12; i++) {
+        for (let i = 0; i < correlacion[0].length - 3; i++) {
             media1 += correlacion[0][i];
             media2 += correlacion[1][i];
             media12 += Math.pow(correlacion[0][i], 2);
@@ -198,21 +210,22 @@ function corre(correlacion) {
             varianza1 += Math.pow((correlacion[0][i] - (media1 / 12)), 2);
             varianza2 += Math.pow((correlacion[1][i] - (media2 / 12)), 2);
         }
+        var cuenta = correlacion[0].length - 3;
+        var gradoslibertad = correlacion.length;
         let fila = '<tr>';
-        fila += '<td>' + correlacion[0][13] + '</td>>';
-        fila += '<td  >' + 12 + '</td>>';
+        fila += '<td>' + correlacion[0][correlacion[0].length - 2] + '</td>>';
+        fila += '<td > ' + cuenta + ' </td>>';
         fila += '<td  >' + media1.toFixed(2) + '</td>>';
-        fila += '<td  >' + (media1 / 12).toFixed(2) + '</td>>';
-        fila += '<td  >' + (varianza1 / 12).toFixed(2) + '</td>>';
+        fila += '<td  >' + (media1 / cuenta).toFixed(2) + '</td>>';
+        fila += '<td  >' + (varianza1 / cuenta).toFixed(2) + '</td>>';
         fila += '</tr>';
         $("#tablacolumnas").append(fila);
         fila = '<tr>';
-        fila += '<td>' + correlacion[1][13] + '</td>>';
-        fila += '<td  >' + 12 + '</td>>';
+        fila += '<td>' + correlacion[1][correlacion[1].length - 2] + '</td>>';
+        fila += '<td  >' + cuenta + '</td>>';
         fila += '<td  >' + media2.toFixed(2) + '</td>>';
-        fila += '<td  >' + (media2 / 12).toFixed(2) + '</td>>';
-        fila += '<td  >' + (varianza2 / 12).toFixed(2) + '</td>>';
-
+        fila += '<td  >' + (media2 / cuenta).toFixed(2) + '</td>>';
+        fila += '<td  >' + (varianza2 / cuenta).toFixed(2) + '</td>>';
         fila += '</tr>';
         $("#tablacolumnas").append(fila);
         fila = '<tr>';
@@ -233,24 +246,40 @@ function corre(correlacion) {
         $("#tablacolumnas").append(fila);
         fila = '<tr>';
         fila += '<th>' + 'Tratamiento' + '</th>>';
-        fila += '<td>' + 1 + '</td>>';
-        fila += '<td>' + dispersion[6][1].toFixed(2) + '</td>>';
-        fila += '<td>' + (dispersion[6][1]/1).toFixed(2) + '</td>>';
-        fila += '<td>' + ((dispersion[6][1]/1)/(dispersion[7][1]/10)).toFixed(2) + '</td>>';
+        fila += '<td>' + (gradoslibertad - 1) + '</td>>';
+        fila += '<td>' + dispersion[6][1].toFixed(2) + '</td>>'
+        fila += '<td>' + (dispersion[6][1] / (gradoslibertad - 1)).toFixed(2) + '</td>>';
+        fila += '<td>' + ((dispersion[6][1] / (gradoslibertad - 1)) / (dispersion[7][1] / (cuenta - gradoslibertad))).toFixed(2) + '</td>>';
         fila += '</tr>';
         $("#tablacolumnas").append(fila);
         fila = '<tr>';
         fila += '<th>' + 'Error' + '</th>>';
-        fila += '<td>' + 10 + '</td>>';
+        fila += '<td>' + (cuenta - gradoslibertad) + '</td>>';
         fila += '<td>' + dispersion[7][1].toFixed(2) + '</td>>';
-        fila += '<td>' + (dispersion[7][1]/10).toFixed(2) + '</td>>';
+        fila += '<td>' + (dispersion[7][1] / (cuenta - gradoslibertad)).toFixed(2) + '</td>>';
         fila += '<td class="blank"></td>>';
+        fila += '</tr>';
+        $("#tablacolumnas").append(fila);
+        console.log(((dispersion[6][1] / (gradoslibertad - 1)) / (dispersion[7][1] / (cuenta - gradoslibertad))))
+        console.log(valorescriticos[(gradoslibertad - 1) - 1][(cuenta - gradoslibertad) - 1])
+        fila = '<tr>';
+        fila += '<td class="blank"></td>>';
+        fila += '<td class="blank"></td>>';
+        fila += '<td class="blank"></td>>';
+        fila += '<td class="blank"></td>>';
+        fila += '<td class="blank"></td>>';
+        $("#tablacolumnas").append(fila);
+        fila = '<tr>';
+        if (((dispersion[6][1] / (gradoslibertad - 1)) / (dispersion[7][1] / (cuenta - gradoslibertad))) > valorescriticos[(gradoslibertad - 1)][(cuenta - gradoslibertad)]) {
+            fila += '<th>' + 'Existe una diferencia significativa' + '</th>>';
+        } else {
+            fila += '<th>' + 'No hay diferencia significativa' + '</th>>';
+        }
         fila += '</tr>';
         $("#tablacolumnas").append(fila);
 
 
     }
-
 }
 
 function correlaciontiempo(correlacion) {
