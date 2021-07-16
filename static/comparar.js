@@ -87,6 +87,7 @@ function procesotiempo(tb, x, v, umax, so, sf, y, id, titulo, organismo) {
             con = con + 1
             desactivar(id)
         }
+        corre(correlacion)
         graficatiempo()
     }
 }
@@ -206,10 +207,11 @@ function corre(correlacion) {
         dispersion.push(["sctr", ((Math.pow(media1, 2) / 12) + (Math.pow(media2, 2) / 12) - dispersion[4][1])])
         dispersion.push(["sce", (dispersion[5][1] - dispersion[6][1])])
 
-        for (let i = 0; i < 12; i++) {
-            varianza1 += Math.pow((correlacion[0][i] - (media1 / 12)), 2);
-            varianza2 += Math.pow((correlacion[1][i] - (media2 / 12)), 2);
+        for (let i = 0; i < correlacion[0].length - 3; i++) {
+            varianza1 += Math.pow((correlacion[0][i] - (media1 / (correlacion[0].length - 3))), 2);
+            varianza2 += Math.pow((correlacion[1][i] - (media2 / (correlacion[0].length - 3))), 2);
         }
+
         var cuenta = correlacion[0].length - 3;
         var gradoslibertad = correlacion.length;
         let fila = '<tr>';
@@ -260,8 +262,7 @@ function corre(correlacion) {
         fila += '<td class="blank"></td>>';
         fila += '</tr>';
         $("#tablacolumnas").append(fila);
-        console.log(((dispersion[6][1] / (gradoslibertad - 1)) / (dispersion[7][1] / (cuenta - gradoslibertad))))
-        console.log(valorescriticos[(gradoslibertad - 1) - 1][(cuenta - gradoslibertad) - 1])
+
         fila = '<tr>';
         fila += '<td class="blank"></td>>';
         fila += '<td class="blank"></td>>';

@@ -75,15 +75,99 @@
                 </div>
                 <!-- /.card-body -->
                 <div class="card-body" id="dispercion">
+                    <button type="button" class="btn btn-default" data-toggle="modal" data-target="#modal-lg">
+                        Anova Simple
+                    </button>
                 </div>
             </div>
             <!-- /.card -->
         </div>
+        <div class="modal fade" id="modal-lg">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Anova</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="center">
+                            <p>El objetivo de este programa es realizar ANOVA en varias muestras para determinar si
+                                alguna de las muestras es significativamente diferente.</p>
+                            <p class="left">Hipótesis nula: no hay diferencia estadísticamente significativa entre las
+                                muestras.</p>
+                            <p class="left">Hipótesis alternativa: Existe una diferencia estadísticamente significativa
+                                entre las muestras.</p>
+                        </div>
+                        <div>
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Grupo</th>
+                                    <th>Cuenta</th>
+                                    <th>Suma</th>
+                                    <th>Promedio</th>
+                                    <th>Varianza</th>
 
+                                    <td class="blank"></td>
+                                </tr>
+                                </thead>
+                                <tbody id="tablacolumnas">
+                                </tbody>
+
+                            </table>
+                        </div>
+
+                        <style>
+                            table {
+                                border-collapse: collapse;
+                            }
+
+                            td, th {
+                                border: 1px solid #aaa;
+                                padding: 3px;
+                            }
+
+                            td.blank {
+                                background-color: #eee;
+                                border: 0px;
+                                height: 31px;
+                            }
+
+                            .center {
+                                text-align: center;
+                            }
+
+                            th, .left {
+                                text-align: center;
+                            }
+
+                            th {
+                                background-color: #bbb;
+                            }
+
+                            td {
+                                background-color: #fafafa;
+                            }
+                        </style>
+
+
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
     </div>
 
 {% endblock %}
 {% block extrajs %}
+    -- Bootstrap 4 -->
+    <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'comparar.js' %}"></script>
     <script>
         {% if prediccion %}
