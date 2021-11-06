@@ -305,10 +305,7 @@ function listarReactor() {
                 fila += '<td style="max-width:149px;" >' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
 
                 fila += '<td style="max-width:71px;"><img src="/media/'+response[i]["fields"]['foto1']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
-                fila += '<td style="max-width:71px;" ><img src="/media/'+response[i]["fields"]['foto2']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
-                fila += '<td style="max-width:71px;" ><img src="/media/'+response[i]["fields"]['foto3']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
-                fila += '<td style="max-width:71px;" ><img src="/media/'+response[i]["fields"]['foto4']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
-                fila += '<td>' + response[i]["fields"]['estado'] + '</td>>';
+                 fila += '<td>' + response[i]["fields"]['estado'] + '</td>>';
                 fila += '<td style="max-width:130px;">' + response[i]["fields"]['tiporeactor'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';

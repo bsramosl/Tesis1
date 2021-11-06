@@ -10,7 +10,6 @@ pip install django-haystack        'haystack',
 
 
 
-
 Formulas
 V0=Vf-V
 V=Vf-V0
