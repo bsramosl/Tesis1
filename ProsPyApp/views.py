@@ -69,7 +69,7 @@ def busqueda(request):
             if actio == 'reactor':
                 if Reactor.objects.filter(modelo__icontains=request.GET['nombre']):
                     data = Reactor.objects.filter(modelo__icontains=request.GET['nombre']).values(
-                        'modelo', 'marca', 'especificaciontecnica', 'foto1')
+                        'modelo', 'marca', 'especificaciontecnica', 'foto1','foto2','foto3','foto4')
             else:
                 if actio == 'batch':
                     if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
