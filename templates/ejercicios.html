@@ -10,6 +10,8 @@
 {% block extracss %}
 
     <link rel="stylesheet" href="{% static 'estilo.css' %}">
+    <script src="{% static 'Highcharts/highcharts.js' %}"></script>
+
 {% endblock %}
 {% block content %}
 
@@ -81,6 +83,12 @@
                                                         <button type="button" class="btn btn-danger btn-xs"
                                                                 onclick="abrir_modal_eliminar('{% url 'ProsPy:EliminarPrediccion' tiempo.id %}')">
                                                             <i class="fa fa-trash-o "></i></button>
+
+                                                        <button type="button" class="btn btn-primary btn-xs"
+                                                                data-toggle="modal" data-target="#imprimir_tiempo"
+                                                                onclick="imptiempo('{{ tiempo.titulo }}','{{ tiempo.descripcion }}',{{ tiempo.x }},{{ tiempo.v }},{{ tiempo.so }},{{ tiempo.umax }},{{ tiempo.y }},{{ tiempo.sf }},{{ tiempo.tb }},'{{ tiempo.organismo.nombrecientifico }}','{{ tiempo.reactor }}')">
+                                                            <i class="fa fa-print "></i>
+                                                        </button>
                                                     </div>
                                                     <!-- /.description-block -->
                                                 </div>
@@ -191,9 +199,356 @@
     <div class="modal fade" id="editar_modal">
     </div>
     <div class="modal fade" id="eliminar_modal">
+    </div>
+    <div class="modal fade" id="imprimir_tiempo">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">ProsPy.</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="impre">
+                    <div class="invoice p-3 mb-3">
+                        <!-- title row -->
+                        <div class="row">
+                            <div class="col-12">
+                                <h4>
+                                    <i class="fa fa-globe"></i><span
+                                        id="id_titulo" style="color: #000000"></span><small class="float-right"><font
+                                        style="vertical-align: inherit;">Fecha
+                                    :<span
+                                            id="id_fecha" style="color: #000000"></span></font></small>
+                                </h4>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <div class="row invoice-info">
+                            <div class="col-sm-6 invoice-col">
+                                <address>
+                                    <strong>Descripcion:</strong> <br>
+                                    <span id="id_descripcion" style="color: #000000"></span>
+                                    <br></address>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-sm-4 invoice-col">
+                                <address>
+                                    <strong>Organismo:</strong><br>
+                                    <span id="id_organismo" style="color: #000000"></span>
+                                </address>
+                            </div>
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-2"></div>
+                            <div class="col-8 table-responsive">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Nª.</font></font></th>
+                                        <th><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Variable</font></font>
+                                        </th>
+                                        <th><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Dato</font></font></th>
+                                        <th><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Unidad</font></font>
+                                        </th>
+                                        <th><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Descripcion
+                                            parcial</font></font></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">1</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">X</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_x" style="color: #000000"></span> </font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">kg</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Concentracion
+                                            de celulas</font></font></td>
+                                    </tr>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">2</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">V</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_v" style="color: #000000"></span></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">m3</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Variacion
+                                            de Volumen</font></font></td>
+                                    </tr>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">3</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">So</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_so" style="color: #000000"></span></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">m3</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Concentracion
+                                            de Sustrato de alimentacion</font></font></td>
+                                    </tr>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">4</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Umax</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_umax" style="color: #000000"></span></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">H-1</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Velocidad
+                                            maxima de crecimiento</font></font></td>
+                                    </tr>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">5</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Y(x/s)</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_y" style="color: #000000"></span></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Kg/Kg</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Rendimiento
+                                            de Biomasas</font></font></td>
+                                    </tr>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">6</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Sf</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_sf" style="color: #000000"></span></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">g/L</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Concentración
+                                            de Sustrato del liquido dentro del biorreactor</font></font></td>
+                                    </tr>
+                                    <tr>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">7</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Tb</font></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><span
+                                                id="id_tb" style="color: #000000"></span></font>
+                                        </td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">h</font></font></td>
+                                        <td><font style="vertical-align: inherit;"><font
+                                                style="vertical-align: inherit;">Tiempo
+                                            para alcanzar la face estacionaria</font></font></td>
+                                    </tr>
+
+
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+                        <!-- /.row -->
+
+                        <div class="row">
+                            <!-- accepted payments column -->
+                            <div class="col-6">
+                                <p class="lead"><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">Grafica</font></font>
+                                </p>
+                                <div id="predicc">
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                            <div class="col-6">
+                                <p class="lead"><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">Resultados</font></font>
+                                </p>
+
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tbody>
+                                        <tr>
+                                            <th style="width:50%"><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Tiempo face
+                                                estacionaria:</font></font>
+                                            </th>
+                                            <td><font style="vertical-align: inherit;">
+                                        <span
+                                                id="id_1" style="color: #000000"></span>
+                                            </font></td>
+                                        </tr>
+                                        <tr>
+                                            <th><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Densidad
+                                                celular final 100% :</font></font></th>
+                                            <td><font style="vertical-align: inherit;"><span
+                                                    id="id_2" style="color: #000000"></span></font></td>
+                                        </tr>
+                                        <tr>
+                                            <th><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Tiempo
+                                                face estacionaria consumo:</font></font>
+                                            </th>
+                                            <td><font style="vertical-align: inherit;"><span
+                                                    id="id_3" style="color: #000000"></span></font></td>
+                                        </tr>
+                                        <tr>
+                                            <th><font style="vertical-align: inherit;"><font
+                                                    style="vertical-align: inherit;">Densidad
+                                                celular consumo:</font></font>
+                                            </th>
+                                            <td><font style="vertical-align: inherit;"><span
+                                                    id="id_4" style="color: #000000"></span></font></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <!-- /.col -->
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" onclick="cerrar_modal_imprimir();">Close</button>
+                    <button type="button" class="btn btn-primary" onclick="PrintElem('impre');"><i
+                            class="fa fa-edit"></i>
+                        Imprimir
+                    </button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+    </div>
+    </div>
 
 {% endblock %}
 {% block extrajs %}
+    <script>
+        function PrintElem(elem) {
+            var mywindow = window.open('', 'PRINT', 'height=800,width=1400');
+            mywindow.document.write('<html><head><title>' + document.title + '</title>');
+            mywindow.document.write('</head><body >');
+            mywindow.document.write('<h1>' + document.title + '</h1>');
+            mywindow.document.write(document.getElementById(elem).innerHTML);
+            mywindow.document.write('</body></html>');
+            mywindow.document.close(); // necessary for IE >= 10
+            mywindow.focus(); // necessary for IE >= 10*/
+            mywindow.print();
+            mywindow.close();
+            return true;
+        }
+
+        function imptiempo(titulo, descipcion, x, v, so, umax, y, sf, tb, orga) {
+            document.getElementById('id_fecha').innerHTML = ' ' + new Date().toLocaleDateString()
+            document.getElementById('id_titulo').innerHTML = ' ' + titulo
+            document.getElementById('id_descripcion').innerHTML = ' ' + descipcion
+            document.getElementById('id_organismo').innerHTML = ' ' + orga
+            document.getElementById('id_x').innerHTML = ' ' + x
+            document.getElementById('id_v').innerHTML = ' ' + v
+            document.getElementById('id_so').innerHTML = ' ' + so
+            document.getElementById('id_umax').innerHTML = ' ' + umax
+            document.getElementById('id_y').innerHTML = ' ' + y
+            document.getElementById('id_sf').innerHTML = ' ' + sf
+            document.getElementById('id_tb').innerHTML = ' ' + tb
+
+            if (umax != 0 && x != 0 && v != 0 && tb != 0) {
+                X0 = (x / v)
+                dsf = X0 * Math.exp(umax * tb)
+                tbtiempo = 1 / umax
+                tbtiempo1 = parseFloat(y / X0)
+                tbtiempo2 = parseFloat(1 + tbtiempo1 * so)
+                tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
+                document.getElementById('id_1').innerHTML = ' ' + tbtiempo4
+                document.getElementById('id_2').innerHTML = ' ' + dsf.toFixed(2)
+            }
+
+            if (umax != 0 && y != 0 && so != 0 && x != 0 && v != 0 && sf != 0) {
+                porsentcons = ((so - sf) * 100) / so
+                consumo = (so * 70) / 100
+                tbtiempo = 1 / umax
+                X0 = (x / v)
+                tbtiempo1 = parseFloat(y / X0)
+                tbtiempo2 = parseFloat(1 + tbtiempo1 * (so - (so - consumo)))
+                tbtiempo4 = parseFloat(tbtiempo * Math.log(tbtiempo2)).toFixed(2)
+
+                dsf = X0 * Math.exp(umax * tbtiempo4)
+                document.getElementById('id_4').innerHTML = ' ' + dsf.toFixed(2)
+                document.getElementById('id_3').innerHTML = ' ' + tbtiempo4
+
+                var tiempo = [];
+                var densidad = [];
+                tiempo.push(parseFloat(document.getElementById("id_3").innerText));
+                tiempo.push(parseFloat(document.getElementById("id_4").innerText));
+                densidad.push(parseFloat(document.getElementById("id_1").innerText));
+                densidad.push(parseFloat(document.getElementById("id_2").innerText));
+                if (tiempo.length != 0) {
+                    graf(densidad, tiempo);
+                }
+
+            }
+
+
+        }
+
+        $(document).ready(function grafica() {
+
+        })
+
+        var chart1;
+
+        function graf(datat, ti) {
+            chart1 = new Highcharts.Chart({
+                chart: {renderTo: 'predicc'},
+                title: {
+                    text: 'Reactor'
+                },
+
+                yAxis: {
+                    title: {text: 'Densidad'}
+                },
+
+                xAxis: {
+                    title: {text: 'Tiempo'}
+                },
+                series: [{
+                    name: 'Densidad',
+                    data: [ti, datat]
+                }],
+            });
+        };
+
+
+    </script>
 
     <!-- Bootstrap 4 -->
     <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
