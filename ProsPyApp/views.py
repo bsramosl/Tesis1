@@ -19,6 +19,10 @@ from django.contrib.auth import login, logout, update_session_auth_hash
 from .models import *
 
 
+class Index(TemplateView):
+    template_name = 'Index.html'
+
+
 class Inicio(TemplateView):
     template_name = 'inicio.html'
 
@@ -64,7 +68,7 @@ def busqueda(request):
             if queryset != 0:
                 if Organismo.objects.filter(nombrecientifico__icontains=queryset):
                     data = Organismo.objects.filter(nombrecientifico__icontains=queryset).values(
-                        'nombrecientifico', 'genero', 'ph', 'aw')
+                        'nombrecientifico', 'genero', 'ph')
         else:
             if actio == 'reactor':
                 if Reactor.objects.filter(modelo__icontains=request.GET['nombre']):
@@ -75,7 +79,7 @@ def busqueda(request):
                     if CaBatch.objects.filter(titulo__icontains=request.GET['nombre']):
                         data = CaBatch.objects.filter(titulo__icontains=request.GET['nombre']).values(
                             'id', 'titulo', 'descripcion', 'y', 'ks', 'umax', 'ms', 'f', 't', 'v0', 'v', 'vf', 'so',
-                            'n', 'x')
+                            'n', 'x','organismo_id')
                 else:
                     if actio == 'tiempo':
                         if CaPrediccion.objects.filter(titulo__icontains=request.GET['nombre']):
@@ -426,7 +430,7 @@ class Reactorlista(ListView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
+            return HttpResponse(serialize('json', self.model.objects.all(),use_natural_foreign_keys = True), 'aplication/json')
         else:
             return redirect('ProsPy:LUReactor')
 
@@ -508,7 +512,7 @@ class CaBatchlista(ListView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
+            return HttpResponse(serialize('json', self.model.objects.all(),use_natural_foreign_keys = True), 'aplication/json')
         else:
             return redirect('ProsPy:LUCaBatch')
 
@@ -590,7 +594,7 @@ class CaPrediccionlista(ListView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
-            return HttpResponse(serialize('json', self.model.objects.all()), 'aplication/json')
+            return HttpResponse(serialize('json', self.model.objects.all(),use_natural_foreign_keys = True), 'aplication/json')
         else:
             return redirect('ProsPy:LUCaPrediccion')
 
@@ -724,9 +728,18 @@ class CompararBatch(TemplateView):
         return JsonResponse(data, safe=False)
 
 
+
+
 class CompararTiempo(TemplateView):
     template_name = 'comparar_ejercicios_tiempo.html'
 
     def get_context_data(self, *args, **kwargs):
         prediccion = CaPrediccion.objects.filter(usuario=self.request.user)
         return {'prediccion': prediccion}
+
+
+class ImprimirTiempo(TemplateView):
+    template_name = 'Imprimirmodaltiempo.html'
+
+
+

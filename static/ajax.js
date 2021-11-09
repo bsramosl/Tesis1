@@ -212,7 +212,6 @@ function listarOrganismo() {
                 fila += '<td style="max-width:250px; " >' + response[i]["fields"]['nombrecientifico'] + '</td>>';
                 fila += '<td style="width: 100px" >' + response[i]["fields"]['genero'] + '</td>>';
                 fila += '<td style="width:81px;" >' + response[i]["fields"]['ph'] + '</td>>';
-                fila += '<td style="width:81px;" >' + response[i]["fields"]['aw'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablaorganismo tbody').append(fila);
@@ -297,7 +296,6 @@ function listarReactor() {
             }
             $('#tablareactor tbody').html("");
             for (let i = 0; i < response.length; i++) {
-                console.log(response)
                 let fila = '<tr>';
                 fila += '<td>' + (i + 1) + '</td>>';
                 fila += '<td style="max-width:84px;" >' + response[i]["fields"]['marca'] + '</td>>';
@@ -512,7 +510,7 @@ function listarPrediccion() {
                 fila += '<td style="max-width:64px;">' + response[i]["fields"]['y'] + '</td>>';
                 fila += '<td style="max-width:64px;">' + response[i]["fields"]['sf'] + '</td>>';
                 fila += '<td style="max-width:64px;">' + response[i]["fields"]['tb'] + '</td>>';
-                fila += '<td>' + response[i]["fields"]['organismo'] + '</td>>';
+                fila += '<td  style="max-width:106px">' + response[i]["fields"]['organismo'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['reactor'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';
                 fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarCaPrediccion/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarCaPrediccion/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';

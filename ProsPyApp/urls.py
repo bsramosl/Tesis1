@@ -6,6 +6,8 @@ app_name = 'ProsPy'
 
 urlpatterns = [
 
+    path('Index/',  views.Index.as_view(), name='Index'),
+
     path('Inicio/', login_required(views.Inicio.as_view()), name='Inicio'),
     path('busqueda/', login_required(views.busqueda), name='busqueda'),
 
@@ -66,5 +68,7 @@ urlpatterns = [
 
     path('CompararBatch/', login_required(views.CompararBatch.as_view()), name='CompararBatch'),
     path('CompararTiempo/', login_required(views.CompararTiempo.as_view()), name='CompararTiempo'),
+
+    path('ImprimirTiempo/', views.ImprimirTiempo.as_view(), name='ImprimirTiempo'),
 
 ]

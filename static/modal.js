@@ -123,3 +123,22 @@ function abrir_modal_anova(url) {
         $(this).modal('show');
     });
 }
+
+
+function abrir_modal_imprimir(url) {
+    $('#imprimir_modal').load(url, function () {
+        $(this).modal('show');
+        document.getElementById('id_fecha').innerHTML= ' ' + new Date().toLocaleDateString()
+        document.getElementById('id_x').innerHTML = ' ' + $('#X').val()
+        document.getElementById('id_v').innerHTML = ' ' + $('#V').val()
+        document.getElementById('id_so').innerHTML = ' ' + $('#So').val()
+        document.getElementById('id_umax').innerHTML = ' ' + $('#Umax').val()
+        document.getElementById('id_y').innerHTML = ' ' + $('#Y').val()
+        document.getElementById('id_sf').innerHTML = ' ' + $('#Sf').val()
+        document.getElementById('id_tb').innerHTML = ' ' + $('#Tb').val()
+        document.getElementById('id_1').innerHTML = ' ' + document.getElementById("cont1").innerText
+        document.getElementById('id_2').innerHTML = ' ' + document.getElementById("cont2").innerText
+        document.getElementById('id_3').innerHTML = ' ' + document.getElementById("cont5").innerText
+        document.getElementById('id_4').innerHTML = ' ' + document.getElementById("cont4").innerText
+    });
+}

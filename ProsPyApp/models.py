@@ -12,6 +12,9 @@ class TipoReactor(models.Model):
         verbose_name_plural = 'tiporeactores'
         ordering = ['tiporeactor']
 
+    def natural_key(self):
+        return (self.tiporeactor)
+
     def __str__(self):
         return self.descripcion
 
@@ -19,13 +22,15 @@ class TipoReactor(models.Model):
 class Organismo(models.Model):
     nombrecientifico = models.CharField(max_length=50, blank=False, null=False)
     ph = models.FloatField(max_length=10, blank=False, null=False)
-    aw = models.FloatField(max_length=10, blank=False, null=False)
     genero = models.CharField(max_length=50, blank=False, null=False)
 
     class Meta:
         verbose_name = 'organismo'
         verbose_name_plural = 'organismos'
         ordering = ['nombrecientifico']
+
+    def natural_key(self):
+        return (self.nombrecientifico)
 
     def __str__(self):
         return self.nombrecientifico
@@ -46,6 +51,9 @@ class Reactor(models.Model):
         verbose_name = 'reactor'
         verbose_name_plural = 'reatores'
         ordering = ['marca']
+
+    def natural_key(self):
+        return (self.marca)
 
     def __str__(self):
         return self.marca

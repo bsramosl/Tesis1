@@ -83,9 +83,11 @@ class TipoReactorForm(forms.ModelForm):
 
 
 class OrganismoForm(forms.ModelForm):
-    nombrecientifico = forms.CharField(label='Nombre Cient:', widget=forms.TextInput(
+    nombrecientifico = forms.CharField(label='Nombre Cient:',widget=forms.TextInput(
         attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
-    genero = forms.CharField(label='Genero:',
+    ph = forms.CharField(label='PH inoculacion:', widget=forms.TextInput(
+        attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
+    genero = forms.CharField(label='Taxonomia:',
                              widget=forms.TextInput(attrs={'class': 'form-sma form-sma-titu', 'float': 'left'}))
 
     class Meta:

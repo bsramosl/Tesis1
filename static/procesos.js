@@ -124,8 +124,9 @@ function concentracioncelulas() {
         x2 = parseFloat(D / $('#Y').val());
         x3 = parseFloat(x2) + parseFloat($('#ms').val());
         x0 = (x1 / x3).toFixed(3);
+        document.getElementById('cont4').innerHTML = ' ' + x0
         document.getElementById('X').value = x0
-        document.getElementById('cont4').innerHTML = '  ' + x0.toFixed(3)
+
     }
     masa()
 }
