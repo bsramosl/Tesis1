@@ -155,7 +155,10 @@
                 </div>
                 <div class="card-footer">
                     <div class="col-12">
-                        <a onclick="abrir_modal_imprimir('{% url 'ProsPy:ImprimirTiempo' %}');" rel="noopener" target="_blank" class="btn btn-default"><i class="fa fa-print"></i><font style="vertical-align: inherit;"><font style="vertical-align: inherit;"> Impresión</font></font></a>
+                        <a onclick="abrir_modal_imprimir('{% url 'ProsPy:ImprimirTiempo' %}');" rel="noopener"
+                           target="_blank" class="btn btn-default"><i class="fa fa-print"></i><font
+                                style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                            Impresión</font></font></a>
 
                         <button type="button" onclick="abrir_modal_prediccion('{% url 'ProsPy:GuardarCaPrediccion' %}','{{ user.username }}');"
                             class="btn btn-primary float-right">Guardar

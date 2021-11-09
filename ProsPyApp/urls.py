@@ -71,4 +71,6 @@ urlpatterns = [
 
     path('ImprimirTiempo/', views.ImprimirTiempo.as_view(), name='ImprimirTiempo'),
 
+    path('Imprimirbatch/', views.Imprimirbatch.as_view(), name='Imprimirbatch'),
+
 ]

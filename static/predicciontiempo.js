@@ -95,7 +95,7 @@ document.getElementById('predicctiempo').innerHTML = "<img src='/media/img/batch
 function graf(datat, ti) {
     let chart = Highcharts.chart('predicctiempo', {
         title: {
-            text: 'Reactor Batch'
+            text: 'Reactor'
         },
 
         yAxis: {
@@ -134,5 +134,6 @@ function graf(datat, ti) {
             }]
         }
     });
+
 
 }

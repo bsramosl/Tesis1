@@ -207,6 +207,10 @@
                     </div>
                 </div>
                 <div class="card-footer">
+                    <a onclick="abrir_modal_imprimirbatch('{% url 'ProsPy:Imprimirbatch' %}');" rel="noopener"
+                       target="_blank" class="btn btn-default"><i class="fa fa-print"></i><font
+                            style="vertical-align: inherit;"><font style="vertical-align: inherit;">
+                        Impresión</font></font></a>
                     <button type="button"
                             onclick="abrir_modal_reactor('{% url 'ProsPy:GuardarCaBatch' %}','{{ user.username }}');"
                             class="btn btn-primary float-right">Guardar
@@ -235,6 +239,9 @@
 
     <div class="modal fade" id="reactor_modal">
     </div>
+
+     <div class="modal fade" id="imprimir_modal">
+     </div>
 
 
 {% endblock %}

@@ -742,4 +742,8 @@ class ImprimirTiempo(TemplateView):
     template_name = 'Imprimirmodaltiempo.html'
 
 
+class Imprimirbatch(TemplateView):
+    template_name = 'imprimirmodalbatch.html'
+
+
 

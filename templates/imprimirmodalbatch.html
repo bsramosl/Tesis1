@@ -4,44 +4,70 @@
     <title>Example</title>
     <script type="text/javascript">
 
-        $(document).ready(function grafica() {
-            var tiempo = [];
-            var densidad = [];
-            if ($('#Tb').val() != 0) {
-                tiempo.push(parseFloat(document.getElementById("cont1").innerText));
-                tiempo.push(parseFloat(document.getElementById("cont2").innerText));
-            }
-            if ($('#Sf').val() != 0) {
-                densidad.push(parseFloat(document.getElementById("cont5").innerText));
-                densidad.push(parseFloat(document.getElementById("cont4").innerText));
-            }
-            if (tiempo.length != 0) {
-                graf(densidad, tiempo);
+        $(document).ready(function grafica()  {
+
+            if ($('#V').val() != 0 && $('#t').val() != 0 && $('#Vf').val() != 0) {
+                var tiempo = $('#t').val() * 60;
+                var ace = ($('#Vf').val() - $('#V0').val()) / tiempo;
+                var velocidad = [];
+                var ti = [];
+                for (var i = 0; i <= tiempo; i++) {
+                    ve = (parseFloat(ace) * i) + parseFloat($('#V0').val());
+                    ti.push(i);
+                    velocidad.push(ve);
+                }
+                graf(velocidad, ti);
             }
         })
 
-        var chart1;
-
         function graf(datat, ti) {
-            chart1 = new Highcharts.Chart({
-                chart: {renderTo: 'predicc'},
+            let chart = Highcharts.chart('predicc', {
                 title: {
-                    text: 'Reactor'
+                    text: 'Reactor Batch'
                 },
 
                 yAxis: {
-                    title: {text: 'Densidad'}
+                    title: {text: 'Velocidad'}
                 },
 
                 xAxis: {
-                    title: {text: 'Tiempo'}
+                    title: {text: 'Tiempo'},
+                    categorías: ti
                 },
+
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        },
+                        pointStart: 0
+                    }
+                },
+
                 series: [{
-                    name: 'Densidad',
-                    data: [ti, datat]
+                    name: 'Velocidad',
+                    data: datat
                 }],
+
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
             });
-        };
+
+        }
+
+
     </script>
     <!-- - -->
 </head>
@@ -93,47 +119,33 @@
                                 <td><font style="vertical-align: inherit;"><font
                                         style="vertical-align: inherit;">1</font></font></td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">X</font></font>
+                                        style="vertical-align: inherit;">Y(x/s)</font></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><span
-                                        id="id_x" style="color: #000000"></span> </font>
+                                        id="id_y" style="color: #000000"></span> </font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">kg</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concentracion
-                                    de celulas</font></font></td>
+                                        style="vertical-align: inherit;">kg/Kg</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rendimiento
+                                    Biomasas</font></font></td>
                             </tr>
                             <tr>
                                 <td><font style="vertical-align: inherit;"><font
                                         style="vertical-align: inherit;">2</font></font></td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">V</font></font>
+                                        style="vertical-align: inherit;">Ks</font></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><span
-                                        id="id_v" style="color: #000000"></span></font>
+                                        id="id_ks" style="color: #000000"></span></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">m3</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variacion
-                                    de Volumen</font></font></td>
+                                        style="vertical-align: inherit;">Kg,m-3</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Constante
+                                    de saturacion</font></font></td>
                             </tr>
                             <tr>
                                 <td><font style="vertical-align: inherit;"><font
                                         style="vertical-align: inherit;">3</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">So</font></font>
-                                </td>
-                                <td><font style="vertical-align: inherit;"><span
-                                        id="id_so" style="color: #000000"></span></font>
-                                </td>
-                                <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">m3</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concentracion
-                                    de Sustrato de alimentacion</font></font></td>
-                            </tr>
-                            <tr>
-                                <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">4</font></font></td>
                                 <td><font style="vertical-align: inherit;"><font
                                         style="vertical-align: inherit;">Umax</font></font>
                                 </td>
@@ -147,47 +159,130 @@
                             </tr>
                             <tr>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">5</font></font></td>
+                                        style="vertical-align: inherit;">4</font></font></td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">Y(x/s)</font></font>
+                                        style="vertical-align: inherit;">ms</font></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><span
-                                        id="id_y" style="color: #000000"></span></font>
+                                        id="id_ms" style="color: #000000"></span></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">Kg/Kg</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Rendimiento
-                                    de Biomasas</font></font></td>
+                                        style="vertical-align: inherit;">ms</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Fraccion
+                                    de trabajo de cultivo</font></font></td>
+                            </tr>
+                            <tr>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">5</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">F</font></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><span
+                                        id="id_f" style="color: #000000"></span></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">m3/h</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Caudal
+                                    de alimentacion</font></font></td>
                             </tr>
                             <tr>
                                 <td><font style="vertical-align: inherit;"><font
                                         style="vertical-align: inherit;">6</font></font></td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">Sf</font></font>
+                                        style="vertical-align: inherit;">t</font></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><span
-                                        id="id_sf" style="color: #000000"></span></font>
+                                        id="id_t" style="color: #000000"></span></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">g/L</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concentración
-                                    de Sustrato del liquido dentro del biorreactor</font></font></td>
+                                        style="vertical-align: inherit;">H-1</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiempo
+                                    en que se llega al volumen final</font></font></td>
                             </tr>
                             <tr>
                                 <td><font style="vertical-align: inherit;"><font
                                         style="vertical-align: inherit;">7</font></font></td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">Tb</font></font>
+                                        style="vertical-align: inherit;">V0</font></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><span
-                                        id="id_tb" style="color: #000000"></span></font>
+                                        id="id_v0" style="color: #000000"></span></font>
                                 </td>
                                 <td><font style="vertical-align: inherit;"><font
-                                        style="vertical-align: inherit;">h</font></font></td>
-                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiempo
-                                    para alcanzar la face estacionaria</font></font></td>
+                                        style="vertical-align: inherit;">m3</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Volumen
+                                    inicial</font></font></td>
                             </tr>
-
+                            <tr>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">8</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">V</font></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><span
+                                        id="id_v" style="color: #000000"></span></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">m3</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Variacion
+                                    de volumen</font></font></td>
+                            </tr>
+                            <tr>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">9</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">Vf</font></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><span
+                                        id="id_vf" style="color: #000000"></span></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">m3</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Volumen
+                                    final</font></font></td>
+                            </tr>
+                            <tr>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">10</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">So</font></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><span
+                                        id="id_so" style="color: #000000"></span></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">m3</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concentracion
+                                    de sustrato de alimentacion</font></font></td>
+                            </tr>
+                            <tr>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">11</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">N</font></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><span
+                                        id="id_n" style="color: #000000"></span></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">Kg</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Masa
+                                    de celulas</font></font></td>
+                            </tr>
+                            <tr>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">12</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">X</font></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><span
+                                        id="id_x" style="color: #000000"></span></font>
+                                </td>
+                                <td><font style="vertical-align: inherit;"><font
+                                        style="vertical-align: inherit;">Kg</font></font></td>
+                                <td><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concentracion
+                                    de celulas</font></font></td>
+                            </tr>
 
                             </tbody>
                         </table>
@@ -214,7 +309,7 @@
                                 <tbody>
                                 <tr>
                                     <th style="width:50%"><font style="vertical-align: inherit;"><font
-                                            style="vertical-align: inherit;">Tiempo face estacionaria:</font></font>
+                                            style="vertical-align: inherit;">Concentracion:</font></font>
                                     </th>
                                     <td><font style="vertical-align: inherit;">
                                         <span
@@ -223,20 +318,20 @@
                                 </tr>
                                 <tr>
                                     <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Densidad
-                                        celular final 100% :</font></font></th>
+                                        de cultivo</font></font></th>
                                     <td><font style="vertical-align: inherit;"><span
                                             id="id_2" style="color: #000000"></span></font></td>
                                 </tr>
                                 <tr>
-                                    <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Tiempo
-                                        face estacionaria consumo:</font></font>
+                                    <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Masa
+                                        de Celulas:</font></font>
                                     </th>
                                     <td><font style="vertical-align: inherit;"><span
                                             id="id_3" style="color: #000000"></span></font></td>
                                 </tr>
                                 <tr>
-                                    <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Densidad
-                                        celular consumo:</font></font>
+                                    <th><font style="vertical-align: inherit;"><font style="vertical-align: inherit;">Concentracion
+                                        de Celulas:</font></font>
                                     </th>
                                     <td><font style="vertical-align: inherit;"><span
                                             id="id_4" style="color: #000000"></span></font></td>

@@ -142,3 +142,30 @@ function abrir_modal_imprimir(url) {
         document.getElementById('id_4').innerHTML = ' ' + document.getElementById("cont4").innerText
     });
 }
+
+function cerrar_modal_imprimir() {
+    $('#imprimir_modal').modal('hide');
+}
+
+function abrir_modal_imprimirbatch(url) {
+    $('#imprimir_modal').load(url, function () {
+        $(this).modal('show');
+        document.getElementById('id_fecha').innerHTML= ' ' + new Date().toLocaleDateString()
+        document.getElementById('id_y').innerHTML = ' ' + $('#Y').val()
+        document.getElementById('id_ks').innerHTML = ' ' + $('#Ks').val()
+        document.getElementById('id_umax').innerHTML = ' ' + $('#Umax').val()
+        document.getElementById('id_ms').innerHTML = ' ' + $('#ms').val()
+        document.getElementById('id_f').innerHTML = ' ' + $('#F').val()
+        document.getElementById('id_t').innerHTML = ' ' + $('#t').val()
+        document.getElementById('id_v0').innerHTML = ' ' + $('#V0').val()
+        document.getElementById('id_v').innerHTML = ' ' + $('#V').val()
+        document.getElementById('id_vf').innerHTML = ' ' + $('#Vf').val()
+        document.getElementById('id_so').innerHTML = ' ' + $('#So').val()
+        document.getElementById('id_n').innerHTML = ' ' + $('#N').val()
+        document.getElementById('id_x').innerHTML = ' ' + $('#X').val()
+        document.getElementById('id_1').innerHTML = ' ' + document.getElementById("cont1").innerText
+        document.getElementById('id_2').innerHTML = ' ' + document.getElementById("cont2").innerText
+        document.getElementById('id_3').innerHTML = ' ' + document.getElementById("cont3").innerText
+        document.getElementById('id_4').innerHTML = ' ' + document.getElementById("cont4").innerText
+    });
+}
