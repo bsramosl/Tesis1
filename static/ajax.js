@@ -16,7 +16,7 @@ function validaFloat(numero) {
 
 function listarUsuario() {
     $.ajax({
-        url: "/ProsPy/UsuarioLista/",
+        url: "/UsuarioLista/",
         type: "get",
         dataType: "json",
         success: function (response) {
@@ -33,7 +33,7 @@ function listarUsuario() {
                 fila += '<td style="max-width:182px;" >' + response[i]["fields"]['email'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['is_superuser'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['last_login'] + '</td>>';
-                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/EditarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/EliminarUsuario/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
                 fila += '</tr>';
                 $('#tablausuario tbody').append(fila);
             }
@@ -93,7 +93,7 @@ function eliminar(pk) {
         data: {
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/ProsPy/EliminarUsuario/' + pk + '/',
+        url: '/EliminarUsuario/' + pk + '/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
@@ -109,7 +109,7 @@ function eliminar(pk) {
 
 function listarTipo() {
     $.ajax({
-        url: "/ProsPy/TipoReactorlista/",
+        url: "/TipoReactorlista/",
         type: "get",
         dataType: "json",
         success: function (response) {
@@ -123,7 +123,7 @@ function listarTipo() {
                 fila += '<td style="max-width:250px;" >' + response[i]["fields"]['descripcion'] + '</td>>';
                 fila += '<td style="max-width:280px;" >' + response[i]["fields"]['especificaciontecnica'] + '</td>>';
                 fila += '<td style="max-width:150px;" >' + response[i]["fields"]['tiporeactor'] + '</td>>';
-                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarTipo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarTipo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/EditarTipo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/EliminarTipo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>>';
                 fila += '</tr>';
                 $('#tablatipo tbody').append(fila);
             }
@@ -182,7 +182,7 @@ function eliminartipo(pk) {
         data: {
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/ProsPy/EliminarTipo/' + pk + '/',
+        url: '/EliminarTipo/' + pk + '/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
@@ -198,7 +198,7 @@ function eliminartipo(pk) {
 
 function listarOrganismo() {
     $.ajax({
-        url: "/ProsPy/Organismolista/",
+        url: "/Organismolista/",
         type: "get",
         dataType: "json",
         success: function (response) {
@@ -212,7 +212,7 @@ function listarOrganismo() {
                 fila += '<td style="max-width:250px; " >' + response[i]["fields"]['nombrecientifico'] + '</td>>';
                 fila += '<td style="width: 100px" >' + response[i]["fields"]['genero'] + '</td>>';
                 fila += '<td style="width:81px;" >' + response[i]["fields"]['ph'] + '</td>>';
-                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/EditarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/EliminarOrganismo/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablaorganismo tbody').append(fila);
             }
@@ -271,7 +271,7 @@ function eliminarorganismo(pk) {
         data: {
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/ProsPy/EliminarOrganismo/' + pk + '/',
+        url: '/EliminarOrganismo/' + pk + '/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
@@ -287,7 +287,7 @@ function eliminarorganismo(pk) {
 
 function listarReactor() {
     $.ajax({
-        url: "/ProsPy/Reactorlista/",
+        url: "/Reactorlista/",
         type: "get",
         dataType: "json",
         success: function (response) {
@@ -306,7 +306,7 @@ function listarReactor() {
                 fila += '<td style="max-width:71px;" ><img src="/media/'+response[i]["fields"]['foto3']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
                 fila += '<td style="max-width:71px;" ><img src="/media/'+response[i]["fields"]['foto4']+'" style="max-width: 54px; max-height: 54px; width:100%;height: 100%" ></td>>';
                 fila += '<td style="max-width:130px;">' + response[i]["fields"]['tiporeactor'] + '</td>>';
-                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/EditarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/EliminarReactor/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablareactor tbody').append(fila);
             }
@@ -374,7 +374,7 @@ function eliminarreactor(pk) {
         data: {
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/ProsPy/EliminarReactor/' + pk + '/',
+        url: '/EliminarReactor/' + pk + '/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
@@ -390,7 +390,7 @@ function eliminarreactor(pk) {
 
 function listarBatch() {
     $.ajax({
-        url: "/ProsPy/CaBatchlista/",
+        url: "/CaBatchlista/",
         type: "get",
         dataType: "json",
         success: function (response) {
@@ -414,7 +414,7 @@ function listarBatch() {
                 fila += '<td style="max-width:106px;">' + response[i]["fields"]['organismo'] + '</td>>';
                 fila += '<td style="max-width:82px;">' + response[i]["fields"]['reactor'] + '</td>>';
                 fila += '<td style="max-width:82px;">' + response[i]["fields"]['usuario'] + '</td>>';
-                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarCaCaBatch/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarCaCaBatch/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/EditarCaCaBatch/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/EliminarCaCaBatch/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablabatch tbody').append(fila);
             }
@@ -474,7 +474,7 @@ function eliminarcabatch(pk) {
         data: {
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/ProsPy/EliminarCaCaBatch/' + pk + '/',
+        url: '/EliminarCaCaBatch/' + pk + '/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
@@ -490,7 +490,7 @@ function eliminarcabatch(pk) {
 
 function listarPrediccion() {
     $.ajax({
-        url: "/ProsPy/CaPrediccionlista/",
+        url: "/CaPrediccionlista/",
         type: "get",
         dataType: "json",
         success: function (response) {
@@ -513,7 +513,7 @@ function listarPrediccion() {
                 fila += '<td  style="max-width:106px">' + response[i]["fields"]['organismo'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['reactor'] + '</td>>';
                 fila += '<td>' + response[i]["fields"]['usuario'] + '</td>>';
-                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/ProsPy/EditarCaPrediccion/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/ProsPy/EliminarCaPrediccion/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
+                fila += '<td><button type="button" class="btn btn-primary btn-xs" onclick="abrir_modal_editar(\'/EditarCaPrediccion/' + response[i]['pk'] + '/\');"><i class="fa fa-pencil"></i></button> <button type="button" class="btn btn-danger btn-xs" onclick="abrir_modal_eliminar(\'/EliminarCaPrediccion/' + response[i]['pk'] + '/\');"><i class="fa fa-trash-o "></i></button></td>';
                 fila += '</tr>';
                 $('#tablaprediccion tbody').append(fila);
             }
@@ -573,7 +573,7 @@ function eliminarcaprediccion(pk) {
         data: {
             csrfmiddlewaretoken: $("[name='csrfmiddlewaretoken']").val()
         },
-        url: '/ProsPy/EliminarCaPrediccion/' + pk + '/',
+        url: '/EliminarCaPrediccion/' + pk + '/',
         type: 'post',
         success: function (response) {
             notificacionSuccess(response.mensaje);
