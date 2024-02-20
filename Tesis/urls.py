@@ -20,7 +20,7 @@ from django.views.static import serve
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('ProsPy/', include('ProsPyApp.urls')),
+    path('', include('ProsPyApp.urls')),
     path('', include('RecuperarContraseña.urls')),
 ]
 

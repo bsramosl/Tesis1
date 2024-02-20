@@ -11,7 +11,7 @@ urlpatterns = [
     path('Inicio/', login_required(views.Inicio.as_view()), name='Inicio'),
     path('busqueda/', login_required(views.busqueda), name='busqueda'),
 
-    path('Login/', views.Login.as_view(), name='Login'),
+    path('', views.Login.as_view(), name='Login'),
     path('Salir/', login_required(views.LogoutUsuario.as_view()), name='Salir'),
 
     path('ModeloReact/', login_required(views.ModeloReact.as_view()), name='ModeloReact'),
